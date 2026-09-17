@@ -358,17 +358,11 @@ export default function HomePage() {
 
         {/* 2. CATEGORIES 2-ROW GRID */}
         <section id="categories-section" className="scroll-mt-20 space-y-3 w-full">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center">
             <h2 className="text-sm sm:text-base font-black text-slate-900 flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse" />
               <span>تسوق حسب الفئات</span>
             </h2>
-            <Link
-              href="/category/all"
-              className="text-xs font-bold text-emerald-700 hover:text-emerald-800 underline underline-offset-4"
-            >
-              عرض كافة الأقسام ←
-            </Link>
           </div>
 
           <div className="grid grid-cols-5 gap-1.5 sm:gap-3 w-full">
@@ -465,70 +459,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 4. SPECIAL OFFERS & DEALS BANNER */}
-        {dealsProducts.length > 0 && (
-          <section className="bg-gradient-to-r from-red-950 via-slate-950 to-slate-900 text-white rounded-3xl p-5 sm:p-8 border border-red-900/30 shadow-xl space-y-5">
-            <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-400 text-xs font-black border border-red-500/30">
-                  <Flame className="w-3.5 h-3.5 fill-red-400" />
-                  <span>تخفيضات محدودة</span>
-                </div>
-                <h2 className="text-lg sm:text-2xl font-black text-white">
-                  عروض وتخفيضات الأسبوع الحصرية
-                </h2>
-              </div>
-              <Link
-                href="/category/all"
-                className="text-xs font-bold text-red-400 hover:text-red-300 underline underline-offset-4"
-              >
-                شاهد كافة العروض ←
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
-              {dealsProducts.map((prod) => (
-                <ProductCard key={prod.id} product={prod} />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* 5. VALUE PROPOSITION PILLARS (لماذا سما الخضراء) */}
-        <section className="space-y-3">
-          <div className="text-center max-w-xl mx-auto space-y-1">
-            <h2 className="text-base sm:text-xl font-black text-slate-900">
-              لماذا يثق زبائننا بمتجر سما الخضراء؟
-            </h2>
-            <p className="text-xs text-slate-500">ضمانات حقيقية وخدمات ما بعد البيع المعتمدة</p>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 w-full">
-            {STORE_CONFIG.guarantees.map((g: any, idx: number) => (
-              <div
-                key={idx}
-                className="bg-white p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-xs hover:border-emerald-300 hover:shadow-md transition-all space-y-2"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-black text-xs">
-                    <ShieldCheck className="w-5 h-5 stroke-[2.2]" />
-                  </div>
-                  <span className="text-[10px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
-                    {g.badge}
-                  </span>
-                </div>
-                <h3 className="text-xs sm:text-sm font-black text-slate-900 leading-tight">
-                  {g.title}
-                </h3>
-                <p className="text-[10px] sm:text-xs text-slate-500 leading-relaxed">
-                  {g.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 6. SERVICES SHOWCASE (15 SERVICES) */}
+        {/* 4. SERVICES SHOWCASE */}
         <section className="bg-white p-4 sm:p-7 rounded-3xl border border-slate-200/80 shadow-sm space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
             <div>
@@ -590,75 +521,37 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 7. PHYSICAL STORE LOCATION & VISITING HOURS (معلومات المحل) */}
-        <section className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-800 pb-5">
-            <div className="space-y-1">
-              <span className="text-xs font-bold text-emerald-400">فرعنا المعتمد في بغداد</span>
-              <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-emerald-400 shrink-0" />
-                <span>{STORE_CONFIG.fullName}</span>
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-300">
-                {STORE_CONFIG.location.fullAddress}
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2">
-              <a
-                href={STORE_CONFIG.location.googleMapsUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black text-xs flex items-center gap-1.5 transition-all active:scale-95 shadow-md"
-              >
-                <ExternalLink className="w-3.5 h-3.5" />
-                <span>الاتجاهات على الخريطة</span>
-              </a>
-
-              <a
-                href={phoneCallUrl}
-                className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-black text-xs flex items-center gap-1.5 border border-white/20 transition-all active:scale-95"
-              >
-                <PhoneCall className="w-3.5 h-3.5 text-emerald-400" />
-                <span>اتصال بالفرع ({STORE_CONFIG.contact.primaryPhone})</span>
-              </a>
-            </div>
+        {/* 5. VALUE PROPOSITION PILLARS (لماذا سما الخضراء - في نهاية الصفحة) */}
+        <section className="space-y-4 pt-2">
+          <div className="text-center max-w-xl mx-auto space-y-1">
+            <h2 className="text-base sm:text-xl font-black text-slate-900">
+              لماذا يثق زبائننا بمتجر سما الخضراء؟
+            </h2>
+            <p className="text-xs text-slate-500">ضمانات حقيقية وخدمات ما بعد البيع المعتمدة</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-white/5 border border-white/10 p-4 rounded-2xl space-y-1">
-              <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold">
-                <Clock className="w-4 h-4" />
-                <span>ساعات العمل الرسمية</span>
-              </div>
-              <p className="text-xs text-white font-bold">{STORE_CONFIG.location.workingHours.weekdays}</p>
-              <p className="text-[11px] text-slate-400">{STORE_CONFIG.location.workingHours.friday}</p>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 p-4 rounded-2xl space-y-1">
-              <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold">
-                <PhoneCall className="w-4 h-4" />
-                <span>أرقام الهواتف والاستعلام</span>
-              </div>
-              <p className="text-xs text-white font-bold">{STORE_CONFIG.contact.primaryPhone} (زين)</p>
-              <p className="text-xs text-white font-bold">{STORE_CONFIG.contact.secondaryPhone} (آسيا)</p>
-            </div>
-
-            <div className="bg-white/5 border border-white/10 p-4 rounded-2xl space-y-1">
-              <div className="flex items-center gap-2 text-[#25D366] text-xs font-bold">
-                <MessageCircle className="w-4 h-4" />
-                <span>الدعم الفوري عبر واتساب</span>
-              </div>
-              <p className="text-xs text-white font-bold">{STORE_CONFIG.contact.whatsappDisplay}</p>
-              <a
-                href={whatsappGeneralUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="text-[11px] text-[#25D366] hover:underline block"
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 w-full">
+            {STORE_CONFIG.guarantees.map((g: any, idx: number) => (
+              <div
+                key={idx}
+                className="bg-white p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-xs hover:border-emerald-300 hover:shadow-md transition-all space-y-2"
               >
-                ابدأ محادثة واتساب سريعة ←
-              </a>
-            </div>
+                <div className="flex items-center justify-between">
+                  <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-black text-xs">
+                    <ShieldCheck className="w-5 h-5 stroke-[2.2]" />
+                  </div>
+                  <span className="text-[10px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+                    {g.badge}
+                  </span>
+                </div>
+                <h3 className="text-xs sm:text-sm font-black text-slate-900 leading-tight">
+                  {g.title}
+                </h3>
+                <p className="text-[10px] sm:text-xs text-slate-500 leading-relaxed">
+                  {g.desc}
+                </p>
+              </div>
+            ))}
           </div>
         </section>
 

@@ -14,7 +14,6 @@ import { Sidebar } from "@/components/sidebar";
 import { CartDrawer } from "@/components/cart-drawer";
 import { MobileTabBar } from "@/components/mobile-tab-bar";
 import { FloatingWhatsApp } from "@/components/floating-whatsapp";
-import { Footer } from "@/components/footer";
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
 
@@ -115,8 +114,6 @@ export default function RootLayout({
             <Navbar />
             <CartDrawer />
             <main className="flex-1 w-full max-w-full pb-[calc(env(safe-area-inset-bottom,0px)+5.5rem)] md:pb-16">{children}</main>
-
-            <Footer />
           </div>
 
           {/* Mobile Native Bottom Navigation Bar (Active on mobile viewports) */}
