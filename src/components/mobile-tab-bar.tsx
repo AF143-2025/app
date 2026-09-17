@@ -68,7 +68,7 @@ export function MobileTabBar() {
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 inset-x-0 z-40 glass-tabbar px-2 pt-2 pb-[calc(env(safe-area-inset-bottom,0px)+0.45rem)] no-print select-none touch-manipulation"
+      className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-200/90 shadow-[0_-4px_24px_rgba(0,0,0,0.06)] px-2 pt-1.5 pb-[calc(env(safe-area-inset-bottom,0px)+0.4rem)] no-print select-none touch-manipulation"
       dir="rtl"
     >
       <div className="grid grid-cols-5 gap-1 items-center max-w-md mx-auto">
@@ -81,21 +81,21 @@ export function MobileTabBar() {
                 key={idx}
                 type="button"
                 onClick={tab.action}
-                className={`min-h-[46px] flex flex-col items-center justify-center py-1.5 px-1 rounded-2xl transition-all active:scale-[0.88] relative ${
+                className={`min-h-[44px] flex flex-col items-center justify-center py-1 px-1 rounded-2xl transition-all active:scale-90 relative ${
                   tab.isActive
-                    ? "text-emerald-700 font-black bg-emerald-50/70"
-                    : "text-slate-500 hover:text-slate-900"
+                    ? "text-emerald-700 font-black"
+                    : "text-slate-500 hover:text-slate-800"
                 }`}
               >
                 <div className="relative">
-                  <Icon className={`w-5 h-5 transition-transform ${tab.isActive ? "scale-110 stroke-[2.5]" : "stroke-[2]"}`} />
+                  <Icon className="w-5 h-5" />
                   {tab.badge !== undefined && (
-                    <span className="absolute -top-1.5 -right-2.5 bg-emerald-600 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
+                    <span className="absolute -top-1.5 -right-2 bg-emerald-600 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
                       {tab.badge}
                     </span>
                   )}
                 </div>
-                <span className="text-[10.5px] font-bold mt-1 tracking-tight">{tab.label}</span>
+                <span className="text-[10px] font-bold mt-0.5">{tab.label}</span>
               </button>
             );
           }
@@ -104,21 +104,21 @@ export function MobileTabBar() {
             <Link
               key={idx}
               href={tab.href || "/"}
-              className={`min-h-[46px] flex flex-col items-center justify-center py-1.5 px-1 rounded-2xl transition-all active:scale-[0.88] relative ${
+              className={`min-h-[44px] flex flex-col items-center justify-center py-1 px-1 rounded-2xl transition-all active:scale-90 relative ${
                 tab.isActive
-                  ? "text-emerald-700 font-black bg-emerald-50/70"
-                  : "text-slate-500 hover:text-slate-900"
+                  ? "text-emerald-700 font-black"
+                  : "text-slate-500 hover:text-slate-800"
               }`}
             >
               <div className="relative">
-                <Icon className={`w-5 h-5 transition-transform ${tab.isActive ? "scale-110 stroke-[2.5]" : "stroke-[2]"}`} />
+                <Icon className="w-5 h-5" />
                 {tab.badge !== undefined && (
-                  <span className="absolute -top-1.5 -right-2.5 bg-emerald-600 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
+                  <span className="absolute -top-1.5 -right-2 bg-emerald-600 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
                     {tab.badge}
                   </span>
                 )}
               </div>
-              <span className="text-[10.5px] font-bold mt-1 tracking-tight">{tab.label}</span>
+              <span className="text-[10px] font-bold mt-0.5">{tab.label}</span>
             </Link>
           );
         })}

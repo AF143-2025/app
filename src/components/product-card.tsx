@@ -83,20 +83,20 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
   return (
     <article
       onClick={handleCardClick}
-      className="group app-card hover:border-emerald-500/40 transition-all duration-300 flex flex-col overflow-hidden cursor-pointer relative select-none w-full"
+      className="group bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-xs hover:shadow-md hover:border-emerald-300 transition-all duration-200 flex flex-col overflow-hidden cursor-pointer relative select-none w-full"
     >
       {/* Badges Container */}
-      <div className="absolute top-2.5 right-2.5 z-10 flex flex-col gap-1 pointer-events-none">
+      <div className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 z-10 flex flex-col gap-1 pointer-events-none">
         {/* Discount Badge */}
         {discountPercent && (
-          <span className="bg-rose-500 text-white text-[9.5px] sm:text-[10.5px] font-black px-2 py-0.5 rounded-full shadow-xs self-start">
+          <span className="bg-red-500 text-white text-[9.5px] sm:text-[11px] font-black px-2 py-0.5 rounded-lg sm:rounded-xl shadow-xs self-start">
             -{discountPercent}%
           </span>
         )}
 
         {/* Condition Badge (جديد / مستعمل) */}
         <span
-          className={`text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full border shadow-2xs self-start ${parsed.conditionBadge}`}
+          className={`text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-lg sm:rounded-xl border shadow-2xs self-start ${parsed.conditionBadge}`}
         >
           {parsed.condition}
         </span>
@@ -109,23 +109,23 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
           e.stopPropagation();
           toggleWishlist(product.id);
         }}
-        className={`absolute top-2.5 left-2.5 z-10 w-8 h-8 rounded-full shadow-xs backdrop-blur-md transition-all flex items-center justify-center active:scale-80 ${
+        className={`absolute top-2 left-2 sm:top-2.5 sm:left-2.5 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full shadow-xs transition-all flex items-center justify-center ${
           isInWishlist(product.id)
-            ? "bg-rose-50 text-rose-600 border border-rose-200 scale-105"
-            : "bg-white/90 text-slate-400 hover:text-rose-500 hover:bg-white border border-slate-200/60"
+            ? "bg-red-50 text-red-600 border border-red-200 scale-105"
+            : "bg-white/95 text-slate-400 hover:text-red-500 hover:bg-white border border-slate-100"
         }`}
         title={isInWishlist(product.id) ? "إزالة من المفضلة" : "إضافة للمفضلة"}
         aria-label="المفضلة"
       >
         <Heart
-          className={`w-4 h-4 transition-transform ${
-            isInWishlist(product.id) ? "fill-rose-600 text-rose-600" : ""
+          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
+            isInWishlist(product.id) ? "fill-red-600 text-red-600" : ""
           }`}
         />
       </button>
 
-      {/* Image Container with Luxury Glow */}
-      <div className="relative aspect-square w-full overflow-hidden bg-gradient-to-b from-slate-50/80 to-slate-100/50 flex items-center justify-center p-3.5 sm:p-4">
+      {/* Image Container */}
+      <div className="relative aspect-square w-full overflow-hidden bg-slate-50 flex items-center justify-center p-3">
         <img
           src={optimizedImageUrl}
           alt={product.name}
@@ -133,11 +133,11 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
           height={280}
           decoding="async"
           loading="lazy"
-          className="w-full h-full object-contain object-center group-hover:scale-108 transition-transform duration-500 ease-out"
+          className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-300"
         />
         {isOutOfStock && (
-          <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-2xs flex items-center justify-center">
-            <span className="bg-white text-slate-900 text-[10px] sm:text-xs font-black px-3 py-1 rounded-full shadow-md">
+          <div className="absolute inset-0 bg-slate-900/70 flex items-center justify-center">
+            <span className="bg-white text-slate-900 text-[10px] sm:text-xs font-black px-2.5 py-1 rounded-xl shadow-md">
               غير متوفر حالياً
             </span>
           </div>
@@ -145,35 +145,34 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
       </div>
 
       {/* Card Body */}
-      <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between space-y-2.5 bg-white">
+      <div className="p-2.5 sm:p-3.5 flex-1 flex flex-col justify-between space-y-2">
         <div className="space-y-1.5">
           {/* Brand & Storage Specs Header */}
-          <div className="flex items-center justify-between text-[10.5px] text-slate-500 gap-1">
-            <span className="font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100/80 truncate">
+          <div className="flex items-center justify-between text-[10px] text-slate-500 gap-1">
+            <span className="font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded-md border border-emerald-100 truncate">
               {parsed.brand}
             </span>
-            <div className="flex items-center gap-1 text-[10px] font-semibold text-slate-500 truncate">
+            <div className="flex items-center gap-1 text-[9.5px] font-semibold text-slate-500 truncate">
               <span>{parsed.storage}</span>
               {parsed.ram && <span>• {parsed.ram}</span>}
             </div>
           </div>
 
           {/* Product Title (2-line consistent clamp) */}
-          <h3 className="font-black text-slate-900 text-xs sm:text-sm line-clamp-2 leading-tight group-hover:text-emerald-700 transition-colors min-h-[2.2rem] sm:min-h-[2.5rem]">
+          <h3 className="font-black text-slate-900 text-xs sm:text-sm line-clamp-2 leading-tight group-hover:text-emerald-700 transition-colors min-h-[2.1rem] sm:min-h-[2.5rem]">
             {product.name}
           </h3>
 
           {/* Warranty & Availability Snippet */}
-          <div className="flex items-center justify-between text-[9.5px] sm:text-[10px] pt-0.5">
+          <div className="flex items-center justify-between text-[9px] sm:text-[10px] pt-0.5">
             <span className="text-slate-500 flex items-center gap-1 truncate max-w-[65%]">
-              <ShieldCheck className="w-3.5 h-3.5 text-teal-600 shrink-0" />
-              <span className="truncate font-medium">{parsed.warranty}</span>
+              <ShieldCheck className="w-3 h-3 text-teal-600 shrink-0" />
+              <span className="truncate">{parsed.warranty}</span>
             </span>
 
             {product.stock > 0 ? (
-              <span className="font-bold text-emerald-700 shrink-0 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
-                متوفر
+              <span className="font-bold text-emerald-700 shrink-0">
+                متوفر بالفرع
               </span>
             ) : (
               <span className="font-bold text-slate-400 shrink-0">
@@ -183,60 +182,42 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
           </div>
         </div>
 
-        {/* Pricing & World-Class Action Buttons */}
-        <div className="pt-2.5 border-t border-slate-100 space-y-2.5 mt-auto">
+        {/* Pricing Section */}
+        <div className="pt-2 border-t border-slate-100 space-y-2 mt-auto">
           <div className="flex items-baseline justify-between gap-1">
-            <div className="text-sm sm:text-base font-black text-slate-950 leading-none font-mono">
+            <div className="text-sm sm:text-base font-black text-slate-900 leading-none">
               {product.price.toLocaleString("ar-IQ")}
-              <span className="text-[10px] sm:text-xs font-bold text-emerald-700 mr-1 font-sans">د.ع</span>
+              <span className="text-[10px] sm:text-xs font-bold text-emerald-700 mr-1">د.ع</span>
             </div>
             {product.originalPrice && product.originalPrice > product.price && (
-              <span className="text-[10px] sm:text-xs text-slate-400 line-through font-mono">
+              <span className="text-[10px] sm:text-xs text-slate-400 line-through">
                 {product.originalPrice.toLocaleString("ar-IQ")} د.ع
               </span>
             )}
           </div>
 
-          {/* Dual Action Buttons: "أضف للسلة" + "واتساب فوري" */}
+          {/* Dual Action Buttons: "عرض التفاصيل" + "واتساب فوري" */}
           <div className="grid grid-cols-2 gap-1.5 pt-0.5">
-            {/* Quick Add to Cart Button */}
-            <button
-              type="button"
-              onClick={handleAdd}
-              disabled={isOutOfStock || isAdding}
-              className={`h-8 sm:h-9 rounded-xl text-[10.5px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 active:scale-95 border ${
-                justAdded
-                  ? "bg-emerald-600 text-white border-emerald-600 shadow-sm shadow-emerald-600/30"
-                  : isOutOfStock
-                  ? "bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed"
-                  : "bg-slate-900 hover:bg-slate-800 text-white border-slate-900 shadow-sm shadow-slate-900/15"
-              }`}
+            {/* 1. View Details Button */}
+            <Link
+              href={`/product/${product.id}`}
+              onClick={(e) => e.stopPropagation()}
+              className="h-8 sm:h-8.5 rounded-xl text-[10px] sm:text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all flex items-center justify-center gap-1 active:scale-95 border border-slate-200"
             >
-              {justAdded ? (
-                <>
-                  <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                  <span>تمت الإضافة</span>
-                </>
-              ) : isAdding ? (
-                <span>جاري...</span>
-              ) : (
-                <>
-                  <ShoppingBag className="w-3.5 h-3.5" />
-                  <span>أضف للسلة</span>
-                </>
-              )}
-            </button>
+              <Eye className="w-3.5 h-3.5 text-slate-600" />
+              <span>التفاصيل</span>
+            </Link>
 
-            {/* Direct WhatsApp Inquiry CTA */}
+            {/* 2. Direct WhatsApp Inquiry CTA */}
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="h-8 sm:h-9 rounded-xl text-[10.5px] sm:text-xs font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 transition-all flex items-center justify-center gap-1 border border-emerald-200/80 active:scale-95"
+              className="h-8 sm:h-8.5 rounded-xl text-[10px] sm:text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition-all flex items-center justify-center gap-1 shadow-sm shadow-emerald-600/20 active:scale-95"
               title="تواصل مباشر عبر واتساب"
             >
-              <MessageCircle className="w-3.5 h-3.5 text-emerald-700" />
+              <MessageCircle className="w-3.5 h-3.5 fill-white" />
               <span>واتساب</span>
             </a>
           </div>

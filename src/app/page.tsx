@@ -355,48 +355,6 @@ export default function HomePage() {
 
       {/* Main Content Area */}
       <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 space-y-8 sm:space-y-12 w-full">
-        {/* World-Class Trust & Guarantees Bar */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
-          <div className="app-card p-3.5 sm:p-4 flex items-center gap-3">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-              <Truck className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-xs sm:text-sm font-black text-slate-900">توصيل سريع</h4>
-              <p className="text-[10px] sm:text-[11px] text-slate-400">لبغداد والمحافظات 24-48 ساعة</p>
-            </div>
-          </div>
-
-          <div className="app-card p-3.5 sm:p-4 flex items-center gap-3">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-xs sm:text-sm font-black text-slate-900">ضمان وكالة معتمد</h4>
-              <p className="text-[10px] sm:text-[11px] text-slate-400">كفالة سنة واستبدال فوري 48 ساعة</p>
-            </div>
-          </div>
-
-          <div className="app-card p-3.5 sm:p-4 flex items-center gap-3">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-              <CreditCard className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-xs sm:text-sm font-black text-slate-900">تقسيط مالي ميسر</h4>
-              <p className="text-[10px] sm:text-[11px] text-slate-400">كي كارد وماستر كارد داخل الفرع</p>
-            </div>
-          </div>
-
-          <div className="app-card p-3.5 sm:p-4 flex items-center gap-3">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
-              <Wrench className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-xs sm:text-sm font-black text-slate-900">ورشة صيانة فورية</h4>
-              <p className="text-[10px] sm:text-[11px] text-slate-400">فحص مجاني وقطع أصلية 100%</p>
-            </div>
-          </div>
-        </div>
 
         {/* 2. CATEGORIES 2-ROW GRID */}
         <section id="categories-section" className="scroll-mt-20 space-y-3 w-full">
