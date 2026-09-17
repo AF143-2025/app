@@ -279,7 +279,7 @@ export default function CategoryPage() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={`ابحث في قسم ${category?.label || ""} باسم الجهاز، السعة، أو الموديل...`}
+              placeholder={`ابحث في ${category?.label || "المنتجات"}...`}
               className="w-full pr-9 pl-8 py-2.5 text-xs sm:text-sm rounded-xl sm:rounded-2xl border border-slate-200 bg-slate-50/70 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all placeholder:text-slate-400"
             />
             <Search className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2" />

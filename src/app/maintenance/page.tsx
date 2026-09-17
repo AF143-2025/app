@@ -273,9 +273,6 @@ export default function MaintenanceRequestPage() {
                 <h2 className="text-lg sm:text-2xl font-black text-slate-900">
                   أنواع وخدمات الصيانة المعتمدة
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-500">
-                  نستخدم أحدث معدات الفحص وقطع الغيار الأصلية المعتمدة
-                </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

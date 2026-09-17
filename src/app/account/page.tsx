@@ -120,9 +120,6 @@ export default function AccountPage() {
               <h2 className="text-lg font-black text-slate-900 tracking-tight">
                 سما الخضراء
               </h2>
-              <span className="text-[11px] text-emerald-700 font-bold block mt-0.5">
-                متجر الهواتف الذكية والصيانة المعتمدة
-              </span>
             </div>
           </div>
 
@@ -147,12 +144,9 @@ export default function AccountPage() {
               <div className="w-10 h-10 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center group-hover:scale-105 transition-transform">
                 <Heart className="w-5 h-5" />
               </div>
-              <div className="text-right">
-                <span className="text-xs font-black text-slate-800 group-hover:text-rose-600 transition-colors block">
-                  المفضلة
-                </span>
-                <span className="text-[11px] text-slate-400">الأجهزة والمنتجات المحفوظة</span>
-              </div>
+              <span className="text-sm font-black text-slate-800 group-hover:text-rose-600 transition-colors">
+                المفضلة
+              </span>
             </div>
             <div className="flex items-center gap-1.5 text-slate-400">
               {wishlistCount > 0 && (
@@ -174,12 +168,9 @@ export default function AccountPage() {
               <div className="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform">
                 <Wrench className="w-5 h-5" />
               </div>
-              <div className="text-right">
-                <span className="text-xs font-black text-slate-800 group-hover:text-indigo-600 transition-colors block">
-                  طلب صيانة
-                </span>
-                <span className="text-[11px] text-slate-400">فحص وتصليح الهواتف والشاشات</span>
-              </div>
+              <span className="text-sm font-black text-slate-800 group-hover:text-indigo-600 transition-colors">
+                طلب صيانة
+              </span>
             </div>
             <ChevronLeft className="w-4 h-4 text-slate-400" />
           </button>
@@ -194,12 +185,9 @@ export default function AccountPage() {
               <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center group-hover:scale-105 transition-transform">
                 <Info className="w-5 h-5" />
               </div>
-              <div className="text-right">
-                <span className="text-xs font-black text-slate-800 group-hover:text-emerald-700 transition-colors block">
-                  من نحن
-                </span>
-                <span className="text-[11px] text-slate-400">معلومات وفروع متجر سما الخضراء</span>
-              </div>
+              <span className="text-sm font-black text-slate-800 group-hover:text-emerald-700 transition-colors">
+                من نحن
+              </span>
             </div>
             <ChevronLeft className="w-4 h-4 text-slate-400" />
           </button>
@@ -210,14 +198,9 @@ export default function AccountPage() {
               <div className="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
                 <Bell className="w-5 h-5 stroke-[2.2]" />
               </div>
-              <div className="text-right">
-                <span className="text-xs font-black text-slate-800 block">
-                  الحصول على إشعارات
-                </span>
-                <span className="text-[11px] text-slate-400">
-                  {notificationsEnabled ? "مفعلة لاستقبال العروض والأسعار الجديدة" : "تنبيهات العروض الحصرية والأسعار"}
-                </span>
-              </div>
+              <span className="text-sm font-black text-slate-800">
+                الحصول على إشعارات
+              </span>
             </div>
 
             <button
@@ -246,12 +229,9 @@ export default function AccountPage() {
               <div className="w-10 h-10 rounded-2xl bg-teal-50 text-teal-700 flex items-center justify-center group-hover:scale-105 transition-transform">
                 <ShieldCheck className="w-5 h-5" />
               </div>
-              <div className="text-right">
-                <span className="text-xs font-black text-slate-800 group-hover:text-teal-700 transition-colors block">
-                  سياسة الخصوصية
-                </span>
-                <span className="text-[11px] text-slate-400">حماية وسرية بيانات الزبائن</span>
-              </div>
+              <span className="text-sm font-black text-slate-800 group-hover:text-teal-700 transition-colors">
+                سياسة الخصوصية
+              </span>
             </div>
             <ChevronLeft className="w-4 h-4 text-slate-400" />
           </button>

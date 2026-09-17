@@ -79,14 +79,14 @@ export default function CartPage() {
             🛍️
           </div>
           <h2 className="text-xl font-bold text-slate-900">سلة التسوق فارغة</h2>
-          <p className="text-xs text-slate-500 leading-relaxed">
-            لم تقم بإضافة أي أجهزة للسلة بعد. استكشف متجر سما الخضراء للهواتف الذكية وأضف ما ترغب به بالدفع المباشر أو التقسيط.
+          <p className="text-xs text-slate-500">
+            لم تقم بإضافة أي منتجات للسلة بعد.
           </p>
           <Link
             href="/"
             className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl transition-all shadow-xs active:scale-95"
           >
-            <span>تصفح المنتجات الآن</span>
+            <span>تصفح المنتجات</span>
             <ChevronLeft className="w-4 h-4" />
           </Link>
         </div>
@@ -243,7 +243,7 @@ export default function CartPage() {
                 </div>
 
                 <div className="text-[11px] text-emerald-800 bg-white/70 p-2.5 rounded-xl border border-emerald-200/50">
-                  ✨ تقسيط هواتف ميسر بدون تعقيد، يتطلب فقط البطاقة الموحدة وكفيل موظف أو بطاقة كي كارد.
+                  تقسيط ميسر بالبطاقة الوطنية وبطاقة الدفع أو كفيل.
                 </div>
               </div>
             ) : (
@@ -277,15 +277,15 @@ export default function CartPage() {
             >
               <span>
                 {purchaseType === "INSTALLMENT"
-                  ? "متابعة تقديم طلب تقسيط الهاتف"
-                  : "متابعة الشراء المباشر"}
+                  ? "متابعة طلب التقسيط"
+                  : "متابعة الشراء"}
               </span>
               <ArrowLeft className="w-4 h-4" />
             </Link>
 
             <div className="text-center flex items-center justify-center gap-1.5 text-[11px] text-slate-400">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span>معاملات مؤمنة بإشراف مباشر من إدارة سما الخضراء للهواتف</span>
+              <span>دفع آمن ومعتمد 100%</span>
             </div>
           </div>
         </div>

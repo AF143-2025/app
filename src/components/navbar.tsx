@@ -139,18 +139,8 @@ export function Navbar() {
               <span className="text-base sm:text-lg font-black text-slate-900 block leading-tight truncate tracking-tight">
                 سما الخضراء
               </span>
-              <span className="text-[10px] font-bold text-emerald-700 hidden sm:flex items-center gap-1 truncate">
-                <ShieldCheck className="w-3 h-3 shrink-0 text-emerald-600" />
-                <span>محل الهواتف الذكية والصيانة المعتمدة</span>
-              </span>
             </div>
           </Link>
-
-          {/* Center: Live Services Tagline (Desktop only) */}
-          <div className="hidden lg:flex items-center gap-2 text-xs bg-emerald-50 border border-emerald-200/80 px-4 py-1.5 rounded-full text-emerald-900 font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
-            <span>هواتف أصلية • بيع كاش وبالأقساط الميسرة • ورشة صيانة فورية</span>
-          </div>
 
           {/* Left Actions: Guaranteed Visible, Bold, High-Contrast Buttons */}
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">

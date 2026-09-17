@@ -62,11 +62,8 @@ export default function WishlistPage() {
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 flex items-center gap-2.5">
               <Heart className="w-7 h-7 text-red-500 fill-red-500" />
-              <span>قائمة المفضلة والمحفوظات</span>
+              <span>المفضلة</span>
             </h1>
-            <p className="text-xs sm:text-sm text-slate-500">
-              الأجهزة والملحقات التي قمت بحفظها في متجر سما الخضراء للرجوع إليها لاحقاً أو شرائها
-            </p>
           </div>
 
           <div className="flex items-center gap-2">
@@ -89,10 +86,10 @@ export default function WishlistPage() {
             </div>
             <div className="space-y-2">
               <h3 className="text-lg sm:text-xl font-black text-slate-900">
-                قائمة المفضلة فارغة حالياً
+                قائمة المفضلة فارغة
               </h3>
               <p className="text-xs sm:text-sm text-slate-500 max-w-sm mx-auto leading-relaxed">
-                لم تقم بإضافة أي هاتف أو ملحق إلى قائمة رغباتك بعد. اضغط على رمز القلب ❤️ بجانب أي منتج لحفظه هنا.
+                لم تقم بإضافة أي منتجات للمفضلة بعد.
               </p>
             </div>
             <Link
@@ -100,7 +97,7 @@ export default function WishlistPage() {
               className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-black rounded-2xl shadow-lg shadow-emerald-700/20 transition-all active:scale-95"
             >
               <Smartphone className="w-4 h-4" />
-              <span>تصفح أحدث الهواتف والملحقات</span>
+              <span>تصفح الهواتف والمنتجات</span>
             </Link>
           </div>
         ) : (

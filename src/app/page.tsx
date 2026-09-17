@@ -46,36 +46,36 @@ import { ProductCard } from "@/components/product-card";
 const heroBanners = [
   {
     id: 1,
-    tag: "إعلان حصري • عرض الأسبوع 🔥",
+    tag: "عرض الأسبوع",
     title: "iPhone 16 Pro Max",
-    offerBadge: "متوفر كاش وبالتقسيط داخل الفرع",
+    offerBadge: "متوفر كاش وبالتقسيط",
     targetHref: "/category/phones",
     gradient: "from-slate-950 via-emerald-950 to-teal-950",
     imageUrl: "https://images.unsplash.com/photo-1511707171634-5f897ff02560?w=450&q=75&auto=format",
   },
   {
     id: 2,
-    tag: "جديد الصوتيات الفاخرة 🎧",
+    tag: "صوتيات مميزة",
     title: "AirPods Pro 2 & Buds 3",
-    offerBadge: "عزل ضوضاء مضاعف وضمان معتمد 100%",
+    offerBadge: "ضمان معتمد 100%",
     targetHref: "/category/headphones",
     gradient: "from-slate-950 via-slate-900 to-indigo-950",
     imageUrl: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=450&q=75&auto=format",
   },
   {
     id: 3,
-    tag: "شحن GaN فائق السرعة ⚡",
+    tag: "شحن سريع",
     title: "شواحن وبنوك طاقة Anker الأصلية",
-    offerBadge: "خصومات خاصة مع كفالة استبدال فوري",
+    offerBadge: "كفالة استبدال فوري",
     targetHref: "/category/chargers",
     gradient: "from-emerald-950 via-teal-950 to-slate-950",
     imageUrl: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=450&q=75&auto=format",
   },
   {
     id: 4,
-    tag: "أحدث الساعات الذكية ⌚",
+    tag: "ساعات ذكية",
     title: "Apple Watch & Galaxy Watch",
-    offerBadge: "أحدث الموديلات ومتابعة صحية متكاملة",
+    offerBadge: "أحدث الموديلات الأصلية",
     targetHref: "/category/smartwatches",
     gradient: "from-slate-950 via-blue-950 to-indigo-950",
     imageUrl: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=450&q=75&auto=format",
@@ -398,9 +398,6 @@ export default function HomePage() {
                 <Sparkles className="w-5 h-5 text-emerald-600" />
                 <span>أحدث الهواتف والأجهزة الأكثر طلباً</span>
               </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
-                أجهزة أصلية وكالة مع كفالة سنة كاملة وفحص دقيق
-              </p>
             </div>
 
             {/* Filter Tabs */}
@@ -453,7 +450,7 @@ export default function HomePage() {
               href="/category/all"
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-2xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 text-xs sm:text-sm font-black shadow-xs transition-all active:scale-95"
             >
-              <span>تصفح كتالوج الهواتف والمنتجات بالكامل</span>
+              <span>عرض جميع المنتجات</span>
               <ChevronLeft className="w-4 h-4 text-emerald-600" />
             </Link>
           </div>
@@ -461,19 +458,11 @@ export default function HomePage() {
 
         {/* 4. SERVICES SHOWCASE */}
         <section className="bg-white p-4 sm:p-7 rounded-3xl border border-slate-200/80 shadow-sm space-y-5">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
-            <div>
-              <h2 className="text-base sm:text-xl font-black text-slate-900 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-emerald-600" />
-                <span>خدمات متجر سما الخضراء المتكاملة</span>
-              </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
-                كل ما يحتاجه هاتفك من بيع وصيانة وتقسيط ودفع إلكتروني في مكان واحد
-              </p>
-            </div>
-            <span className="text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 self-start sm:self-auto">
-              10 خدمات معتمدة بالفرع
-            </span>
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <h2 className="text-base sm:text-xl font-black text-slate-900 flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-emerald-600" />
+              <span>خدمات متجر سما الخضراء</span>
+            </h2>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 text-center">
@@ -486,11 +475,8 @@ export default function HomePage() {
                   >
                     <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
-                  <span className="text-xs font-black text-slate-800 mt-2 leading-tight group-hover:text-emerald-700 transition-colors line-clamp-1">
+                  <span className="text-xs font-black text-slate-800 mt-2.5 leading-tight group-hover:text-emerald-700 transition-colors line-clamp-1">
                     {srv.label}
-                  </span>
-                  <span className="text-[9.5px] sm:text-[10px] text-slate-500 mt-0.5 font-medium line-clamp-1">
-                    {srv.badge}
                   </span>
                 </>
               );
@@ -500,7 +486,7 @@ export default function HomePage() {
                   <Link
                     key={srv.id}
                     href={srv.href}
-                    className="group relative flex flex-col items-center justify-between p-3 sm:p-4 rounded-2xl bg-slate-50/80 hover:bg-emerald-50/40 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 active:scale-95 shadow-2xs hover:shadow-md"
+                    className="group relative flex flex-col items-center justify-center p-3.5 sm:p-4 rounded-2xl bg-slate-50/80 hover:bg-emerald-50/40 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 active:scale-95 shadow-2xs hover:shadow-md"
                   >
                     {content}
                   </Link>
@@ -512,7 +498,7 @@ export default function HomePage() {
                   key={srv.id}
                   type="button"
                   onClick={() => setSelectedService(srv)}
-                  className="group relative flex flex-col items-center justify-between p-3 sm:p-4 rounded-2xl bg-slate-50/80 hover:bg-emerald-50/40 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 active:scale-95 shadow-2xs hover:shadow-md text-center w-full"
+                  className="group relative flex flex-col items-center justify-center p-3.5 sm:p-4 rounded-2xl bg-slate-50/80 hover:bg-emerald-50/40 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 active:scale-95 shadow-2xs hover:shadow-md text-center w-full"
                 >
                   {content}
                 </button>
@@ -523,11 +509,10 @@ export default function HomePage() {
 
         {/* 5. VALUE PROPOSITION PILLARS (لماذا سما الخضراء - في نهاية الصفحة) */}
         <section className="space-y-4 pt-2">
-          <div className="text-center max-w-xl mx-auto space-y-1">
+          <div className="text-center max-w-xl mx-auto">
             <h2 className="text-base sm:text-xl font-black text-slate-900">
               لماذا يثق زبائننا بمتجر سما الخضراء؟
             </h2>
-            <p className="text-xs text-slate-500">ضمانات حقيقية وخدمات ما بعد البيع المعتمدة</p>
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 w-full">
