@@ -115,7 +115,7 @@ export function Navbar() {
 
   return (
     <header
-      className="sticky top-0 z-40 bg-white border-b border-slate-200/90 shadow-2xs text-right pt-[env(safe-area-inset-top,0px)] w-full max-w-full"
+      className="sticky top-0 z-40 glass-header shadow-[0_2px_15px_rgba(0,0,0,0.03)] text-right pt-[env(safe-area-inset-top,0px)] w-full max-w-full transition-all"
       dir="rtl"
     >
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 w-full">

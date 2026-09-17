@@ -103,27 +103,27 @@ export default function AccountPage() {
         {/* ========================================================= */}
         {/* HEADER: APP LOGO + APP NAME ABOVE, THEN "الملف الشخصي" IN A DIFFERENT COLOR */}
         {/* ========================================================= */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs text-center space-y-3.5">
+        <div className="app-card p-6 sm:p-7 text-center space-y-4 shadow-sm">
           {/* 1. شعار التطبيق واسمه (فوكاه اسم التطبيق وشعاره) */}
-          <div className="flex flex-col items-center justify-center gap-2">
-            <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-800 to-teal-950 p-1.5 shadow-md shadow-emerald-900/20 overflow-hidden flex items-center justify-center border border-emerald-500/30">
+          <div className="flex flex-col items-center justify-center gap-2.5">
+            <div className="relative w-18 h-18 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-emerald-800 to-teal-950 p-2 shadow-lg shadow-emerald-950/20 overflow-hidden flex items-center justify-center border border-emerald-500/30 group-hover:scale-105 transition-transform">
               <Image
                 src="/images/sama-logo-emblem.png"
                 alt="شعار سما الخضراء"
-                width={64}
-                height={64}
+                width={72}
+                height={72}
                 className="w-full h-full object-contain drop-shadow"
                 priority
               />
             </div>
-            <h2 className="text-base font-black text-slate-800 tracking-tight">
+            <h2 className="text-base sm:text-lg font-black text-slate-900 tracking-tight">
               سما الخضراء
             </h2>
           </div>
 
           {/* 2. الملف الشخصي بلون مختلف (بارز ومميز) */}
           <div className="pt-3 border-t border-slate-100 flex items-center justify-center">
-            <h1 className="text-xl font-black text-emerald-600 bg-emerald-50/90 border border-emerald-200/80 px-6 py-1.5 rounded-2xl shadow-2xs">
+            <h1 className="text-xl sm:text-2xl font-black text-emerald-600 bg-emerald-50/90 border border-emerald-200/90 px-7 py-2 rounded-2xl shadow-xs tracking-tight">
               الملف الشخصي
             </h1>
           </div>
@@ -132,7 +132,7 @@ export default function AccountPage() {
         {/* ========================================================= */}
         {/* MENU LIST (المفضلة، طلب صيانة، من نحن، الحصول على اشعارات، سياسة الخصوصية) */}
         {/* ========================================================= */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs divide-y divide-slate-100 overflow-hidden">
+        <div className="app-card divide-y divide-slate-100 overflow-hidden shadow-sm">
           {/* 1. المفضلة */}
           <Link
             href="/wishlist"
