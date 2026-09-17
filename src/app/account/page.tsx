@@ -103,27 +103,32 @@ export default function AccountPage() {
         {/* ========================================================= */}
         {/* HEADER: APP LOGO + APP NAME ABOVE, THEN "الملف الشخصي" IN A DIFFERENT COLOR */}
         {/* ========================================================= */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs text-center space-y-3.5">
-          {/* 1. شعار التطبيق واسمه (فوكاه اسم التطبيق وشعاره) */}
-          <div className="flex flex-col items-center justify-center gap-2">
-            <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-800 to-teal-950 p-1.5 shadow-md shadow-emerald-900/20 overflow-hidden flex items-center justify-center border border-emerald-500/30">
+        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs text-center space-y-4">
+          {/* 1. شعار التطبيق واسمه */}
+          <div className="flex flex-col items-center justify-center gap-2.5">
+            <div className="relative w-20 h-20 rounded-3xl bg-white p-2 shadow-xs ring-1 ring-emerald-500/25 flex items-center justify-center">
               <Image
                 src="/images/sama-logo-emblem.png"
                 alt="شعار سما الخضراء"
-                width={64}
-                height={64}
-                className="w-full h-full object-contain drop-shadow"
+                width={72}
+                height={72}
+                className="w-full h-full object-contain"
                 priority
               />
             </div>
-            <h2 className="text-base font-black text-slate-800 tracking-tight">
-              سما الخضراء
-            </h2>
+            <div>
+              <h2 className="text-lg font-black text-slate-900 tracking-tight">
+                سما الخضراء
+              </h2>
+              <span className="text-[11px] text-emerald-700 font-bold block mt-0.5">
+                متجر الهواتف الذكية والصيانة المعتمدة
+              </span>
+            </div>
           </div>
 
           {/* 2. الملف الشخصي بلون مختلف (بارز ومميز) */}
           <div className="pt-3 border-t border-slate-100 flex items-center justify-center">
-            <h1 className="text-xl font-black text-emerald-600 bg-emerald-50/90 border border-emerald-200/80 px-6 py-1.5 rounded-2xl shadow-2xs">
+            <h1 className="text-xl font-black text-emerald-700 bg-emerald-50/90 border border-emerald-200/90 px-8 py-2 rounded-2xl shadow-2xs">
               الملف الشخصي
             </h1>
           </div>
@@ -203,14 +208,14 @@ export default function AccountPage() {
           <div className="w-full p-4 flex items-center justify-between hover:bg-slate-50/50 transition-colors">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
-                <Bell className="w-5 h-5" />
+                <Bell className="w-5 h-5 stroke-[2.2]" />
               </div>
               <div className="text-right">
                 <span className="text-xs font-black text-slate-800 block">
                   الحصول على إشعارات
                 </span>
                 <span className="text-[11px] text-slate-400">
-                  {notificationsEnabled ? "مفعلة لاستقبال العروض الجديدة" : "تنبيهات العروض الحصرية والأسعار"}
+                  {notificationsEnabled ? "مفعلة لاستقبال العروض والأسعار الجديدة" : "تنبيهات العروض الحصرية والأسعار"}
                 </span>
               </div>
             </div>
@@ -218,12 +223,16 @@ export default function AccountPage() {
             <button
               type="button"
               onClick={toggleNotifications}
-              className={`w-12 h-6.5 flex items-center rounded-full p-1 transition-colors duration-200 ease-in-out cursor-pointer ${
-                notificationsEnabled ? "bg-emerald-600 justify-start" : "bg-slate-200 justify-end"
+              className={`w-12 h-7 rounded-full p-1 transition-colors duration-200 ease-in-out cursor-pointer relative focus:outline-none shrink-0 ${
+                notificationsEnabled ? "bg-emerald-600" : "bg-slate-300"
               }`}
               aria-label="تفعيل الإشعارات"
             >
-              <div className="bg-white w-4.5 h-4.5 rounded-full shadow-md transform transition-transform" />
+              <div
+                className={`bg-white w-5 h-5 rounded-full shadow-md transform transition-transform duration-200 ${
+                  notificationsEnabled ? "-translate-x-5" : "translate-x-0"
+                }`}
+              />
             </button>
           </div>
 

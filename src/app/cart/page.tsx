@@ -14,6 +14,7 @@ import {
   Layers,
   Calendar,
   Sparkles,
+  ChevronLeft,
 } from "lucide-react";
 import { useCart } from "@/components/cart-context";
 
@@ -83,10 +84,10 @@ export default function CartPage() {
           </p>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl transition-all shadow-md shadow-emerald-600/20"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-2xl transition-all shadow-xs active:scale-95"
           >
             <span>تصفح المنتجات الآن</span>
-            <ArrowLeft className="w-4 h-4" />
+            <ChevronLeft className="w-4 h-4" />
           </Link>
         </div>
       ) : (
@@ -96,14 +97,14 @@ export default function CartPage() {
             {items.map((item) => (
               <div
                 key={item.id}
-                className="bg-white rounded-3xl p-4 sm:p-5 border border-slate-100 shadow-sm hover:border-emerald-200 transition-all flex flex-col sm:flex-row items-center gap-4"
+                className="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200/80 shadow-2xs hover:border-emerald-300 transition-all flex flex-col sm:flex-row items-center gap-4"
               >
                 {/* Image */}
-                <div className="w-24 h-24 rounded-2xl overflow-hidden bg-slate-50 flex-shrink-0 border border-slate-100">
+                <div className="w-24 h-24 rounded-2xl overflow-hidden bg-slate-50 flex-shrink-0 border border-slate-200/80 flex items-center justify-center p-2">
                   <img
                     src={item.product.imageUrl}
                     alt={item.product.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </div>
 

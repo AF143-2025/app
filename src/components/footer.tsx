@@ -39,12 +39,12 @@ export function Footer() {
           {/* Col 1: Brand & Bio */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 p-1 flex items-center justify-center shadow-lg shadow-emerald-500/20 overflow-hidden border border-emerald-400/30">
+              <div className="w-10 h-10 rounded-2xl bg-white p-1 flex items-center justify-center shadow-xs ring-1 ring-emerald-500/30 overflow-hidden shrink-0">
                 <Image
                   src="/images/sama-logo-emblem.png"
                   alt="شعار سما الخضراء"
-                  width={36}
-                  height={36}
+                  width={40}
+                  height={40}
                   className="w-full h-full object-contain"
                 />
               </div>

@@ -103,11 +103,11 @@ export function CartDrawer() {
                   className="flex gap-3 p-3 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-slate-50 transition-colors"
                 >
                   {/* Image */}
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-white flex-shrink-0 relative border border-slate-200">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-white flex-shrink-0 relative border border-slate-200 flex items-center justify-center p-1">
                     <img
                       src={item.product.imageUrl}
                       alt={item.product.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                   </div>
 

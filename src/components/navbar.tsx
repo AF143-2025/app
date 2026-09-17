@@ -115,44 +115,45 @@ export function Navbar() {
 
   return (
     <header
-      className="sticky top-0 z-40 bg-white border-b border-slate-200/90 shadow-2xs text-right pt-[env(safe-area-inset-top,0px)] w-full max-w-full"
+      className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-2xs text-right pt-[env(safe-area-inset-top,0px)] w-full max-w-full"
       dir="rtl"
     >
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 w-full">
         <div className="flex items-center justify-between h-14 sm:h-16 gap-2 w-full">
-          {/* Right: Brand Title & Logo (Protected from pushing icons off) */}
+          {/* Right: Brand Title & Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2 group min-w-0 flex-1 max-w-[70%] sm:max-w-none"
+            className="flex items-center gap-2.5 group min-w-0 flex-1 max-w-[70%] sm:max-w-none"
           >
-            <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-emerald-800 to-teal-950 p-1 shadow-md shadow-emerald-900/25 shrink-0 group-hover:scale-105 transition-transform overflow-hidden flex items-center justify-center border border-emerald-500/30">
+            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-white p-1 shadow-xs ring-1 ring-emerald-500/25 shrink-0 group-hover:scale-105 transition-transform overflow-hidden flex items-center justify-center">
               <Image
                 src="/images/sama-logo-emblem.png"
                 alt="شعار سما الخضراء"
-                width={40}
-                height={40}
-                className="w-full h-full object-contain drop-shadow"
+                width={44}
+                height={44}
+                className="w-full h-full object-contain"
                 priority
               />
             </div>
             <div className="min-w-0">
-              <span className="text-sm sm:text-lg font-black bg-gradient-to-r from-emerald-800 to-teal-900 bg-clip-text text-transparent block leading-tight truncate">
+              <span className="text-base sm:text-lg font-black text-slate-900 block leading-tight truncate tracking-tight">
                 سما الخضراء
               </span>
-              <span className="text-[9px] sm:text-[10px] font-bold text-emerald-600 hidden sm:flex items-center gap-1 truncate">
-                <ShieldCheck className="w-3 h-3 shrink-0" /> محل الهواتف الذكية والصيانة
+              <span className="text-[10px] font-bold text-emerald-700 hidden sm:flex items-center gap-1 truncate">
+                <ShieldCheck className="w-3 h-3 shrink-0 text-emerald-600" />
+                <span>محل الهواتف الذكية والصيانة المعتمدة</span>
               </span>
             </div>
           </Link>
 
           {/* Center: Live Services Tagline (Desktop only) */}
-          <div className="hidden lg:flex items-center gap-2 text-xs bg-emerald-50 border border-emerald-100 px-3.5 py-1.5 rounded-full text-emerald-900 font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <div className="hidden lg:flex items-center gap-2 text-xs bg-emerald-50 border border-emerald-200/80 px-4 py-1.5 rounded-full text-emerald-900 font-medium">
+            <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
             <span>هواتف أصلية • بيع كاش وبالأقساط الميسرة • ورشة صيانة فورية</span>
           </div>
 
           {/* Left Actions: Guaranteed Visible, Bold, High-Contrast Buttons */}
-          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {/* 1. Search Button */}
             <button
               type="button"
@@ -160,15 +161,15 @@ export function Navbar() {
                 setIsSearchOpen(!isSearchOpen);
                 setIsNotificationsOpen(false);
               }}
-              className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl transition-all flex items-center justify-center relative active:scale-90 shrink-0 border ${
+              className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl transition-all flex items-center justify-center relative active:scale-95 shrink-0 border ${
                 isSearchOpen
-                  ? "bg-emerald-600 text-white border-emerald-600 shadow-md shadow-emerald-600/30"
-                  : "bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-800"
+                  ? "bg-emerald-600 text-white border-emerald-600 shadow-sm"
+                  : "bg-slate-100 hover:bg-slate-200 border-slate-200/90 text-slate-800"
               }`}
               title="بحث في الهواتف والمنتجات"
               aria-label="البحث"
             >
-              <Search className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
+              <Search className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
             </button>
 
             {/* 2. Notifications Button & Popover */}
@@ -179,17 +180,17 @@ export function Navbar() {
                   setIsNotificationsOpen(!isNotificationsOpen);
                   setIsSearchOpen(false);
                 }}
-                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl transition-all flex items-center justify-center relative active:scale-90 shrink-0 border ${
+                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl transition-all flex items-center justify-center relative active:scale-95 shrink-0 border ${
                   isNotificationsOpen
-                    ? "bg-emerald-600 text-white border-emerald-600 shadow-md shadow-emerald-600/30"
-                    : "bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-800"
+                    ? "bg-emerald-600 text-white border-emerald-600 shadow-sm"
+                    : "bg-slate-100 hover:bg-slate-200 border-slate-200/90 text-slate-800"
                 }`}
                 title="الإشعارات والتنبيهات"
                 aria-label="الإشعارات"
               >
-                <Bell className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
+                <Bell className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
                 {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[9px] sm:text-[10px] font-black rounded-full min-w-[17px] h-[17px] px-0.5 flex items-center justify-center shadow-md border-2 border-white animate-pulse">
+                  <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[9px] sm:text-[10px] font-black rounded-full min-w-[17px] h-[17px] px-0.5 flex items-center justify-center shadow-xs border-2 border-white animate-pulse">
                     {unreadCount}
                   </span>
                 )}

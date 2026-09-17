@@ -83,20 +83,20 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
   return (
     <article
       onClick={handleCardClick}
-      className="group bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-xs hover:shadow-md hover:border-emerald-300 transition-all duration-200 flex flex-col overflow-hidden cursor-pointer relative select-none w-full"
+      className="group bg-white rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-md hover:border-emerald-300 transition-all duration-200 flex flex-col overflow-hidden cursor-pointer relative select-none w-full tap-bounce"
     >
       {/* Badges Container */}
-      <div className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 z-10 flex flex-col gap-1 pointer-events-none">
+      <div className="absolute top-2.5 right-2.5 z-10 flex flex-col gap-1 pointer-events-none">
         {/* Discount Badge */}
         {discountPercent && (
-          <span className="bg-red-500 text-white text-[9.5px] sm:text-[11px] font-black px-2 py-0.5 rounded-lg sm:rounded-xl shadow-xs self-start">
+          <span className="bg-rose-500 text-white text-[9.5px] sm:text-[10.5px] font-black px-2 py-0.5 rounded-lg shadow-xs self-start">
             -{discountPercent}%
           </span>
         )}
 
         {/* Condition Badge (جديد / مستعمل) */}
         <span
-          className={`text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-lg sm:rounded-xl border shadow-2xs self-start ${parsed.conditionBadge}`}
+          className={`text-[9.5px] sm:text-[10px] font-bold px-2 py-0.5 rounded-lg border shadow-2xs self-start ${parsed.conditionBadge}`}
         >
           {parsed.condition}
         </span>
@@ -109,23 +109,23 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
           e.stopPropagation();
           toggleWishlist(product.id);
         }}
-        className={`absolute top-2 left-2 sm:top-2.5 sm:left-2.5 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full shadow-xs transition-all flex items-center justify-center ${
+        className={`absolute top-2.5 left-2.5 z-10 w-8 h-8 rounded-full shadow-xs transition-all flex items-center justify-center active:scale-90 ${
           isInWishlist(product.id)
-            ? "bg-red-50 text-red-600 border border-red-200 scale-105"
-            : "bg-white/95 text-slate-400 hover:text-red-500 hover:bg-white border border-slate-100"
+            ? "bg-rose-50 text-rose-600 border border-rose-200 scale-105"
+            : "bg-white/90 backdrop-blur-xs text-slate-400 hover:text-rose-500 hover:bg-white border border-slate-200/60"
         }`}
         title={isInWishlist(product.id) ? "إزالة من المفضلة" : "إضافة للمفضلة"}
         aria-label="المفضلة"
       >
         <Heart
-          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
-            isInWishlist(product.id) ? "fill-red-600 text-red-600" : ""
+          className={`w-4 h-4 ${
+            isInWishlist(product.id) ? "fill-rose-600 text-rose-600" : ""
           }`}
         />
       </button>
 
       {/* Image Container */}
-      <div className="relative aspect-square w-full overflow-hidden bg-slate-50 flex items-center justify-center p-3">
+      <div className="relative aspect-square w-full overflow-hidden bg-slate-50/90 flex items-center justify-center p-3 sm:p-4">
         <img
           src={optimizedImageUrl}
           alt={product.name}
@@ -136,7 +136,7 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
           className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-300"
         />
         {isOutOfStock && (
-          <div className="absolute inset-0 bg-slate-900/70 flex items-center justify-center">
+          <div className="absolute inset-0 bg-slate-900/65 backdrop-blur-[2px] flex items-center justify-center">
             <span className="bg-white text-slate-900 text-[10px] sm:text-xs font-black px-2.5 py-1 rounded-xl shadow-md">
               غير متوفر حالياً
             </span>
@@ -145,11 +145,11 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
       </div>
 
       {/* Card Body */}
-      <div className="p-2.5 sm:p-3.5 flex-1 flex flex-col justify-between space-y-2">
+      <div className="p-3 sm:p-3.5 flex-1 flex flex-col justify-between space-y-2.5">
         <div className="space-y-1.5">
           {/* Brand & Storage Specs Header */}
           <div className="flex items-center justify-between text-[10px] text-slate-500 gap-1">
-            <span className="font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded-md border border-emerald-100 truncate">
+            <span className="font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100 truncate">
               {parsed.brand}
             </span>
             <div className="flex items-center gap-1 text-[9.5px] font-semibold text-slate-500 truncate">
@@ -159,14 +159,14 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
           </div>
 
           {/* Product Title (2-line consistent clamp) */}
-          <h3 className="font-black text-slate-900 text-xs sm:text-sm line-clamp-2 leading-tight group-hover:text-emerald-700 transition-colors min-h-[2.1rem] sm:min-h-[2.5rem]">
+          <h3 className="font-black text-slate-900 text-xs sm:text-sm line-clamp-2 leading-snug group-hover:text-emerald-700 transition-colors min-h-[2.2rem] sm:min-h-[2.5rem]">
             {product.name}
           </h3>
 
           {/* Warranty & Availability Snippet */}
-          <div className="flex items-center justify-between text-[9px] sm:text-[10px] pt-0.5">
+          <div className="flex items-center justify-between text-[9.5px] sm:text-[10px] pt-0.5">
             <span className="text-slate-500 flex items-center gap-1 truncate max-w-[65%]">
-              <ShieldCheck className="w-3 h-3 text-teal-600 shrink-0" />
+              <ShieldCheck className="w-3.5 h-3.5 text-teal-600 shrink-0" />
               <span className="truncate">{parsed.warranty}</span>
             </span>
 
@@ -185,7 +185,7 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
         {/* Pricing Section */}
         <div className="pt-2 border-t border-slate-100 space-y-2 mt-auto">
           <div className="flex items-baseline justify-between gap-1">
-            <div className="text-sm sm:text-base font-black text-slate-900 leading-none">
+            <div className="text-sm sm:text-base font-black text-slate-950 leading-none">
               {product.price.toLocaleString("ar-IQ")}
               <span className="text-[10px] sm:text-xs font-bold text-emerald-700 mr-1">د.ع</span>
             </div>
@@ -202,7 +202,7 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
             <Link
               href={`/product/${product.id}`}
               onClick={(e) => e.stopPropagation()}
-              className="h-8 sm:h-8.5 rounded-xl text-[10px] sm:text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all flex items-center justify-center gap-1 active:scale-95 border border-slate-200"
+              className="h-8.5 rounded-xl text-[10.5px] sm:text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all flex items-center justify-center gap-1 active:scale-95 border border-slate-200/90"
             >
               <Eye className="w-3.5 h-3.5 text-slate-600" />
               <span>التفاصيل</span>
@@ -214,7 +214,7 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
               target="_blank"
               rel="noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="h-8 sm:h-8.5 rounded-xl text-[10px] sm:text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition-all flex items-center justify-center gap-1 shadow-sm shadow-emerald-600/20 active:scale-95"
+              className="h-8.5 rounded-xl text-[10.5px] sm:text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition-all flex items-center justify-center gap-1 shadow-xs active:scale-95"
               title="تواصل مباشر عبر واتساب"
             >
               <MessageCircle className="w-3.5 h-3.5 fill-white" />

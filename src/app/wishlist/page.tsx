@@ -112,12 +112,12 @@ export default function WishlistPage() {
               return (
                 <div
                   key={product.id}
-                  className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden group relative"
+                  className="bg-white rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-md transition-all duration-200 flex flex-col overflow-hidden group relative tap-bounce"
                 >
                   {/* Remove button */}
                   <button
                     onClick={() => toggleWishlist(product.id)}
-                    className="absolute top-3 left-3 z-10 p-2 rounded-full bg-white/90 backdrop-blur-md text-red-500 hover:bg-red-50 shadow-sm transition-colors"
+                    className="absolute top-2.5 left-2.5 z-10 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs text-rose-500 hover:bg-rose-50 border border-slate-200/60 shadow-xs flex items-center justify-center transition-colors active:scale-90"
                     title="حذف من المفضلة"
                     aria-label="حذف من المفضلة"
                   >
@@ -125,13 +125,13 @@ export default function WishlistPage() {
                   </button>
 
                   {/* Image */}
-                  <div className="relative aspect-square bg-slate-50 overflow-hidden flex items-center justify-center">
+                  <div className="relative aspect-square bg-slate-50/90 overflow-hidden flex items-center justify-center p-4">
                     <img
                       src={product.imageUrl}
                       alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
                     />
-                    <div className="absolute bottom-2 right-2 bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+                    <div className="absolute bottom-2.5 right-2.5 bg-slate-900/80 backdrop-blur-xs text-white text-[9.5px] font-bold px-2 py-0.5 rounded-lg flex items-center gap-1">
                       <ShieldCheck className="w-3 h-3 text-emerald-400" />
                       <span>ضمان سما الخضراء</span>
                     </div>
@@ -140,10 +140,10 @@ export default function WishlistPage() {
                   {/* Body */}
                   <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
                     <div>
-                      <span className="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+                      <span className="text-[10px] font-extrabold text-emerald-800 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-md">
                         {product.category === "used" ? "مستعمل مفحوص" : "جهاز أصلي معتمد"}
                       </span>
-                      <h3 className="font-bold text-sm sm:text-base text-slate-900 mt-1.5 line-clamp-2 leading-snug">
+                      <h3 className="font-bold text-sm text-slate-900 mt-1.5 line-clamp-2 leading-snug">
                         {product.name}
                       </h3>
                       <p className="text-[11px] text-slate-500 mt-1 line-clamp-2 leading-relaxed">
@@ -154,8 +154,8 @@ export default function WishlistPage() {
                     <div className="space-y-3 pt-2 border-t border-slate-100">
                       <div className="flex items-baseline justify-between">
                         <div>
-                          <div className="text-base sm:text-lg font-black text-emerald-800">
-                            {product.price.toLocaleString("ar-IQ")} د.ع
+                          <div className="text-base font-black text-slate-950">
+                            {product.price.toLocaleString("ar-IQ")} <span className="text-xs text-emerald-700">د.ع</span>
                           </div>
                           {product.originalPrice && product.originalPrice > product.price && (
                             <div className="text-[11px] text-slate-400 line-through">
@@ -165,7 +165,7 @@ export default function WishlistPage() {
                         </div>
 
                         <div className="text-left">
-                          <span className="text-[10px] text-slate-500 block">قسط شهري يبدأ من:</span>
+                          <span className="text-[10px] text-slate-400 block">قسط شهري يبدأ من:</span>
                           <span className="text-xs font-bold text-slate-800 font-mono">
                             {monthlyEst.toLocaleString("ar-IQ")} د.ع
                           </span>
@@ -177,7 +177,7 @@ export default function WishlistPage() {
                         <button
                           onClick={() => handleAddToCart(product.id)}
                           disabled={isAdding}
-                          className="w-full py-2 px-3 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-md shadow-emerald-700/20 transition-all active:scale-95 disabled:opacity-50"
+                          className="w-full h-9 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition-all active:scale-95 disabled:opacity-50"
                         >
                           <ShoppingBag className="w-3.5 h-3.5" />
                           <span>{isAdding ? "جاري الإضافة..." : "إضافة للسلة"}</span>
@@ -186,7 +186,7 @@ export default function WishlistPage() {
                         <Link
                           href="/checkout"
                           onClick={() => addToCart(product.id, 1)}
-                          className="w-full py-2 px-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+                          className="w-full h-9 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95"
                         >
                           <Layers className="w-3.5 h-3.5 text-emerald-400" />
                           <span>شراء / تقسيط</span>
