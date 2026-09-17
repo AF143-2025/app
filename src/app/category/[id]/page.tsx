@@ -294,6 +294,75 @@ export default function CategoryPage() {
               </button>
             )}
           </div>
+
+          {/* 3. MULTI-FILTERS BAR (Brand, Condition, Price) */}
+          <div className="mt-3 flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100">
+            {/* Brand Filter */}
+            <div className="flex items-center gap-1 text-xs">
+              <span className="text-slate-400 font-bold text-[11px]">الشركة:</span>
+              {["all", "Apple", "Samsung", "Xiaomi", "Anker"].map((b) => (
+                <button
+                  key={b}
+                  type="button"
+                  onClick={() => setSelectedBrand(b)}
+                  className={`px-2.5 py-1 rounded-lg text-[10.5px] sm:text-xs font-bold transition-all ${
+                    selectedBrand === b
+                      ? "bg-slate-900 text-white shadow-2xs"
+                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  }`}
+                >
+                  {b === "all" ? "الكل" : b}
+                </button>
+              ))}
+            </div>
+
+            {/* Condition Filter */}
+            <div className="flex items-center gap-1 text-xs sm:mr-4">
+              <span className="text-slate-400 font-bold text-[11px]">الحالة:</span>
+              {[
+                { id: "all", label: "الكل" },
+                { id: "new", label: "جديد كارتونة" },
+                { id: "used", label: "مستعمل مفحوص" },
+              ].map((c) => (
+                <button
+                  key={c.id}
+                  type="button"
+                  onClick={() => setSelectedCondition(c.id)}
+                  className={`px-2.5 py-1 rounded-lg text-[10.5px] sm:text-xs font-bold transition-all ${
+                    selectedCondition === c.id
+                      ? "bg-emerald-700 text-white shadow-2xs"
+                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  }`}
+                >
+                  {c.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Price Filter */}
+            <div className="flex items-center gap-1 text-xs sm:mr-4">
+              <span className="text-slate-400 font-bold text-[11px]">السعر:</span>
+              {[
+                { id: "all", label: "الكل" },
+                { id: "under200", label: "< 200 ألف" },
+                { id: "200to600", label: "200 - 600 ألف" },
+                { id: "above600", label: "> 600 ألف" },
+              ].map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => setSelectedPriceRange(p.id)}
+                  className={`px-2.5 py-1 rounded-lg text-[10.5px] sm:text-xs font-bold transition-all ${
+                    selectedPriceRange === p.id
+                      ? "bg-slate-900 text-white shadow-2xs"
+                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  }`}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
