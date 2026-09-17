@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="50%" stop-color="#047857" />
+      <stop offset="100%" stop-color="#064e3b" />
+    </linearGradient>
+    <linearGradient id="phoneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="url(#bg)" />
+  <!-- Smartphone Frame -->
+  <rect x="146" y="80" width="220" height="352" rx="36" fill="#0f172a" stroke="#34d399" stroke-width="8" />
+  <!-- Screen -->
+  <rect x="160" y="104" width="192" height="304" rx="24" fill="#022c22" />
+  <!-- Notch/Island -->
+  <rect x="226" y="116" width="60" height="14" rx="7" fill="#0f172a" />
+  <!-- Sparkles / Logo on Screen -->
+  <circle cx="256" cy="240" r="45" fill="url(#phoneGrad)" opacity="0.2" />
+  <path d="M256 200 L266 230 L296 240 L266 250 L256 280 L246 250 L216 240 L246 230 Z" fill="#34d399" />
+  <!-- Text -->
+  <text x="256" y="340" font-family="sans-serif" font-size="28" font-weight="900" fill="#ffffff" text-anchor="middle">سما الخضراء</text>
+  <text x="256" y="370" font-family="sans-serif" font-size="16" font-weight="bold" fill="#6ee7b7" text-anchor="middle">الهواتف الذكية</text>
+  <!-- Home Indicator -->
+  <rect x="216" y="394" width="80" height="4" rx="2" fill="#ffffff" opacity="0.8" />
+</svg>

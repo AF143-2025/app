@@ -1,0 +1,281 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String            @id @default(uuid())
+  email            String            @unique
+  password         String?           @default("123456")
+  name             String
+  role             String            @default("BUYER") // BUYER, SELLER, ADMIN
+  phone            String?
+  sellerProfile    SellerProfile?
+  cartItems        CartItem[]
+  orders           Order[]
+  installmentPlans InstallmentPlan[]
+  auditLogs        AuditLog[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model SellerProfile {
+  id          String    @id @default(uuid())
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  storeName   String
+  description String?
+  logo        String?
+  phone       String?
+  rating      Float     @default(4.9)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Category {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  image     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+}
+
+model Product {
+  id               String            @id @default(uuid())
+  name             String
+  description      String
+  price            Float
+  originalPrice    Float?
+  stock            Int               @default(10)
+  category         String            // electronics, fashion, perfume, home
+  categoryId       String?
+  categoryRel      Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  imageUrl         String
+  rating           Float             @default(4.8)
+  reviewsCount     Int               @default(25)
+  isActive         Boolean           @default(true)
+  sellerId         String
+  seller           SellerProfile     @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  cartItems        CartItem[]
+  orderItems       OrderItem[]
+  installmentPlans InstallmentPlan[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, productId])
+}
+
+model Order {
+  id              String               @id @default(uuid())
+  orderNumber     String               @unique
+  userId          String
+  user            User                 @relation(fields: [userId], references: [id])
+  customerName    String
+  customerEmail   String
+  customerPhone   String
+  shippingAddress String
+  city            String
+  postalCode      String?
+  subtotal        Float
+  taxAmount       Float                @default(0)
+  shippingFee     Float                @default(0)
+  totalAmount     Float
+  paymentMethod   String               // CARD, WALLET, LOCAL_GATEWAY, COD, ZAIN_CASH, QI_CARD, FIB
+  paymentStatus   String               @default("Pending") // Pending, Paid, Failed, Refunded
+  orderStatus     String               @default("Pending") // Pending, Confirmed, Processing, Shipped, Delivered, Cancelled
+  items           OrderItem[]
+  transactions    PaymentTransaction[]
+  invoice         Invoice?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+}
+
+model OrderItem {
+  id           String   @id @default(uuid())
+  orderId      String
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id])
+  sellerId     String
+  productName  String
+  productImage String
+  unitPrice    Float
+  quantity     Int
+  total        Float
+  createdAt    DateTime @default(now())
+}
+
+model PaymentTransaction {
+  id               String   @id @default(uuid())
+  orderId          String
+  order            Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  transactionId    String   @unique
+  provider         String   // GATEWAY_SANDBOX, STRIPE, TAP, COD, ZAIN_CASH, QI_CARD, FIB
+  amount           Float
+  currency         String   @default("IQD")
+  status           String   @default("Pending") // Pending, Paid, Failed, Refunded
+  gatewayReference String?
+  cardBrand        String?  // Visa, MasterCard, Mada, Meeza, Qi Card, ZainCash
+  lastFourDigits   String?  // Last 4 digits only
+  idempotencyKey   String?  @unique
+  failureReason    String?
+  rawResponse      String?  // JSON string
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Invoice {
+  id            String   @id @default(uuid())
+  invoiceNumber String   @unique
+  orderId       String   @unique
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  customerName  String
+  customerEmail String
+  subtotal      Float
+  taxAmount     Float
+  shippingFee   Float
+  totalAmount   Float
+  paymentMethod String
+  paymentStatus String
+  issuedAt      DateTime @default(now())
+  qrCodeData    String?
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userEmail String?
+  action    String   // PAYMENT_INTENT_CREATED, SALARY_DISBURSED, WALLET_TOPPED_UP, VAULT_EXCHANGE, MAINTENANCE_TICKET_CREATED
+  entity    String   // Order, PaymentTransaction, SalaryDisbursement, WalletTopup, MaintenanceTicket, Vault
+  entityId  String
+  details   String   // JSON string description
+  ipAddress String?  @default("127.0.0.1")
+  createdAt DateTime @default(now())
+}
+
+// 1. قسم صرف الرواتب
+model SalaryDisbursement {
+  id              String   @id @default(uuid())
+  referenceNumber String   @unique
+  recipientName   String
+  civilId         String
+  employeeNumber  String
+  department      String   // وزارة التربية، وزارة الصحة، التقاعد، إلخ
+  cardType        String   // كي كارد، ماستر كارد الرافدين، ماستر كارد الرشيد، نقدي
+  lastFourDigits  String?
+  amount          Float
+  fee             Float    @default(0)
+  totalDisbursed  Float
+  status          String   @default("Disbursed") // Disbursed, Pending, Cancelled
+  notes           String?
+  createdAt       DateTime @default(now())
+}
+
+// 2. قسم تعبئة المحافظ والبطاقات (زين كاش، كي كارد، نيو سويج، FIB)
+model WalletTopup {
+  id              String   @id @default(uuid())
+  referenceNumber String   @unique
+  walletType      String   // ZAIN_CASH, QI_CARD, NEO_SWITCH, FIB
+  serviceType     String   // DEPOSIT, WITHDRAW, TRANSFER
+  customerPhone   String?
+  customerCard    String?
+  amount          Float
+  fee             Float    @default(0)
+  totalCharge     Float
+  status          String   @default("Success") // Success, Pending, Failed
+  operatorNotes   String?
+  createdAt       DateTime @default(now())
+}
+
+// 3. قسم القاصة والتبادل المالي
+model VaultTransaction {
+  id            String   @id @default(uuid())
+  type          String   // INCOME_CASH, EXPENSE_CASH, EXCHANGE
+  currency      String   // IQD, USD
+  amount        Float
+  exchangeRate  Float?   // مثال: 1530 دينار لكل 1 دولار
+  resultAmount  Float?
+  description   String
+  balanceIQD    Float
+  balanceUSD    Float
+  createdAt     DateTime @default(now())
+}
+
+// 4. قسم طلب الصيانة
+model MaintenanceTicket {
+  id               String    @id @default(uuid())
+  ticketNumber     String    @unique
+  customerName     String
+  customerPhone    String
+  customerEmail    String?
+  deviceType       String    // هاتف ذكي، لابتوب، جهاز لوحي، شاشة، إلخ
+  brandModel       String    // iPhone 15 Pro, Samsung S24, Dell XPS
+  issueDescription String
+  accessories      String?   // شاحن، كفر، سلك
+  estimatedCost    Float     @default(0)
+  finalCost        Float?
+  status           String    @default("Received") // Received, Replied, Inspecting, In_Repair, Ready, Delivered, Cancelled
+  technicianNotes  String?
+  adminReply       String?   // رد المدير على طلب الصيانة
+  adminRepliedAt   DateTime? // تاريخ ووقت رد المدير
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+// 5. قسم البيع بالأقساط
+model InstallmentPlan {
+  id                 String               @id @default(uuid())
+  contractNumber     String               @unique
+  customerName       String
+  customerPhone      String
+  nationalId         String
+  guarantorName      String?
+  guarantorPhone     String?
+  productId          String?
+  product            Product?             @relation(fields: [productId], references: [id])
+  userId             String?
+  user               User?                @relation(fields: [userId], references: [id])
+  orderId            String?
+  totalPrice         Float
+  downPayment        Float
+  remainingAmount    Float
+  monthsCount        Int
+  monthlyInstallment Float
+  status             String               @default("Active") // Active, Completed, Defaulted
+  startDate          DateTime             @default(now())
+  notes              String?
+  payments           InstallmentPayment[]
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+}
+
+model InstallmentPayment {
+  id                String          @id @default(uuid())
+  planId            String
+  plan              InstallmentPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  installmentNumber Int
+  dueDate           DateTime
+  paidDate          DateTime?
+  amount            Float
+  status            String          @default("Pending") // Pending, Paid, Overdue
+  receiptNumber     String?
+  createdAt         DateTime        @default(now())
+}
