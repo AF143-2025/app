@@ -17,7 +17,6 @@ import {
   Phone,
   Mail,
   Shield,
-  MessageCircle,
   Sparkles,
   Layers,
 } from "lucide-react";
@@ -63,37 +62,13 @@ export default function AccountPage() {
       </div>
 
       {/* Account Hero Card */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-950 to-emerald-950 rounded-3xl p-5 sm:p-7 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-5 border border-white/10">
-        <div className="flex items-center gap-4 text-center sm:text-right flex-col sm:flex-row">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 flex items-center justify-center font-black text-2xl sm:text-3xl shadow-lg shadow-emerald-500/30 shrink-0">
-            {user?.name ? user.name.slice(0, 1) : <User className="w-8 h-8 text-white" />}
-          </div>
-          <div className="space-y-1">
-            <div className="flex items-center justify-center sm:justify-start gap-2">
-              <h1 className="text-xl sm:text-2xl font-black">الملف الشخصي</h1>
-              <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/30 font-bold">
-                عميل معتمد
-              </span>
-            </div>
-            <p className="text-xs text-slate-300">{user?.email || "مركز خدمات وحساب الزبون في سما الخضراء"}</p>
-            {user?.phone && (
-              <p className="text-xs text-slate-400 font-mono">{user.phone}</p>
-            )}
-          </div>
+      <div className="bg-gradient-to-r from-slate-900 via-slate-950 to-emerald-950 rounded-3xl p-5 sm:p-6 text-white shadow-xl flex items-center gap-4 border border-white/10">
+        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 flex items-center justify-center shadow-lg shadow-emerald-500/30 shrink-0">
+          <User className="w-7 h-7 text-white" />
         </div>
-
-        <div className="flex items-center gap-3">
-          <a
-            href="https://wa.me/9647712345678"
-            target="_blank"
-            rel="noreferrer"
-            className="px-4 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black shadow-lg shadow-emerald-500/30 transition-all flex items-center gap-1.5 active:scale-95"
-          >
-            <MessageCircle className="w-4 h-4" />
-            <span>خدمة العملاء (واتساب)</span>
-          </a>
-        </div>
+        <h1 className="text-xl sm:text-2xl font-black">الملف الشخصي</h1>
       </div>
+
 
       {/* Admin Panel Access Banner (For Manager) */}
       {user?.role === "ADMIN" && (
