@@ -70,7 +70,7 @@ export default function AccountPage() {
           </div>
           <div className="space-y-1">
             <div className="flex items-center justify-center sm:justify-start gap-2">
-              <h1 className="text-xl sm:text-2xl font-black">{user?.name || "عميل سما الخضراء"}</h1>
+              <h1 className="text-xl sm:text-2xl font-black">الملف الشخصي</h1>
               <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/30 font-bold">
                 عميل معتمد
               </span>
