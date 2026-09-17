@@ -59,8 +59,7 @@ export function MobileTabBar() {
       isActive: pathname === "/cart" || isCartOpen,
     },
     {
-      action: isAuthenticated ? undefined : openAuthModal,
-      href: isAuthenticated ? "/account" : undefined,
+      href: "/account",
       label: "حسابي",
       icon: User,
       isActive: pathname === "/account" || pathname === "/orders",

@@ -27,7 +27,6 @@ export default function AccountPage() {
   const {
     user,
     isAuthenticated,
-    openAuthModal,
     logout,
     userId,
     wishlistCount,
@@ -71,12 +70,12 @@ export default function AccountPage() {
           </div>
           <div className="space-y-1">
             <div className="flex items-center justify-center sm:justify-start gap-2">
-              <h1 className="text-xl sm:text-2xl font-black">{user?.name || "زائر سما الخضراء"}</h1>
+              <h1 className="text-xl sm:text-2xl font-black">{user?.name || "عميل سما الخضراء"}</h1>
               <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/30 font-bold">
-                {isAuthenticated ? "عميل معتمد" : "حساب زائر"}
+                عميل معتمد
               </span>
             </div>
-            <p className="text-xs text-slate-300">{user?.email || "سجّل الدخول لتتبع طلباتك وأقساطك الميسرة"}</p>
+            <p className="text-xs text-slate-300">{user?.email || "مركز خدمات وحساب الزبون في سما الخضراء"}</p>
             {user?.phone && (
               <p className="text-xs text-slate-400 font-mono">{user.phone}</p>
             )}
@@ -84,22 +83,15 @@ export default function AccountPage() {
         </div>
 
         <div className="flex items-center gap-3">
-          {isAuthenticated ? (
-            <button
-              onClick={() => logout()}
-              className="px-4 py-2.5 rounded-2xl bg-white/10 hover:bg-red-500/20 hover:text-red-300 text-slate-200 border border-white/10 text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95"
-            >
-              <LogOut className="w-4 h-4" />
-              <span>تسجيل الخروج</span>
-            </button>
-          ) : (
-            <button
-              onClick={openAuthModal}
-              className="px-6 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black shadow-lg shadow-emerald-500/30 transition-all active:scale-95"
-            >
-              تسجيل الدخول / إنشاء حساب
-            </button>
-          )}
+          <a
+            href="https://wa.me/9647712345678"
+            target="_blank"
+            rel="noreferrer"
+            className="px-4 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black shadow-lg shadow-emerald-500/30 transition-all flex items-center gap-1.5 active:scale-95"
+          >
+            <MessageCircle className="w-4 h-4" />
+            <span>خدمة العملاء (واتساب)</span>
+          </a>
         </div>
       </div>
 
@@ -131,43 +123,6 @@ export default function AccountPage() {
             <span>الدخول للوحة تحكم المدير</span>
             <ChevronLeft className="w-4 h-4" />
           </Link>
-        </div>
-      )}
-
-      {/* Unauthenticated Quick Welcome & Google Login Card */}
-      {!isAuthenticated && (
-        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm text-center space-y-4">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto text-xl shadow-sm">
-            ✨
-          </div>
-          <div>
-            <h3 className="text-base font-black text-slate-900">
-              تسجيل الدخول أو إنشاء حسابك في سما الخضراء
-            </h3>
-            <p className="text-xs text-slate-500 max-w-md mx-auto mt-1">
-              تابع مشترياتك، واستفد من عروض تقسيط الهواتف، وخدمات الصيانة والضمان المعتمد.
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
-            <button
-              onClick={openAuthModal}
-              className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-6 py-3 rounded-2xl bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold border border-slate-300 shadow-sm transition-all active:scale-95"
-            >
-              <svg className="w-4 h-4" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z" />
-                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z" />
-                <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z" />
-                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z" />
-              </svg>
-              <span>المتابعة باستخدام Google</span>
-            </button>
-            <button
-              onClick={openAuthModal}
-              className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black shadow-md shadow-emerald-600/20 transition-all active:scale-95"
-            >
-              دخول بالبريد أو إنشاء حساب
-            </button>
-          </div>
         </div>
       )}
 

@@ -344,9 +344,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         // Auth
         user,
         isAuthenticated: !!user,
-        isAuthModalOpen,
-        openAuthModal: () => setIsAuthModalOpen(true),
-        closeAuthModal: () => setIsAuthModalOpen(false),
+        isAuthModalOpen: false,
+        openAuthModal: () => {},
+        closeAuthModal: () => {},
         login,
         logout,
 

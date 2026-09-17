@@ -12,7 +12,6 @@ const cairo = Cairo({
 import { Navbar } from "@/components/navbar";
 import { Sidebar } from "@/components/sidebar";
 import { CartDrawer } from "@/components/cart-drawer";
-import { AuthModal } from "@/components/auth-modal";
 import { MobileTabBar } from "@/components/mobile-tab-bar";
 import { FloatingWhatsApp } from "@/components/floating-whatsapp";
 import { Footer } from "@/components/footer";
@@ -110,7 +109,6 @@ export default function RootLayout({
         <CartProvider>
           {/* Slide-out Navigation Drawer */}
           <Sidebar />
-          <AuthModal />
 
           {/* Main App Canvas */}
           <div className="flex-1 flex flex-col min-h-screen transition-all duration-300 w-full max-w-full">

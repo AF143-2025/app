@@ -163,16 +163,14 @@ export function Sidebar() {
                 )}
               </div>
             ) : (
-              <button
-                onClick={() => {
-                  closeMenu();
-                  openAuthModal();
-                }}
+              <Link
+                href="/account"
+                onClick={closeMenu}
                 className="w-full py-2.5 px-3 bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 text-emerald-300 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all"
               >
-                <LogIn className="w-4 h-4" />
-                <span>تسجيل الدخول / إنشاء حساب</span>
-              </button>
+                <User className="w-4 h-4" />
+                <span>حسابي</span>
+              </Link>
             )}
           </div>
 
