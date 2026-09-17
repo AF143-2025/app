@@ -38,7 +38,6 @@ import {
   CheckCircle2,
   Star,
 } from "lucide-react";
-import { STORE_CATEGORIES } from "@/lib/categories";
 import { STORE_CONFIG, getWhatsAppUrl, getPhoneCallUrl } from "@/lib/store-config";
 import { ProductCard } from "@/components/product-card";
 
@@ -355,40 +354,6 @@ export default function HomePage() {
 
       {/* Main Content Area */}
       <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 space-y-8 sm:space-y-12 w-full">
-
-        {/* 2. CATEGORIES 2-ROW GRID */}
-        <section id="categories-section" className="scroll-mt-20 space-y-3 w-full">
-          <div className="flex items-center">
-            <h2 className="text-sm sm:text-base font-black text-slate-900 flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse" />
-              <span>تسوق حسب الفئات</span>
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-5 gap-1.5 sm:gap-3 w-full">
-            {STORE_CATEGORIES.map((cat) => {
-              const Icon = cat.icon;
-              const href = cat.customHref || `/category/${cat.id}`;
-              return (
-                <Link
-                  key={cat.id}
-                  href={href}
-                  className="group flex flex-col items-center justify-center py-2.5 sm:py-3 px-1 rounded-2xl transition-all duration-200 active:scale-95 border bg-white hover:bg-emerald-50/30 text-slate-700 border-slate-200/80 shadow-xs hover:border-emerald-400 hover:shadow-md select-none"
-                  title={cat.label}
-                >
-                  <div
-                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center transition-all duration-200 group-hover:scale-110 mb-1.5 border ${cat.accent} shadow-2xs overflow-hidden`}
-                  >
-                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
-                  </div>
-                  <span className="text-[10px] sm:text-xs font-bold tracking-tight leading-tight text-center text-slate-800 group-hover:text-emerald-800 truncate block w-full px-0.5">
-                    {cat.label}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </section>
 
         {/* 3. FEATURED PRODUCTS SHOWCASE (أحدث وأهم الأجهزة) */}
         <section className="space-y-4">
