@@ -112,14 +112,6 @@ export function MobileTabBar() {
                   key={idx}
                   href={tab.href}
                   className={commonClasses}
-                  onClick={
-                    tab.href === "/account" && !isAuthenticated
-                      ? (e) => {
-                          e.preventDefault();
-                          openAuthModal();
-                        }
-                      : undefined
-                  }
                 >
                   {content}
                 </Link>
