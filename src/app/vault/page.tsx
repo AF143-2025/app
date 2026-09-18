@@ -73,7 +73,7 @@ export default function VaultPage() {
           description:
             exchangeMode === "USD_TO_IQD"
               ? `تصريف ${numAmt}$ إلى دينار بسعر ${numRate}`
-              : `شراء دولار بمبلغ ${numAmt.toLocaleString()} د.ع بسعر ${numRate}`,
+              : `شراء دولار بمبلغ ${numAmt.toLocaleString()} دينار بسعر ${numRate}`,
         }),
       });
       const data = await res.json();
@@ -118,7 +118,7 @@ export default function VaultPage() {
 
   const calculatedResult =
     exchangeMode === "USD_TO_IQD"
-      ? (parseFloat(exchangeAmount || "0") * parseFloat(marketRate || "0")).toLocaleString("ar-IQ") + " د.ع"
+      ? (parseFloat(exchangeAmount || "0") * parseFloat(marketRate || "0")).toLocaleString("en-US") + " دينار"
       : (parseFloat(exchangeAmount || "0") / (parseFloat(marketRate || "1") || 1)).toFixed(2) + " $";
 
   return (
@@ -178,7 +178,7 @@ export default function VaultPage() {
             <span className="bg-emerald-500/30 px-2.5 py-0.5 rounded-full text-[10px]">IQD</span>
           </div>
           <div className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-white">
-            {balance.iqd.toLocaleString("ar-IQ")} <span className="text-lg text-emerald-400">د.ع</span>
+            {balance.iqd.toLocaleString("en-US")} <span className="text-lg text-emerald-400">دينار</span>
           </div>
           <div className="text-[11px] text-emerald-200/80 pt-1">
             السيولة النقدية المتوفرة للصرف والشحن
@@ -210,7 +210,7 @@ export default function VaultPage() {
             </h2>
           </div>
           <div className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-            100$ = {(parseFloat(marketRate || "0") * 100).toLocaleString("ar-IQ")} د.ع
+            100$ = {(parseFloat(marketRate || "0") * 100).toLocaleString("en-US")} دينار
           </div>
         </div>
 
@@ -222,14 +222,14 @@ export default function VaultPage() {
               onChange={(e) => setExchangeMode(e.target.value as any)}
               className="w-full px-3.5 py-3 rounded-xl border border-gray-200 text-xs font-bold"
             >
-              <option value="USD_TO_IQD">تصريف دولار إلى دينار ($ → د.ع)</option>
-              <option value="IQD_TO_USD">شراء دولار بالدينار (د.ع → $)</option>
+              <option value="USD_TO_IQD">تصريف دولار إلى دينار ($ → دينار)</option>
+              <option value="IQD_TO_USD">شراء دولار بالدينار (دينار → $)</option>
             </select>
           </div>
 
           <div>
             <label className="block text-xs font-bold text-gray-700 mb-1.5">
-              المبلغ المراد تبادله {exchangeMode === "USD_TO_IQD" ? "($)" : "(د.ع)"}
+              المبلغ المراد تبادله {exchangeMode === "USD_TO_IQD" ? "($)" : "(دينار)"}
             </label>
             <input
               type="number"
@@ -317,10 +317,10 @@ export default function VaultPage() {
                     <span className="text-gray-400 font-sans">{t.currency}</span>
                   </td>
                   <td className="p-3.5 font-mono text-gray-600">
-                    {t.exchangeRate ? `${t.exchangeRate} د.ع/$` : "—"}
+                    {t.exchangeRate ? `${t.exchangeRate} دينار/$` : "—"}
                   </td>
                   <td className="p-3.5 font-mono font-bold text-emerald-700">
-                    {t.balanceIQD.toLocaleString("ar-IQ")} د.ع
+                    {t.balanceIQD.toLocaleString("en-US")} دينار
                   </td>
                   <td className="p-3.5 font-mono font-bold text-blue-700">
                     ${t.balanceUSD.toLocaleString()}

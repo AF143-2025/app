@@ -468,19 +468,19 @@ export default function CheckoutPage() {
                   <div className="bg-white/10 rounded-xl p-2.5">
                     <div className="text-[10px] text-emerald-200">الدفعة الأولى</div>
                     <div className="text-sm sm:text-base font-black font-mono mt-0.5">
-                      {activeDown.toLocaleString("ar-IQ")} د.ع
+                      {activeDown.toLocaleString("en-US")} دينار
                     </div>
                   </div>
                   <div className="bg-white/10 rounded-xl p-2.5">
                     <div className="text-[10px] text-emerald-200">المبلغ المتبقي</div>
                     <div className="text-sm sm:text-base font-black font-mono mt-0.5">
-                      {remainingFinanced.toLocaleString("ar-IQ")} د.ع
+                      {remainingFinanced.toLocaleString("en-US")} دينار
                     </div>
                   </div>
                   <div className="bg-emerald-500 text-slate-950 rounded-xl p-2.5 shadow-md">
                     <div className="text-[10px] font-bold">القسط الشهري</div>
                     <div className="text-sm sm:text-base font-black font-mono mt-0.5">
-                      {monthlyAmount.toLocaleString("ar-IQ")} د.ع
+                      {monthlyAmount.toLocaleString("en-US")} دينار
                     </div>
                   </div>
                 </div>
@@ -567,7 +567,7 @@ export default function CheckoutPage() {
                     </div>
                   </div>
                   <span className="font-mono font-bold text-slate-900">
-                    {(item.product.price * item.quantity).toLocaleString("ar-IQ")} د.ع
+                    {(item.product.price * item.quantity).toLocaleString("en-US")} دينار
                   </span>
                 </div>
               ))}
@@ -578,20 +578,20 @@ export default function CheckoutPage() {
               <div className="flex justify-between">
                 <span>المجموع الفرعي:</span>
                 <span className="font-bold text-slate-900 font-mono">
-                  {subtotal.toLocaleString("ar-IQ")} د.ع
+                  {subtotal.toLocaleString("en-US")} دينار
                 </span>
               </div>
               <div className="flex justify-between">
                 <span>أجور التوصيل:</span>
                 <span className="font-bold text-emerald-600">
-                  {shippingFee === 0 ? "مجاني" : `${shippingFee.toLocaleString("ar-IQ")} د.ع`}
+                  {shippingFee === 0 ? "مجاني" : `${shippingFee.toLocaleString("en-US")} دينار`}
                 </span>
               </div>
 
               <div className="flex justify-between text-base font-black text-slate-900 pt-2 border-t border-slate-200">
                 <span>الإجمالي الكلي:</span>
                 <span className="text-emerald-700 font-mono">
-                  {totalAmount.toLocaleString("ar-IQ")} د.ع
+                  {totalAmount.toLocaleString("en-US")} دينار
                 </span>
               </div>
 
@@ -600,11 +600,11 @@ export default function CheckoutPage() {
                   <div className="flex justify-between font-bold text-emerald-900">
                     <span>القسط الشهري ({installmentMonths} شهر):</span>
                     <span className="text-emerald-700 font-black font-mono">
-                      {monthlyAmount.toLocaleString("ar-IQ")} د.ع
+                      {monthlyAmount.toLocaleString("en-US")} دينار
                     </span>
                   </div>
                   <div className="text-[10px] text-slate-500">
-                    الدفعة الأولى المستحقة اليوم: {activeDown.toLocaleString("ar-IQ")} د.ع
+                    الدفعة الأولى المستحقة اليوم: {activeDown.toLocaleString("en-US")} دينار
                   </div>
                 </div>
               )}

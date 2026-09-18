@@ -127,7 +127,7 @@ export function CartDrawer() {
                         </button>
                       </div>
                       <div className="text-xs font-black text-emerald-700 mt-1">
-                        {item.product.price.toLocaleString("ar-IQ")} د.ع
+                        {item.product.price.toLocaleString("en-US")} دينار
                       </div>
                     </div>
 
@@ -153,7 +153,7 @@ export function CartDrawer() {
                       </div>
 
                       <div className="text-xs font-black text-slate-900">
-                        {(item.product.price * item.quantity).toLocaleString("ar-IQ")} د.ع
+                        {(item.product.price * item.quantity).toLocaleString("en-US")} دينار
                       </div>
                     </div>
                   </div>
@@ -229,7 +229,7 @@ export function CartDrawer() {
                   <div className="flex items-center justify-between pt-1 border-t border-emerald-200/60">
                     <span className="text-slate-600 text-[11px]">القسط الشهري المقدر:</span>
                     <span className="font-black text-emerald-800 text-sm">
-                      {monthlyAmount.toLocaleString("ar-IQ")} د.ع / شهر
+                      {monthlyAmount.toLocaleString("en-US")} دينار / شهر
                     </span>
                   </div>
                 </div>
@@ -239,13 +239,13 @@ export function CartDrawer() {
                   <div className="flex justify-between">
                     <span>المجموع الإجمالي:</span>
                     <span className="font-extrabold text-slate-900">
-                      {totalAmount.toLocaleString("ar-IQ")} د.ع
+                      {totalAmount.toLocaleString("en-US")} دينار
                     </span>
                   </div>
                   <div className="flex justify-between text-[11px] text-slate-500">
                     <span>التوصيل:</span>
                     <span className="font-bold text-emerald-600">
-                      {shippingFee === 0 ? "مجاني لكافة المحافظات" : `${shippingFee.toLocaleString("ar-IQ")} د.ع`}
+                      {shippingFee === 0 ? "مجاني لكافة المحافظات" : `${shippingFee.toLocaleString("en-US")} دينار`}
                     </span>
                   </div>
                 </div>

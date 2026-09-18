@@ -152,11 +152,11 @@ export default function WishlistPage() {
                       <div className="flex items-baseline justify-between">
                         <div>
                           <div className="text-base font-black text-slate-950">
-                            {product.price.toLocaleString("ar-IQ")} <span className="text-xs text-emerald-700">د.ع</span>
+                            {product.price.toLocaleString("en-US")} <span className="text-xs text-emerald-700">دينار</span>
                           </div>
                           {product.originalPrice && product.originalPrice > product.price && (
                             <div className="text-[11px] text-slate-400 line-through">
-                              {product.originalPrice.toLocaleString("ar-IQ")} د.ع
+                              {product.originalPrice.toLocaleString("en-US")} دينار
                             </div>
                           )}
                         </div>
@@ -164,7 +164,7 @@ export default function WishlistPage() {
                         <div className="text-left">
                           <span className="text-[10px] text-slate-400 block">قسط شهري يبدأ من:</span>
                           <span className="text-xs font-bold text-slate-800 font-mono">
-                            {monthlyEst.toLocaleString("ar-IQ")} د.ع
+                            {monthlyEst.toLocaleString("en-US")} دينار
                           </span>
                         </div>
                       </div>

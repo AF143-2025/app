@@ -117,7 +117,7 @@ export default function CartPage() {
                     {item.product.name}
                   </h3>
                   <div className="text-xs font-black text-emerald-700 font-mono">
-                    {item.product.price.toLocaleString("ar-IQ")} د.ع للقطعة
+                    {item.product.price.toLocaleString("en-US")} دينار للقطعة
                   </div>
                 </div>
 
@@ -143,7 +143,7 @@ export default function CartPage() {
                   </div>
 
                   <div className="text-sm font-black text-slate-900 sm:w-28 text-left font-mono">
-                    {(item.product.price * item.quantity).toLocaleString("ar-IQ")} د.ع
+                    {(item.product.price * item.quantity).toLocaleString("en-US")} دينار
                   </div>
 
                   <button
@@ -228,16 +228,16 @@ export default function CartPage() {
                 <div className="space-y-2 pt-2 border-t border-emerald-200/70 text-xs">
                   <div className="flex justify-between text-slate-700">
                     <span>إجمالي المبلغ الممول:</span>
-                    <span className="font-bold font-mono">{totalAmount.toLocaleString("ar-IQ")} د.ع</span>
+                    <span className="font-bold font-mono">{totalAmount.toLocaleString("en-US")} دينار</span>
                   </div>
                   <div className="flex justify-between text-slate-700">
                     <span>الدفعة الأولى (اختيارية):</span>
-                    <span className="font-bold font-mono">{downPayment.toLocaleString("ar-IQ")} د.ع</span>
+                    <span className="font-bold font-mono">{downPayment.toLocaleString("en-US")} دينار</span>
                   </div>
                   <div className="flex justify-between items-center text-emerald-950 font-black text-sm pt-2 border-t border-emerald-200">
                     <span>القسط الشهري التقريبي:</span>
                     <span className="text-base text-emerald-800 font-mono">
-                      {monthlyAmount.toLocaleString("ar-IQ")} د.ع / شهر
+                      {monthlyAmount.toLocaleString("en-US")} دينار / شهر
                     </span>
                   </div>
                 </div>
@@ -252,19 +252,19 @@ export default function CartPage() {
                 <div className="flex justify-between">
                   <span>المجموع الفرعي:</span>
                   <span className="font-bold text-slate-900 font-mono">
-                    {subtotal.toLocaleString("ar-IQ")} د.ع
+                    {subtotal.toLocaleString("en-US")} دينار
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span>تكلفة الشحن والتوصيل:</span>
                   <span className="font-bold text-emerald-600">
-                    {shippingFee === 0 ? "مجاني لكافة المحافظات" : `${shippingFee.toLocaleString("ar-IQ")} د.ع`}
+                    {shippingFee === 0 ? "مجاني لكافة المحافظات" : `${shippingFee.toLocaleString("en-US")} دينار`}
                   </span>
                 </div>
                 <div className="flex justify-between text-base font-black text-slate-900 pt-3 border-t border-slate-200">
                   <span>الإجمالي الكلي:</span>
                   <span className="text-emerald-700 font-mono">
-                    {totalAmount.toLocaleString("ar-IQ")} د.ع
+                    {totalAmount.toLocaleString("en-US")} دينار
                   </span>
                 </div>
               </div>

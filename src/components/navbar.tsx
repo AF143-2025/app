@@ -46,7 +46,7 @@ export function Navbar() {
     {
       id: "1",
       title: "عروض أقساط الهواتف الجديدة 🔥",
-      desc: "أقساط هواتف iPhone 16 Pro Max و Samsung S24 Ultra تبدأ من 75,000 د.ع/شهر.",
+      desc: "أقساط هواتف iPhone 16 Pro Max و Samsung S24 Ultra تبدأ من 75,000 دينار/شهر.",
       time: "منذ 10 دقائق",
       unread: true,
       link: "/installments",

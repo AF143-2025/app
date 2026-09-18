@@ -186,12 +186,12 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
         <div className="pt-2 border-t border-slate-100 space-y-2 mt-auto">
           <div className="flex items-baseline justify-between gap-1">
             <div className="text-sm sm:text-base font-black text-slate-950 leading-none">
-              {product.price.toLocaleString("ar-IQ")}
-              <span className="text-[10px] sm:text-xs font-bold text-emerald-700 mr-1">د.ع</span>
+              {product.price.toLocaleString("en-US")}
+              <span className="text-[10px] sm:text-xs font-bold text-emerald-700 mr-1">دينار</span>
             </div>
             {product.originalPrice && product.originalPrice > product.price && (
               <span className="text-[10px] sm:text-xs text-slate-400 line-through">
-                {product.originalPrice.toLocaleString("ar-IQ")} د.ع
+                {product.originalPrice.toLocaleString("en-US")} دينار
               </span>
             )}
           </div>

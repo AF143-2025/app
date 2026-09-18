@@ -111,7 +111,7 @@ export function getWhatsAppUrl(customMessage?: string): string {
  * Generate a pre-filled WhatsApp URL for a specific product
  */
 export function getProductWhatsAppUrl(product: { name: string; price: number; id: string }): string {
-  const message = "مرحباً " + STORE_CONFIG.name + "، أستفسر عن توفر هاتف: " + product.name + " (السعر: " + product.price.toLocaleString("ar-IQ") + " د.ع). هل هو متوفر في الفرع حالياً؟";
+  const message = "مرحباً " + STORE_CONFIG.name + "، أستفسر عن توفر هاتف: " + product.name + " (السعر: " + product.price.toLocaleString("en-US") + " دينار). هل هو متوفر في الفرع حالياً؟";
   return getWhatsAppUrl(message);
 }
 

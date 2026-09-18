@@ -521,7 +521,7 @@ export default function MaintenanceRequestPage() {
                       <p className="text-xs text-slate-600">الجهاز: {t.brandModel || t.deviceType}</p>
                       <p className="text-xs text-slate-500">العطل: {t.issueDescription}</p>
                       {t.costEstimate && (
-                        <p className="text-xs font-black text-emerald-700">التكلفة التقديرية: {t.costEstimate.toLocaleString()} د.ع</p>
+                        <p className="text-xs font-black text-emerald-700">التكلفة التقديرية: {t.costEstimate.toLocaleString()} دينار</p>
                       )}
                     </div>
                   ))

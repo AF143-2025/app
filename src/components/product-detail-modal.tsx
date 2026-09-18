@@ -58,7 +58,7 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
   };
 
   const handleWhatsAppOrder = () => {
-    const message = `مرحباً متجر سما الخضراء، أود الاستفسار وطلب جهاز: ${product.name} (السعة: ${selectedStorage}، اللون: ${selectedColor}، السعر: ${product.price.toLocaleString("ar-IQ")} د.ع).`;
+    const message = `مرحباً متجر سما الخضراء، أود الاستفسار وطلب جهاز: ${product.name} (السعة: ${selectedStorage}، اللون: ${selectedColor}، السعر: ${product.price.toLocaleString("en-US")} دينار).`;
     window.open(`https://wa.me/9647712345678?text=${encodeURIComponent(message)}`, "_blank");
   };
 
@@ -126,11 +126,11 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                 {/* Price */}
                 <div className="flex items-baseline gap-2 mb-2">
                   <span className="text-2xl font-black text-emerald-800">
-                    {product.price.toLocaleString("ar-IQ")} د.ع
+                    {product.price.toLocaleString("en-US")} دينار
                   </span>
                   {product.originalPrice && product.originalPrice > product.price && (
                     <span className="text-sm text-slate-400 line-through">
-                      {product.originalPrice.toLocaleString("ar-IQ")} د.ع
+                      {product.originalPrice.toLocaleString("en-US")} دينار
                     </span>
                   )}
                 </div>
@@ -143,7 +143,7 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                       خيار التقسيط الميسر:
                     </span>
                     <span className="text-emerald-800 font-mono font-black text-sm">
-                      {monthlyEst.toLocaleString("ar-IQ")} د.ع / شهر
+                      {monthlyEst.toLocaleString("en-US")} دينار / شهر
                     </span>
                   </div>
                   <div className="text-[10px] text-slate-600 font-normal">

@@ -239,12 +239,12 @@ export default function ProductDetailPage() {
           {/* السعر بالدينار العراقي */}
           <div className="flex items-baseline gap-2">
             <div className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-              {Number(product.price).toLocaleString()} <span className="text-sm font-bold text-emerald-600">د.ع</span>
+              {Number(product.price).toLocaleString()} <span className="text-sm font-bold text-emerald-600">دينار</span>
             </div>
 
             {product.originalPrice && product.originalPrice > product.price && (
               <span className="text-xs text-slate-400 line-through">
-                {Number(product.originalPrice).toLocaleString()} د.ع
+                {Number(product.originalPrice).toLocaleString()} دينار
               </span>
             )}
           </div>
@@ -389,7 +389,7 @@ export default function ProductDetailPage() {
 
                         <div className="space-y-1 pt-1.5 border-t border-slate-100">
                           <div className="text-xs sm:text-sm font-black text-slate-950 font-mono">
-                            {Number(item.price).toLocaleString()} <span className="text-[10px] text-emerald-700">د.ع</span>
+                            {Number(item.price).toLocaleString()} <span className="text-[10px] text-emerald-700">دينار</span>
                           </div>
 
                           <div className="text-[10px] font-bold">

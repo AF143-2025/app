@@ -682,7 +682,7 @@ export default function AdminDashboardPage() {
                   <DollarSign className="w-4 h-4 text-emerald-400" />
                 </div>
                 <div className="text-xl sm:text-2xl font-black text-white">
-                  {stats.totalVolume.toLocaleString()} <span className="text-xs font-normal text-slate-400">د.ع</span>
+                  {stats.totalVolume.toLocaleString()} <span className="text-xs font-normal text-slate-400">دينار</span>
                 </div>
                 <div className="text-[10px] text-emerald-400 font-bold">
                   {stats.paidCount} عمليات شراء مكتملة
@@ -796,7 +796,7 @@ export default function AdminDashboardPage() {
                         <span className="text-slate-400 mx-1.5">•</span>
                         <span className="text-slate-200 font-bold">{ord.customerName}</span>
                         <span className="text-slate-500 text-[11px] block">
-                          {ord.totalAmount?.toLocaleString()} د.ع • {ord.paymentMethod}
+                          {ord.totalAmount?.toLocaleString()} دينار • {ord.paymentMethod}
                         </span>
                       </div>
                       <span
@@ -971,10 +971,10 @@ export default function AdminDashboardPage() {
                             </span>
                           </td>
                           <td className="p-3.5 font-mono">
-                            <span className="font-black text-white">{p.price?.toLocaleString()} د.ع</span>
+                            <span className="font-black text-white">{p.price?.toLocaleString()} دينار</span>
                             {p.originalPrice && (
                               <span className="block text-[10px] text-slate-500 line-through">
-                                {p.originalPrice?.toLocaleString()} د.ع
+                                {p.originalPrice?.toLocaleString()} دينار
                               </span>
                             )}
                           </td>
@@ -1086,7 +1086,7 @@ export default function AdminDashboardPage() {
                       العنوان: {ord.city}، {ord.shippingAddress} • طريقة الدفع: {ord.paymentMethod}
                     </div>
                     <div className="text-xs font-black text-emerald-400 pt-1">
-                      الإجمالي: {ord.totalAmount?.toLocaleString()} د.ع
+                      الإجمالي: {ord.totalAmount?.toLocaleString()} دينار
                     </div>
                   </div>
 
@@ -1905,7 +1905,7 @@ export default function AdminDashboardPage() {
                 <textarea
                   required
                   rows={4}
-                  placeholder="مثال: مرحباً بك، تم فحص المشكلة وتوفرت الشاشة الأصلية وكالة بضمان 6 أشهر، التكلفة المقدرة 45,000 د.ع، الجهاز يستغرق 45 دقيقة ليكون جاهزاً للاستلام."
+                  placeholder="مثال: مرحباً بك، تم فحص المشكلة وتوفرت الشاشة الأصلية وكالة بضمان 6 أشهر، التكلفة المقدرة 45,000 دينار، الجهاز يستغرق 45 دقيقة ليكون جاهزاً للاستلام."
                   value={adminReplyText}
                   onChange={(e) => setAdminReplyText(e.target.value)}
                   className="w-full p-3 rounded-2xl bg-slate-800 border border-slate-700 text-xs text-white placeholder-slate-500 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none leading-relaxed"
@@ -1930,7 +1930,7 @@ export default function AdminDashboardPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1">التكلفة المعتمدة (د.ع)</label>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">التكلفة المعتمدة (دينار)</label>
                   <input
                     type="number"
                     placeholder="مثال: 50000"

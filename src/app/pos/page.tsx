@@ -196,7 +196,7 @@ export default function PosPage() {
                     {p.name}
                   </h4>
                   <div className="text-xs font-black text-emerald-700 font-mono">
-                    {p.price.toLocaleString("ar-IQ")} د.ع
+                    {p.price.toLocaleString("en-US")} دينار
                   </div>
                 </div>
 
@@ -245,7 +245,7 @@ export default function PosPage() {
                       {item.product.name}
                     </div>
                     <div className="text-[10px] text-gray-500 font-mono">
-                      {item.product.price.toLocaleString("ar-IQ")} د.ع
+                      {item.product.price.toLocaleString("en-US")} دينار
                     </div>
                   </div>
 
@@ -267,7 +267,7 @@ export default function PosPage() {
                   </div>
 
                   <div className="font-black text-gray-900 font-mono text-left w-20">
-                    {(item.product.price * item.quantity).toLocaleString("ar-IQ")} د.ع
+                    {(item.product.price * item.quantity).toLocaleString("en-US")} دينار
                   </div>
                 </div>
               ))
@@ -314,7 +314,7 @@ export default function PosPage() {
               />
             </div>
             <div>
-              <label className="block text-[10px] font-bold text-gray-500 mb-1">خصم نقدي (د.ع)</label>
+              <label className="block text-[10px] font-bold text-gray-500 mb-1">خصم نقدي (دينار)</label>
               <input
                 type="number"
                 value={discount}
@@ -328,18 +328,18 @@ export default function PosPage() {
           <div className="pt-3 border-t border-gray-100 space-y-2">
             <div className="flex justify-between text-xs text-gray-500">
               <span>المجموع الفرعي:</span>
-              <span className="font-mono">{subtotal.toLocaleString("ar-IQ")} د.ع</span>
+              <span className="font-mono">{subtotal.toLocaleString("en-US")} دينار</span>
             </div>
             {parseFloat(discount || "0") > 0 && (
               <div className="flex justify-between text-xs text-red-600">
                 <span>الخصم الممنوح:</span>
-                <span className="font-mono">-{parseFloat(discount).toLocaleString("ar-IQ")} د.ع</span>
+                <span className="font-mono">-{parseFloat(discount).toLocaleString("en-US")} دينار</span>
               </div>
             )}
             <div className="flex justify-between text-base font-black text-gray-900 pt-2 border-t border-gray-200">
               <span>المبلغ الإجمالي:</span>
               <span className="text-emerald-700 font-mono">
-                {totalAmount.toLocaleString("ar-IQ")} د.ع
+                {totalAmount.toLocaleString("en-US")} دينار
               </span>
             </div>
 
@@ -375,7 +375,7 @@ export default function PosPage() {
               <div className="space-y-1 text-gray-600 text-[11px]">
                 <div>الزبون: {completedOrder.customerName}</div>
                 <div>الدفع: {completedOrder.paymentMethod}</div>
-                <div>التاريخ: {new Date(completedOrder.createdAt).toLocaleString("ar-IQ")}</div>
+                <div>التاريخ: {new Date(completedOrder.createdAt).toLocaleString("en-US")}</div>
               </div>
 
               <div className="border-y border-gray-100 py-2 space-y-1.5">
@@ -385,7 +385,7 @@ export default function PosPage() {
                       {item.productName} ({item.quantity}×)
                     </span>
                     <span className="font-mono font-bold">
-                      {item.total.toLocaleString("ar-IQ")} د.ع
+                      {item.total.toLocaleString("en-US")} دينار
                     </span>
                   </div>
                 ))}
@@ -394,7 +394,7 @@ export default function PosPage() {
               <div className="flex justify-between text-base font-black text-emerald-800 pt-1">
                 <span>الإجمالي المدفوع:</span>
                 <span className="font-mono">
-                  {completedOrder.totalAmount.toLocaleString("ar-IQ")} د.ع
+                  {completedOrder.totalAmount.toLocaleString("en-US")} دينار
                 </span>
               </div>
 

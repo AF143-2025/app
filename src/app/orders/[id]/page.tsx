@@ -279,25 +279,25 @@ export default function OrderDetailPage() {
                 <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
                   <span className="text-slate-400 block text-[10px]">إجمالي التمويل</span>
                   <span className="font-black text-slate-900 font-mono mt-0.5 block">
-                    {order.installmentPlan.totalPrice?.toLocaleString("ar-IQ")} د.ع
+                    {order.installmentPlan.totalPrice?.toLocaleString("en-US")} دينار
                   </span>
                 </div>
                 <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
                   <span className="text-slate-400 block text-[10px]">الدفعة الأولى</span>
                   <span className="font-black text-emerald-700 font-mono mt-0.5 block">
-                    {order.installmentPlan.downPayment?.toLocaleString("ar-IQ")} د.ع
+                    {order.installmentPlan.downPayment?.toLocaleString("en-US")} دينار
                   </span>
                 </div>
                 <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
                   <span className="text-slate-400 block text-[10px]">المبلغ المتبقي</span>
                   <span className="font-black text-slate-900 font-mono mt-0.5 block">
-                    {order.installmentPlan.remainingAmount?.toLocaleString("ar-IQ")} د.ع
+                    {order.installmentPlan.remainingAmount?.toLocaleString("en-US")} دينار
                   </span>
                 </div>
                 <div className="bg-emerald-50 p-3 rounded-2xl border border-emerald-200">
                   <span className="text-emerald-800 block text-[10px] font-bold">القسط الشهري ({order.installmentPlan.monthsCount} شهر)</span>
                   <span className="font-black text-emerald-900 font-mono mt-0.5 block text-sm">
-                    {order.installmentPlan.monthlyInstallment?.toLocaleString("ar-IQ")} د.ع
+                    {order.installmentPlan.monthlyInstallment?.toLocaleString("en-US")} دينار
                   </span>
                 </div>
               </div>
@@ -328,7 +328,7 @@ export default function OrderDetailPage() {
 
                         <div className="flex items-center gap-3">
                           <span className="font-black font-mono text-slate-900">
-                            {p.amount.toLocaleString("ar-IQ")} د.ع
+                            {p.amount.toLocaleString("en-US")} دينار
                           </span>
                           <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                             p.status === "Paid" ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"
@@ -379,20 +379,20 @@ export default function OrderDetailPage() {
               </div>
               <div className="flex justify-between">
                 <span>المجموع الفرعي:</span>
-                <span className="font-mono">{order.subtotal?.toLocaleString("ar-IQ")} د.ع</span>
+                <span className="font-mono">{order.subtotal?.toLocaleString("en-US")} دينار</span>
               </div>
               <div className="flex justify-between">
                 <span>ضريبة القيمة المضافة:</span>
-                <span className="font-mono">{order.taxAmount?.toLocaleString("ar-IQ")} د.ع</span>
+                <span className="font-mono">{order.taxAmount?.toLocaleString("en-US")} دينار</span>
               </div>
               <div className="flex justify-between">
                 <span>الشحن:</span>
-                <span>{order.shippingFee === 0 ? "مجاني" : `${order.shippingFee.toLocaleString("ar-IQ")} د.ع`}</span>
+                <span>{order.shippingFee === 0 ? "مجاني" : `${order.shippingFee.toLocaleString("en-US")} دينار`}</span>
               </div>
               <div className="flex justify-between text-sm font-black text-gray-900 pt-3 border-t border-gray-100">
                 <span>الإجمالي:</span>
                 <span className="text-emerald-700 font-mono">
-                  {order.totalAmount?.toLocaleString("ar-IQ")} د.ع
+                  {order.totalAmount?.toLocaleString("en-US")} دينار
                 </span>
               </div>
             </div>

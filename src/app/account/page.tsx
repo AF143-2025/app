@@ -497,7 +497,7 @@ export default function AccountPage() {
                         </span>
                       </div>
                       <p className="text-xs text-slate-600 mt-1 font-mono">
-                        {ord.totalAmount?.toLocaleString()} د.ع
+                        {ord.totalAmount?.toLocaleString()} دينار
                       </p>
                     </div>
                     <div className="flex items-center gap-1.5">
