@@ -34,12 +34,6 @@ export default function CheckoutPage() {
     user,
     refreshCart,
     clearCart,
-    purchaseType,
-    setPurchaseType,
-    installmentMonths,
-    setInstallmentMonths,
-    downPayment,
-    setDownPayment,
   } = useCart();
 
   // Form Fields
@@ -50,16 +44,10 @@ export default function CheckoutPage() {
   const [shippingAddress, setShippingAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
 
-  // Direct Payment Method selection
+  // Payment Method selection
   const [paymentMethod, setPaymentMethod] = useState<
     "ZAIN_CASH" | "QI_CARD" | "FIB" | "CARD" | "COD"
   >("ZAIN_CASH");
-
-  // Installment specific fields
-  const [nationalId, setNationalId] = useState("");
-  const [guarantorName, setGuarantorName] = useState("");
-  const [guarantorPhone, setGuarantorPhone] = useState("");
-  const [guarantorType, setGuarantorType] = useState<"SALARY_QI" | "EMPLOYEE" | "COMMERCIAL">("SALARY_QI");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -81,19 +69,12 @@ export default function CheckoutPage() {
     paymentIntent: any;
   } | null>(null);
 
-  const activeDown = Math.min(downPayment, totalAmount);
-  const remainingFinanced = Math.max(0, totalAmount - activeDown);
-  const monthlyAmount = Math.round(remainingFinanced / (installmentMonths || 12));
-
   const handleSubmitCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
     setIsSubmitting(true);
 
     try {
-      const isInstallment = purchaseType === "INSTALLMENT";
-      const chosenMethod = isInstallment ? "INSTALLMENT" : paymentMethod;
-
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -105,12 +86,7 @@ export default function CheckoutPage() {
           shippingAddress,
           city,
           postalCode,
-          paymentMethod: chosenMethod,
-          installmentMonths: isInstallment ? installmentMonths : 12,
-          downPayment: isInstallment ? activeDown : 0,
-          nationalId: isInstallment ? nationalId : undefined,
-          guarantorName: isInstallment ? guarantorName : undefined,
-          guarantorPhone: isInstallment ? guarantorPhone : undefined,
+          paymentMethod,
           items,
         }),
       });
@@ -125,8 +101,8 @@ export default function CheckoutPage() {
 
       await clearCart();
 
-      // If COD or INSTALLMENT, navigate straight to order page
-      if (data.isCOD || data.isInstallment) {
+      // If COD, navigate straight to order page
+      if (data.isCOD) {
         router.push(`/orders/${data.orderId}`);
       } else {
         // Direct electronic payment simulation modal
@@ -304,187 +280,55 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* 2. Specific Payment / Installment Details */}
-          {purchaseType === "INSTALLMENT" ? (
-            /* Installment Application Card */
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-emerald-200 shadow-sm space-y-5">
-              <div className="flex items-center gap-2 pb-3 border-b border-slate-100 text-base font-bold text-slate-900">
-                <Layers className="w-5 h-5 text-emerald-700" />
-                <span>2. إعدادات خطة التقسيط والضمانات</span>
-              </div>
-
-              {/* Installment Duration */}
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-2">
-                  اختر مدة التقسيط وعدد الأشهر:
-                </label>
-                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
-                  {[3, 6, 10, 12, 24].map((m) => (
-                    <button
-                      key={m}
-                      type="button"
-                      onClick={() => setInstallmentMonths(m)}
-                      className={`p-3 rounded-2xl border text-center transition-all ${
-                        installmentMonths === m
-                          ? "bg-emerald-700 text-white border-emerald-700 shadow-md"
-                          : "bg-slate-50 border-slate-200 text-slate-800 hover:bg-slate-100"
-                      }`}
-                    >
-                      <div className="text-base font-black">{m}</div>
-                      <div className="text-[10px] font-semibold">أشهر</div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Down Payment & National ID */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                    الدفعة الأولى (اختياري - بالدينار العراقي)
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    max={totalAmount}
-                    value={downPayment}
-                    onChange={(e) => setDownPayment(parseFloat(e.target.value) || 0)}
-                    className="w-full px-4 py-3 rounded-2xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                    placeholder="0 أو ادخل الدفعة المقدمة"
-                  />
-                  <div className="text-[10px] text-slate-400 mt-1">
-                    يمكنك دفع 0 كدفعة أولى أو دفع جزء لتخفيض القسط الشهري
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                    رقم البطاقة الوطنية الموحدة / الهوية *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={nationalId}
-                    onChange={(e) => setNationalId(e.target.value)}
-                    className="w-full px-4 py-3 rounded-2xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                    placeholder="199200000000"
-                  />
-                  <div className="text-[10px] text-slate-400 mt-1">
-                    للتوثيق وإصدار عقد التقسيط المعتمد قانونياً
-                  </div>
-                </div>
-
-                {/* Guarantor Details */}
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                    اسم الكفيل أو جهة الضمان
-                  </label>
-                  <input
-                    type="text"
-                    value={guarantorName}
-                    onChange={(e) => setGuarantorName(e.target.value)}
-                    className="w-full px-4 py-3 rounded-2xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                    placeholder="اسم الكفيل أو كفالة راتب كي كارد"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                    رقم هاتف الكفيل
-                  </label>
-                  <input
-                    type="tel"
-                    value={guarantorPhone}
-                    onChange={(e) => setGuarantorPhone(e.target.value)}
-                    className="w-full px-4 py-3 rounded-2xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none text-left"
-                    dir="ltr"
-                    placeholder="0780 123 4567"
-                  />
-                </div>
-              </div>
-
-              {/* Installment Calculation Summary Box */}
-              <div className="bg-emerald-900 text-white rounded-2xl p-4 sm:p-5 space-y-3 shadow-inner">
-                <div className="text-xs font-bold text-emerald-300 flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4" />
-                  <span>جدول السداد الشهري المعتمد من سما الخضراء للهواتف:</span>
-                </div>
-                <div className="grid grid-cols-3 gap-3 text-center">
-                  <div className="bg-white/10 rounded-xl p-2.5">
-                    <div className="text-[10px] text-emerald-200">الدفعة الأولى</div>
-                    <div className="text-sm sm:text-base font-black font-mono mt-0.5">
-                      {activeDown.toLocaleString("en-US")} دينار
-                    </div>
-                  </div>
-                  <div className="bg-white/10 rounded-xl p-2.5">
-                    <div className="text-[10px] text-emerald-200">المبلغ المتبقي</div>
-                    <div className="text-sm sm:text-base font-black font-mono mt-0.5">
-                      {remainingFinanced.toLocaleString("en-US")} دينار
-                    </div>
-                  </div>
-                  <div className="bg-emerald-500 text-slate-950 rounded-xl p-2.5 shadow-md">
-                    <div className="text-[10px] font-bold">القسط الشهري</div>
-                    <div className="text-sm sm:text-base font-black font-mono mt-0.5">
-                      {monthlyAmount.toLocaleString("en-US")} دينار
-                    </div>
-                  </div>
-                </div>
-                <div className="text-[11px] text-emerald-200 text-center pt-1">
-                  سيبدأ القسط الأول في بداية الشهر القادم مع إمكانية السداد عبر زين كاش أو كي كارد أو الفروع.
-                </div>
-              </div>
+          {/* 2. اختر طريقة الدفع */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-4">
+            <div className="flex items-center gap-2 pb-3 border-b border-slate-100 text-base font-bold text-slate-900">
+              <CreditCard className="w-5 h-5 text-emerald-600" />
+              <span>2. اختر طريقة الدفع</span>
             </div>
-          ) : (
-            /* Direct Payment Methods Card */
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-4">
-              <div className="flex items-center gap-2 pb-3 border-b border-slate-100 text-base font-bold text-slate-900">
-                <CreditCard className="w-5 h-5 text-emerald-600" />
-                <span>2. اختر طريقة الدفع</span>
-              </div>
 
-              <div className="space-y-3">
-                {directMethods.map((method) => {
-                  const Icon = method.icon;
-                  const isSelected = paymentMethod === method.id;
+            <div className="space-y-3">
+              {directMethods.map((method) => {
+                const Icon = method.icon;
+                const isSelected = paymentMethod === method.id;
 
-                  return (
-                    <label
-                      key={method.id}
-                      className={`flex items-center justify-between p-4 rounded-2xl border-2 cursor-pointer transition-all ${
-                        isSelected
-                          ? "border-emerald-600 bg-emerald-50/50 shadow-sm"
-                          : "border-slate-200 hover:border-slate-300"
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <input
-                          type="radio"
-                          name="paymentMethod"
-                          value={method.id}
-                          checked={isSelected}
-                          onChange={() => setPaymentMethod(method.id as any)}
-                          className="w-4 h-4 text-emerald-600 focus:ring-emerald-500"
-                        />
-                        <div className={`p-2.5 rounded-xl border ${method.color}`}>
-                          <Icon className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <div className="font-black text-slate-900 text-xs sm:text-sm">
-                            {method.name}
-                          </div>
-                          <div className="text-[11px] text-slate-500">{method.desc}</div>
-                        </div>
+                return (
+                  <label
+                    key={method.id}
+                    className={`flex items-center justify-between p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                      isSelected
+                        ? "border-emerald-600 bg-emerald-50/50 shadow-sm"
+                        : "border-slate-200 hover:border-slate-300"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="radio"
+                        name="paymentMethod"
+                        value={method.id}
+                        checked={isSelected}
+                        onChange={() => setPaymentMethod(method.id as any)}
+                        className="w-4 h-4 text-emerald-600 focus:ring-emerald-500"
+                      />
+                      <div className={`p-2.5 rounded-xl border ${method.color}`}>
+                        <Icon className="w-5 h-5" />
                       </div>
+                      <div>
+                        <div className="font-black text-slate-900 text-xs sm:text-sm">
+                          {method.name}
+                        </div>
+                        <div className="text-[11px] text-slate-500">{method.desc}</div>
+                      </div>
+                    </div>
 
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">
-                        {method.badge}
-                      </span>
-                    </label>
-                  );
-                })}
-              </div>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">
+                      {method.badge}
+                    </span>
+                  </label>
+                );
+              })}
             </div>
-          )}
+          </div>
         </div>
 
         {/* Right Column: Order Summary & Action */}
@@ -540,19 +384,6 @@ export default function CheckoutPage() {
                 </span>
               </div>
 
-              {purchaseType === "INSTALLMENT" && (
-                <div className="bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 text-xs space-y-1">
-                  <div className="flex justify-between font-bold text-emerald-900">
-                    <span>القسط الشهري ({installmentMonths} شهر):</span>
-                    <span className="text-emerald-700 font-black font-mono">
-                      {monthlyAmount.toLocaleString("en-US")} دينار
-                    </span>
-                  </div>
-                  <div className="text-[10px] text-slate-500">
-                    الدفعة الأولى المستحقة اليوم: {activeDown.toLocaleString("en-US")} دينار
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* Submit Button */}
@@ -563,11 +394,6 @@ export default function CheckoutPage() {
             >
               {isSubmitting ? (
                 <span>جاري معالجة الطلب...</span>
-              ) : purchaseType === "INSTALLMENT" ? (
-                <>
-                  <span>تأكيد طلب تقسيط الهاتف</span>
-                  <CheckCircle2 className="w-4 h-4" />
-                </>
               ) : (
                 <>
                   <span>إتمام وتأكيد الطلب الآن</span>

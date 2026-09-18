@@ -28,20 +28,9 @@ export function CartDrawer() {
     totalAmount,
     updateQuantity,
     removeFromCart,
-    purchaseType,
-    setPurchaseType,
-    installmentMonths,
-    setInstallmentMonths,
-    downPayment,
-    setDownPayment,
   } = useCart();
 
   if (!isCartOpen) return null;
-
-  // Installment calculations in IQD
-  const activeDown = Math.min(downPayment, totalAmount);
-  const remainingFinanced = Math.max(0, totalAmount - activeDown);
-  const monthlyAmount = Math.round(remainingFinanced / (installmentMonths || 12));
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden text-right" dir="rtl">
@@ -64,7 +53,7 @@ export function CartDrawer() {
                   سلة سما الخضراء للهواتف ({totalItems})
                 </h2>
                 <span className="text-[10px] text-emerald-600 font-bold">
-                  شراء هواتف كاش • أقساط ميسرة
+                  متجر سما الخضراء للهواتف الأصلية
                 </span>
               </div>
             </div>

@@ -26,7 +26,7 @@ interface ProductDetailModalProps {
 
 export function ProductDetailModal({ product, onClose }: ProductDetailModalProps) {
   const router = useRouter();
-  const { addToCart, isInWishlist, toggleWishlist, setPurchaseType } = useCart();
+  const { addToCart, isInWishlist, toggleWishlist } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);

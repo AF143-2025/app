@@ -28,17 +28,7 @@ export default function CartPage() {
     updateQuantity,
     removeFromCart,
     clearCart,
-    purchaseType,
-    setPurchaseType,
-    installmentMonths,
-    setInstallmentMonths,
-    downPayment,
-    setDownPayment,
   } = useCart();
-
-  const activeDown = Math.min(downPayment, totalAmount);
-  const remainingFinanced = Math.max(0, totalAmount - activeDown);
-  const monthlyAmount = Math.round(remainingFinanced / (installmentMonths || 12));
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 text-right" dir="rtl">

@@ -48,7 +48,7 @@ const heroBanners = [
     id: 1,
     tag: "عرض الأسبوع",
     title: "iPhone 16 Pro Max",
-    offerBadge: "متوفر كاش وبالتقسيط",
+    offerBadge: "أفضل سعر مع ضمان رسمي",
     targetHref: "/category/phones",
     gradient: "from-slate-950 via-emerald-950 to-teal-950",
     imageUrl: "https://images.unsplash.com/photo-1511707171634-5f897ff02560?w=450&q=75&auto=format",

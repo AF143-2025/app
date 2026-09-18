@@ -103,7 +103,6 @@ export default function WishlistPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {favoriteProducts.map((product) => {
-              const monthlyEst = Math.round(product.price / 12);
               const isAdding = addingId === product.id;
 
               return (
@@ -159,13 +158,6 @@ export default function WishlistPage() {
                               {product.originalPrice.toLocaleString("en-US")} دينار
                             </div>
                           )}
-                        </div>
-
-                        <div className="text-left">
-                          <span className="text-[10px] text-slate-400 block">قسط شهري يبدأ من:</span>
-                          <span className="text-xs font-bold text-slate-800 font-mono">
-                            {monthlyEst.toLocaleString("en-US")} دينار
-                          </span>
                         </div>
                       </div>
 
