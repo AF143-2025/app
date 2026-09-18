@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import {
   Star,
   ShoppingBag,
+  ShoppingCart,
   Eye,
   Check,
   Heart,
