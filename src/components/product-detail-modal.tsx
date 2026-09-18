@@ -49,7 +49,6 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
     }
   };
 
-  const monthlyEst = Math.round(product.price / 12);
   const isOutOfStock = product.stock === 0;
 
   return (
@@ -120,22 +119,6 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                       {product.originalPrice.toLocaleString("en-US")} دينار
                     </span>
                   )}
-                </div>
-
-                {/* Installment Badge in Modal */}
-                <div className="bg-emerald-50/90 border border-emerald-200/80 text-emerald-950 text-xs p-3 rounded-2xl font-bold mb-3 space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="flex items-center gap-1">
-                      <Layers className="w-3.5 h-3.5 text-emerald-600" />
-                      خيار التقسيط الميسر:
-                    </span>
-                    <span className="text-emerald-800 font-mono font-black text-sm">
-                      {monthlyEst.toLocaleString("en-US")} دينار / شهر
-                    </span>
-                  </div>
-                  <div className="text-[10px] text-slate-600 font-normal">
-                    متاح فترات سداد 3، 6، 10، 12، وحتى 24 شهراً مع استلام فوري.
-                  </div>
                 </div>
 
                 {/* Storage Variants (for phones/electronics) */}
