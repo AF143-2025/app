@@ -196,30 +196,31 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
             )}
           </div>
 
-          {/* Dual Action Buttons: "عرض التفاصيل" + "واتساب فوري" */}
-          <div className="grid grid-cols-2 gap-2 pt-1">
-            {/* 1. View Details Button */}
-            <Link
-              href={`/product/${product.id}`}
-              onClick={(e) => e.stopPropagation()}
-              className="h-9 sm:h-10 rounded-2xl text-[10.5px] sm:text-xs font-bold bg-black/5 hover:bg-black/10 text-slate-800 transition-all flex items-center justify-center gap-1.5 active:scale-95"
+          {/* Action Button: "إضافة للسلة" */}
+          <div className="pt-1">
+            <button
+              onClick={handleAdd}
+              disabled={isOutOfStock || isAdding}
+              className={`flex items-center justify-center gap-1.5 w-full py-2.5 px-3 rounded-[1rem] text-[10px] sm:text-xs font-black transition-all active:scale-95 ${
+                justAdded
+                  ? "bg-teal-500 text-white shadow-md"
+                  : isOutOfStock
+                  ? "bg-slate-100 text-slate-400 cursor-not-allowed"
+                  : "bg-slate-900 hover:bg-black text-white shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
+              }`}
             >
-              <Eye className="w-3.5 h-3.5 text-slate-600" />
-              <span>التفاصيل</span>
-            </Link>
-
-            {/* 2. Direct WhatsApp Inquiry CTA */}
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="h-9 sm:h-10 rounded-2xl text-[10.5px] sm:text-xs font-bold bg-emerald-500 hover:bg-emerald-600 text-white transition-all flex items-center justify-center gap-1.5 shadow-[0_4px_12px_-4px_rgba(16,185,129,0.4)] active:scale-95"
-              title="تواصل مباشر عبر واتساب"
-            >
-              <MessageCircle className="w-3.5 h-3.5 fill-white" />
-              <span>واتساب</span>
-            </a>
+              {justAdded ? (
+                <>
+                  <Check className="w-3.5 h-3.5" />
+                  <span>تمت الإضافة</span>
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className="w-3.5 h-3.5" />
+                  <span>إضافة للسلة</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
       </div>

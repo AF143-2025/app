@@ -286,8 +286,8 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                   </button>
                 </div>
 
-                {/* Quick Installment & WhatsApp CTA row */}
-                <div className="grid grid-cols-2 gap-2">
+                {/* Quick Installment CTA */}
+                <div className="pt-1">
                   <button
                     type="button"
                     onClick={handleInstallmentOrder}
@@ -295,16 +295,7 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                     className="w-full py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all min-h-[40px] disabled:opacity-40"
                   >
                     <Layers className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>طلب بالتقسيط</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={handleWhatsAppOrder}
-                    className="w-full py-2.5 px-3 rounded-xl bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#1b9a4a] border border-[#25D366]/30 text-xs font-bold flex items-center justify-center gap-1.5 transition-all min-h-[40px]"
-                  >
-                    <MessageCircle className="w-3.5 h-3.5" />
-                    <span>طلب عبر واتساب</span>
+                    <span>طلب بالتقسيط الميسر</span>
                   </button>
                 </div>
               </div>
