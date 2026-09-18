@@ -125,7 +125,7 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
       </button>
 
       {/* Image Container */}
-      <div className="relative aspect-square w-full overflow-hidden bg-[#F8FAFC]/50 flex items-center justify-center p-4 sm:p-5">
+      <div className="relative aspect-square w-full overflow-hidden bg-[#F8FAFC]/50 flex items-center justify-center p-2 sm:p-3">
         <img
           src={optimizedImageUrl}
           alt={product.name}

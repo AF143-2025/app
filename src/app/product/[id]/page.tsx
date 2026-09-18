@@ -199,7 +199,7 @@ export default function ProductDetailPage() {
           </button>
 
           {/* Main Image View */}
-          <div className="aspect-square w-full flex items-center justify-center bg-[#F8FAFC]/50 rounded-3xl p-6 overflow-hidden">
+          <div className="aspect-square w-full flex items-center justify-center bg-[#F8FAFC]/50 rounded-3xl p-2 sm:p-4 overflow-hidden">
             <img
               src={productImages[selectedImageIndex] || product.imageUrl}
               alt={product.name}
