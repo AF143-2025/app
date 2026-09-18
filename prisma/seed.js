@@ -803,7 +803,7 @@ async function main() {
       originalPrice: 32000,
       stock: 50,
       category: "stands",
-      imageUrl: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800",
+      imageUrl: "https://images.unsplash.com/photo-1526649661456-89c7ed4d00b8?w=800",
       rating: 4.9,
       reviewsCount: 115,
       sellerId: sellerProfile.id,
