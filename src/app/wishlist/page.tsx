@@ -169,8 +169,8 @@ export default function WishlistPage() {
                         </div>
                       </div>
 
-                      {/* Actions */}
-                      <div className="grid grid-cols-2 gap-2 pt-1">
+                      {/* Actions: Add to Cart Only */}
+                      <div className="pt-1">
                         <button
                           onClick={() => handleAddToCart(product)}
                           disabled={isAdding}
@@ -179,15 +179,6 @@ export default function WishlistPage() {
                           <ShoppingBag className="w-3.5 h-3.5" />
                           <span>{isAdding ? "جاري الإضافة..." : "إضافة للسلة"}</span>
                         </button>
-
-                        <Link
-                          href="/checkout"
-                          onClick={() => addToCart(product.id, 1, product)}
-                          className="w-full h-9 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95"
-                        >
-                          <Layers className="w-3.5 h-3.5 text-emerald-400" />
-                          <span>شراء / تقسيط</span>
-                        </Link>
                       </div>
                     </div>
                   </div>

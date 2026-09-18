@@ -49,19 +49,6 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
     }
   };
 
-  const handleInstallmentOrder = async () => {
-    if (product.stock === 0) return;
-    setPurchaseType("INSTALLMENT");
-    await addToCart(product.id, 1, product);
-    onClose();
-    router.push("/checkout");
-  };
-
-  const handleWhatsAppOrder = () => {
-    const message = `مرحباً متجر سما الخضراء، أود الاستفسار وطلب جهاز: ${product.name} (السعة: ${selectedStorage}، اللون: ${selectedColor}، السعر: ${product.price.toLocaleString("en-US")} دينار).`;
-    window.open(`https://wa.me/9647712345678?text=${encodeURIComponent(message)}`, "_blank");
-  };
-
   const monthlyEst = Math.round(product.price / 12);
   const isOutOfStock = product.stock === 0;
 
@@ -283,19 +270,6 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                     aria-label="المفضلة"
                   >
                     <Heart className={`w-5 h-5 ${isInWishlist(product.id) ? "fill-red-600 text-red-600" : ""}`} />
-                  </button>
-                </div>
-
-                {/* Quick Installment CTA */}
-                <div className="pt-1">
-                  <button
-                    type="button"
-                    onClick={handleInstallmentOrder}
-                    disabled={isOutOfStock}
-                    className="w-full py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all min-h-[40px] disabled:opacity-40"
-                  >
-                    <Layers className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>طلب بالتقسيط الميسر</span>
                   </button>
                 </div>
               </div>

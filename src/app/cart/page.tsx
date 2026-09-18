@@ -278,7 +278,7 @@ export default function CartPage() {
               <span>
                 {purchaseType === "INSTALLMENT"
                   ? "متابعة طلب التقسيط"
-                  : "متابعة الشراء"}
+                  : "متابعة إتمام الطلب"}
               </span>
               <ArrowLeft className="w-4 h-4" />
             </Link>

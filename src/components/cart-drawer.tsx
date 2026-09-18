@@ -260,7 +260,7 @@ export function CartDrawer() {
                 <span>
                   {purchaseType === "INSTALLMENT"
                     ? "متابعة تقديم طلب التقسيط"
-                    : "متابعة الشراء المباشر"}
+                    : "متابعة إتمام الطلب"}
                 </span>
                 <ArrowLeft className="w-4 h-4" />
               </Link>
