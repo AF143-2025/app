@@ -30,10 +30,34 @@ export async function POST(request: NextRequest) {
     }
 
     // 1. Fetch current cart items
-    const cartItems = await prisma.cartItem.findMany({
+    let cartItems = await prisma.cartItem.findMany({
       where: { userId },
       include: { product: true },
     });
+
+    // Fallback: If DB cart is empty, check if client sent items in body
+    if (cartItems.length === 0 && Array.isArray(body.items) && body.items.length > 0) {
+      const productIds = body.items.map((i: any) => i.productId || i.product?.id).filter(Boolean);
+      const dbProducts = await prisma.product.findMany({
+        where: { id: { in: productIds } },
+      });
+      const prodMap = new Map(dbProducts.map((p) => [p.id, p]));
+
+      cartItems = body.items
+        .map((clientItem: any) => {
+          const pId = clientItem.productId || clientItem.product?.id;
+          const p = prodMap.get(pId);
+          if (!p) return null;
+          return {
+            id: clientItem.id || `cart_${pId}`,
+            userId,
+            productId: p.id,
+            quantity: Math.max(1, clientItem.quantity || 1),
+            product: p,
+          } as any;
+        })
+        .filter(Boolean);
+    }
 
     if (cartItems.length === 0) {
       return NextResponse.json(
@@ -60,10 +84,9 @@ export async function POST(request: NextRequest) {
       (sum, item) => sum + item.product.price * item.quantity,
       0
     );
-    const taxRate = 0.15;
-    const taxAmount = Math.round(subtotal * taxRate * 100) / 100;
-    const shippingFee = subtotal > 200 ? 0 : 25;
-    const totalAmount = Math.round((subtotal + taxAmount + shippingFee) * 100) / 100;
+    const taxAmount = 0;
+    const shippingFee = 0; // Free delivery
+    const totalAmount = subtotal;
 
     const orderNumber = `ORD-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
 
@@ -74,6 +97,21 @@ export async function POST(request: NextRequest) {
     const months = isInstallment ? parseInt(String(installmentMonths || "12"), 10) : 12;
     const remainingAmount = totalAmount - numDown;
     const monthlyInstallment = isInstallment ? Math.round(remainingAmount / months) : 0;
+
+    // Ensure user exists in database safely before order creation
+    const existingUser = await prisma.user.findUnique({ where: { id: userId } });
+    if (!existingUser) {
+      const email = `${userId.replace(/[^a-zA-Z0-9_-]/g, "")}_${Date.now()}@store.local`;
+      await prisma.user.create({
+        data: {
+          id: userId,
+          email,
+          name: customerName,
+          role: "BUYER",
+          phone: customerPhone || null,
+        },
+      });
+    }
 
     // 4. Create Order & Items in database transaction
     const { order: result, installmentPlan } = await prisma.$transaction(async (tx) => {

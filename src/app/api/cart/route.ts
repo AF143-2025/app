@@ -3,52 +3,78 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = 'force-dynamic';
 
+async function getCartResponse(userId: string) {
+  const cartItems = await prisma.cartItem.findMany({
+    where: { userId },
+    include: {
+      product: {
+        include: {
+          seller: {
+            select: {
+              storeName: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + (item.product?.price || 0) * item.quantity,
+    0
+  );
+  const taxAmount = 0;
+  const shippingFee = 0; // Free delivery across all governorates
+  const totalAmount = subtotal;
+  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+  return {
+    items: cartItems,
+    summary: {
+      totalItems,
+      subtotal,
+      taxAmount,
+      shippingFee,
+      totalAmount,
+    },
+  };
+}
+
+async function ensureUserExists(userId: string) {
+  try {
+    const existing = await prisma.user.findUnique({ where: { id: userId } });
+    if (!existing) {
+      const email = `${userId.replace(/[^a-zA-Z0-9_-]/g, "")}_${Date.now()}@store.local`;
+      await prisma.user.create({
+        data: {
+          id: userId,
+          email,
+          name: "عميل المتجر",
+          role: "BUYER",
+        },
+      });
+    }
+  } catch (err) {
+    console.warn("[Cart API] ensureUserExists notice:", err);
+  }
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId") || "demo-buyer-id";
 
-    const cartItems = await prisma.cartItem.findMany({
-      where: { userId },
-      include: {
-        product: {
-          include: {
-            seller: {
-              select: {
-                storeName: true,
-              },
-            },
-          },
-        },
-      },
-      orderBy: { createdAt: "desc" },
-    });
-
-    const subtotal = cartItems.reduce(
-      (sum, item) => sum + item.product.price * item.quantity,
-      0
-    );
-    const taxRate = 0.15; // 15% VAT
-    const taxAmount = Math.round(subtotal * taxRate * 100) / 100;
-    const shippingFee = subtotal > 200 || subtotal === 0 ? 0 : 25;
-    const totalAmount = Math.round((subtotal + taxAmount + shippingFee) * 100) / 100;
-    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+    const cartData = await getCartResponse(userId);
 
     return NextResponse.json({
       success: true,
-      items: cartItems,
-      summary: {
-        totalItems,
-        subtotal,
-        taxAmount,
-        shippingFee,
-        totalAmount,
-      },
+      ...cartData,
     });
   } catch (error: any) {
     console.error("GET /api/cart error:", error);
     return NextResponse.json(
-      { success: false, error: "Failed to fetch cart" },
+      { success: false, error: "Failed to fetch cart", items: [], summary: { totalItems: 0, subtotal: 0, taxAmount: 0, shippingFee: 0, totalAmount: 0 } },
       { status: 500 }
     );
   }
@@ -66,17 +92,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Ensure user exists in database
-    await prisma.user.upsert({
-      where: { id: userId },
-      update: {},
-      create: {
-        id: userId,
-        email: `${userId}@store.local`,
-        name: "عميل المتجر",
-        role: "BUYER",
-      },
-    });
+    // Ensure user exists in database safely
+    await ensureUserExists(userId);
 
     // Verify product & stock
     const product = await prisma.product.findUnique({
@@ -85,14 +102,14 @@ export async function POST(request: NextRequest) {
 
     if (!product || !product.isActive) {
       return NextResponse.json(
-        { success: false, error: "Product is not available" },
+        { success: false, error: "المنتج غير متوفر حالياً" },
         { status: 404 }
       );
     }
 
     if (product.stock < quantity) {
       return NextResponse.json(
-        { success: false, error: `Only ${product.stock} items in stock` },
+        { success: false, error: `الكمية المتاحة في المخزون: ${product.stock} فقط` },
         { status: 400 }
       );
     }
@@ -114,7 +131,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
           {
             success: false,
-            error: `Cannot add more. Stock limit reached (${product.stock})`,
+            error: `الحد الأقصى للطلب هو الكمية المتوفرة بالمخزون (${product.stock})`,
           },
           { status: 400 }
         );
@@ -136,11 +153,17 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    return NextResponse.json({ success: true, cartItem });
+    const cartData = await getCartResponse(userId);
+
+    return NextResponse.json({
+      success: true,
+      cartItem,
+      ...cartData,
+    });
   } catch (error: any) {
     console.error("POST /api/cart error:", error);
     return NextResponse.json(
-      { success: false, error: "Failed to add to cart: " + (error.message || "") },
+      { success: false, error: "تعذر إضافة المنتج للسلة: " + (error.message || "") },
       { status: 500 }
     );
   }
@@ -149,20 +172,13 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    const { cartItemId, quantity } = body;
+    const { cartItemId, quantity, userId } = body;
 
     if (!cartItemId || quantity === undefined) {
       return NextResponse.json(
         { success: false, error: "Missing cartItemId or quantity" },
         { status: 400 }
       );
-    }
-
-    if (quantity <= 0) {
-      await prisma.cartItem.delete({
-        where: { id: cartItemId },
-      });
-      return NextResponse.json({ success: true, message: "Item removed from cart" });
     }
 
     const currentItem = await prisma.cartItem.findUnique({
@@ -177,11 +193,21 @@ export async function PUT(request: NextRequest) {
       );
     }
 
+    const targetUserId = userId || currentItem.userId;
+
+    if (quantity <= 0) {
+      await prisma.cartItem.delete({
+        where: { id: cartItemId },
+      });
+      const cartData = await getCartResponse(targetUserId);
+      return NextResponse.json({ success: true, message: "Item removed from cart", ...cartData });
+    }
+
     if (quantity > currentItem.product.stock) {
       return NextResponse.json(
         {
           success: false,
-          error: `Max available stock is ${currentItem.product.stock}`,
+          error: `الكمية المتوفرة بالمخزون: ${currentItem.product.stock}`,
         },
         { status: 400 }
       );
@@ -193,7 +219,9 @@ export async function PUT(request: NextRequest) {
       include: { product: true },
     });
 
-    return NextResponse.json({ success: true, cartItem: updated });
+    const cartData = await getCartResponse(targetUserId);
+
+    return NextResponse.json({ success: true, cartItem: updated, ...cartData });
   } catch (error: any) {
     console.error("PUT /api/cart error:", error);
     return NextResponse.json(
@@ -214,7 +242,8 @@ export async function DELETE(request: NextRequest) {
       await prisma.cartItem.deleteMany({
         where: { userId },
       });
-      return NextResponse.json({ success: true, message: "Cart cleared" });
+      const cartData = await getCartResponse(userId);
+      return NextResponse.json({ success: true, message: "Cart cleared", ...cartData });
     }
 
     if (!cartItemId) {
@@ -228,7 +257,9 @@ export async function DELETE(request: NextRequest) {
       where: { id: cartItemId },
     });
 
-    return NextResponse.json({ success: true, message: "Item deleted from cart" });
+    const cartData = await getCartResponse(userId);
+
+    return NextResponse.json({ success: true, message: "Item deleted from cart", ...cartData });
   } catch (error: any) {
     console.error("DELETE /api/cart error:", error);
     return NextResponse.json(

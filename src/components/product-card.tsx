@@ -56,7 +56,7 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
     e.preventDefault();
     if (product.stock === 0 || isAdding) return;
     setIsAdding(true);
-    const success = await addToCart(product.id, 1);
+    const success = await addToCart(product.id, 1, product);
     setIsAdding(false);
     if (success) {
       setJustAdded(true);

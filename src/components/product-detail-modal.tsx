@@ -38,7 +38,7 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
   const handleAdd = async () => {
     if (product.stock === 0 || isAdding) return;
     setIsAdding(true);
-    const success = await addToCart(product.id, quantity);
+    const success = await addToCart(product.id, quantity, product);
     setIsAdding(false);
     if (success) {
       setJustAdded(true);
@@ -52,7 +52,7 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
   const handleInstallmentOrder = async () => {
     if (product.stock === 0) return;
     setPurchaseType("INSTALLMENT");
-    await addToCart(product.id, 1);
+    await addToCart(product.id, 1, product);
     onClose();
     router.push("/checkout");
   };

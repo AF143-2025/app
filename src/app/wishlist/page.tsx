@@ -40,9 +40,9 @@ export default function WishlistPage() {
 
   const favoriteProducts = products.filter((p) => wishlist.includes(p.id));
 
-  const handleAddToCart = async (productId: string) => {
-    setAddingId(productId);
-    await addToCart(productId, 1);
+  const handleAddToCart = async (product: any) => {
+    setAddingId(product.id);
+    await addToCart(product.id, 1, product);
     setAddingId(null);
   };
 
@@ -172,7 +172,7 @@ export default function WishlistPage() {
                       {/* Actions */}
                       <div className="grid grid-cols-2 gap-2 pt-1">
                         <button
-                          onClick={() => handleAddToCart(product.id)}
+                          onClick={() => handleAddToCart(product)}
                           disabled={isAdding}
                           className="w-full h-9 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition-all active:scale-95 disabled:opacity-50"
                         >
@@ -182,7 +182,7 @@ export default function WishlistPage() {
 
                         <Link
                           href="/checkout"
-                          onClick={() => addToCart(product.id, 1)}
+                          onClick={() => addToCart(product.id, 1, product)}
                           className="w-full h-9 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all active:scale-95"
                         >
                           <Layers className="w-3.5 h-3.5 text-emerald-400" />

@@ -44,6 +44,8 @@ cloudflared.exe
 # Test scratch scripts
 test-*.js
 test-*.ps1
+scratch/
+convert.js
 
 # Uploads
 public/uploads/*

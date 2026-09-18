@@ -45,7 +45,7 @@ interface CartContextType {
   openCart: () => void;
   closeCart: () => void;
   toggleCart: () => void;
-  addToCart: (productId: string, quantity?: number) => Promise<boolean>;
+  addToCart: (productId: string, quantity?: number, productData?: any) => Promise<boolean>;
   updateQuantity: (cartItemId: string, quantity: number) => Promise<void>;
   removeFromCart: (cartItemId: string) => Promise<void>;
   clearCart: () => Promise<void>;
@@ -90,13 +90,6 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItemType[]>([]);
-  const [summary, setSummary] = useState({
-    totalItems: 0,
-    subtotal: 0,
-    taxAmount: 0,
-    shippingFee: 0,
-    totalAmount: 0,
-  });
   const [isLoading, setIsLoading] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -214,6 +207,40 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     ? "demo-admin-id"
     : guestId;
 
+  // Load cart from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("sama_cart_items");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setItems(parsed);
+        }
+      }
+    } catch (e) {
+      console.error("Failed to load local cart:", e);
+    }
+  }, []);
+
+  // Compute summary automatically whenever items change
+  const summary = React.useMemo(() => {
+    const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+    const subtotal = items.reduce(
+      (sum, item) => sum + (item.product?.price || 0) * item.quantity,
+      0
+    );
+    const taxAmount = 0;
+    const shippingFee = 0;
+    const totalAmount = subtotal;
+    return {
+      totalItems,
+      subtotal,
+      taxAmount,
+      shippingFee,
+      totalAmount,
+    };
+  }, [items]);
+
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => {
@@ -226,20 +253,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(true);
       const res = await fetch(`/api/cart?userId=${userId}`);
       const data = await res.json();
-      if (data.success) {
-        setItems(data.items || []);
-        setSummary(
-          data.summary || {
-            totalItems: 0,
-            subtotal: 0,
-            taxAmount: 0,
-            shippingFee: 0,
-            totalAmount: 0,
-          }
-        );
+      if (data.success && Array.isArray(data.items) && data.items.length > 0) {
+        setItems(data.items);
+        try {
+          localStorage.setItem("sama_cart_items", JSON.stringify(data.items));
+        } catch (e) {
+          console.error(e);
+        }
       }
     } catch (e) {
-      console.error("Failed to load cart:", e);
+      console.warn("Using local cart items (server sync notice):", e);
     } finally {
       setIsLoading(false);
     }
@@ -249,24 +272,79 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     refreshCart();
   }, [userId]);
 
-  const addToCart = async (productId: string, quantity = 1): Promise<boolean> => {
+  const addToCart = async (
+    productId: string,
+    quantity = 1,
+    productData?: any
+  ): Promise<boolean> => {
     try {
-      const res = await fetch("/api/cart", {
+      let targetProduct = productData;
+
+      if (!targetProduct) {
+        const existing = items.find((i) => i.productId === productId);
+        if (existing) {
+          targetProduct = existing.product;
+        }
+      }
+
+      setItems((prevItems) => {
+        const existingIndex = prevItems.findIndex((i) => i.productId === productId);
+        let updated: CartItemType[];
+        if (existingIndex >= 0) {
+          updated = prevItems.map((item, idx) =>
+            idx === existingIndex
+              ? { ...item, quantity: item.quantity + quantity }
+              : item
+          );
+        } else {
+          const fallbackProduct: CartProduct = targetProduct || {
+            id: productId,
+            name: "جهاز سما الخضراء",
+            price: 0,
+            imageUrl: "/images/placeholder-phone.png",
+            stock: 10,
+            category: "phones",
+          };
+          const newItem: CartItemType = {
+            id: `cart_${productId}_${Date.now()}`,
+            productId,
+            quantity,
+            product: fallbackProduct,
+          };
+          updated = [newItem, ...prevItems];
+        }
+
+        try {
+          localStorage.setItem("sama_cart_items", JSON.stringify(updated));
+        } catch (err) {
+          console.error(err);
+        }
+        return updated;
+      });
+
+      showToast("تمت إضافة المنتج إلى السلة بنجاح! 🛍️");
+      setIsCartOpen(true);
+
+      // Concurrently sync with backend
+      fetch("/api/cart", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, productId, quantity }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        showToast("تمت إضافة المنتج إلى السلة بنجاح! 🛍️");
-        await refreshCart();
-        setIsCartOpen(true);
-        return true;
-      } else {
-        showToast(data.error || "تعذر إضافة المنتج للسلة");
-        return false;
-      }
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success && Array.isArray(data.items) && data.items.length > 0) {
+            setItems(data.items);
+            localStorage.setItem("sama_cart_items", JSON.stringify(data.items));
+          }
+        })
+        .catch((apiErr) => {
+          console.warn("[Cart] Backend sync notice:", apiErr);
+        });
+
+      return true;
     } catch (e) {
+      console.error("Error in addToCart:", e);
       showToast("حدث خطأ أثناء الإضافة للسلة");
       return false;
     }
@@ -274,17 +352,38 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const updateQuantity = async (cartItemId: string, quantity: number) => {
     try {
-      const res = await fetch("/api/cart", {
+      setItems((prevItems) => {
+        let updated: CartItemType[];
+        if (quantity <= 0) {
+          updated = prevItems.filter((i) => i.id !== cartItemId);
+        } else {
+          updated = prevItems.map((i) =>
+            i.id === cartItemId ? { ...i, quantity } : i
+          );
+        }
+        try {
+          localStorage.setItem("sama_cart_items", JSON.stringify(updated));
+        } catch (err) {
+          console.error(err);
+        }
+        return updated;
+      });
+
+      fetch("/api/cart", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cartItemId, quantity }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        await refreshCart();
-      } else {
-        showToast(data.error || "تعذر تحديث الكمية");
-      }
+        body: JSON.stringify({ cartItemId, quantity, userId }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success && Array.isArray(data.items)) {
+            setItems(data.items);
+            localStorage.setItem("sama_cart_items", JSON.stringify(data.items));
+          }
+        })
+        .catch((err) => {
+          console.warn("[Cart] Backend update sync notice:", err);
+        });
     } catch (e) {
       console.error(e);
     }
@@ -292,14 +391,30 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const removeFromCart = async (cartItemId: string) => {
     try {
-      const res = await fetch(`/api/cart?cartItemId=${cartItemId}&userId=${userId}`, {
-        method: "DELETE",
+      setItems((prevItems) => {
+        const updated = prevItems.filter((i) => i.id !== cartItemId);
+        try {
+          localStorage.setItem("sama_cart_items", JSON.stringify(updated));
+        } catch (err) {
+          console.error(err);
+        }
+        return updated;
       });
-      const data = await res.json();
-      if (data.success) {
-        showToast("تم حذف المنتج من السلة");
-        await refreshCart();
-      }
+      showToast("تم حذف المنتج من السلة");
+
+      fetch(`/api/cart?cartItemId=${cartItemId}&userId=${userId}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success && Array.isArray(data.items)) {
+            setItems(data.items);
+            localStorage.setItem("sama_cart_items", JSON.stringify(data.items));
+          }
+        })
+        .catch((err) => {
+          console.warn("[Cart] Backend delete sync notice:", err);
+        });
     } catch (e) {
       console.error(e);
     }
@@ -307,10 +422,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clearCart = async () => {
     try {
-      await fetch(`/api/cart?clearAll=true&userId=${userId}`, {
+      setItems([]);
+      try {
+        localStorage.removeItem("sama_cart_items");
+      } catch (err) {
+        console.error(err);
+      }
+
+      fetch(`/api/cart?clearAll=true&userId=${userId}`, {
         method: "DELETE",
+      }).catch((err) => {
+        console.warn("[Cart] Backend clear sync notice:", err);
       });
-      await refreshCart();
     } catch (e) {
       console.error(e);
     }

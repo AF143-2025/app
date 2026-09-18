@@ -98,7 +98,7 @@ export default function ProductDetailPage() {
     if (!product || product.stock <= 0 || isAdding) return;
     try {
       setIsAdding(true);
-      const success = await addToCart(product.id, 1);
+      const success = await addToCart(product.id, 1, product);
       if (success) {
         setJustAdded(true);
         setTimeout(() => setJustAdded(false), 2500);

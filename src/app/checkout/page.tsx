@@ -33,6 +33,7 @@ export default function CheckoutPage() {
     userId,
     user,
     refreshCart,
+    clearCart,
     purchaseType,
     setPurchaseType,
     installmentMonths,
@@ -110,6 +111,7 @@ export default function CheckoutPage() {
           nationalId: isInstallment ? nationalId : undefined,
           guarantorName: isInstallment ? guarantorName : undefined,
           guarantorPhone: isInstallment ? guarantorPhone : undefined,
+          items,
         }),
       });
 
@@ -121,7 +123,7 @@ export default function CheckoutPage() {
         return;
       }
 
-      await refreshCart();
+      await clearCart();
 
       // If COD or INSTALLMENT, navigate straight to order page
       if (data.isCOD || data.isInstallment) {
