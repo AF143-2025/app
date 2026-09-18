@@ -87,7 +87,7 @@ export function CartDrawer() {
                   السلة فارغة حالياً
                 </h3>
                 <p className="text-xs text-slate-500 max-w-xs mb-4">
-                  تصفح هواتف وإكسسوارات سما الخضراء واختر نظام الشراء المباشر أو بالأقساط.
+                  تصفح هواتف وإكسسوارات متجر سما الخضراء وأضف ما يعجبك إلى السلة.
                 </p>
                 <button
                   onClick={closeCart}

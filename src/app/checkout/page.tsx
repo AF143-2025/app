@@ -199,7 +199,7 @@ export default function CheckoutPage() {
           السلة
         </Link>
         <span>/</span>
-        <span className="font-bold text-slate-800">إتمام الشراء والدفع</span>
+        <span className="font-bold text-slate-800">إتمام الطلب والدفع</span>
       </div>
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
@@ -207,7 +207,7 @@ export default function CheckoutPage() {
           <div className="w-9 h-9 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md shadow-emerald-600/20 shrink-0">
             <Lock className="w-5 h-5" />
           </div>
-          <span>إتمام الشراء والدفع الآمن</span>
+          <span>إتمام الطلب والدفع الآمن</span>
         </h1>
         <span className="text-[11px] sm:text-xs font-bold text-slate-500 bg-white border border-slate-200 px-3 py-1.5 rounded-full self-start sm:self-auto">
           سما الخضراء • بغداد وكافة المحافظات
@@ -219,63 +219,6 @@ export default function CheckoutPage() {
           ⚠️ {errorMessage}
         </div>
       )}
-
-      {/* Main Choice: Direct vs Installment Switcher */}
-      <div className="bg-white rounded-3xl p-4 sm:p-6 border border-slate-100 shadow-sm space-y-3">
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-black text-slate-800">
-            اختر نظام الشراء والدفع المناسب لك:
-          </span>
-          <span className="text-xs font-bold text-emerald-700">
-            {purchaseType === "DIRECT" ? "دفع مباشر فوري" : "تقسيط شهري ميسر"}
-          </span>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <button
-            type="button"
-            onClick={() => setPurchaseType("DIRECT")}
-            className={`p-4 rounded-2xl border-2 text-right transition-all flex items-start gap-3 ${
-              purchaseType === "DIRECT"
-                ? "border-emerald-600 bg-emerald-50/50 shadow-md ring-2 ring-emerald-500/20"
-                : "border-slate-200 hover:border-slate-300 bg-slate-50/30"
-            }`}
-          >
-            <div className={`p-2.5 rounded-xl ${purchaseType === "DIRECT" ? "bg-emerald-600 text-white" : "bg-slate-200 text-slate-600"}`}>
-              <CreditCard className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="font-black text-slate-900 text-sm">
-                البيع المباشر (كاش ومحافظ إلكترونية)
-              </div>
-              <div className="text-xs text-slate-500 mt-0.5">
-                ادفع كاش عند الاستلام أو فوراً عبر زين كاش، كي كارد، FIB، أو فيزا.
-              </div>
-            </div>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setPurchaseType("INSTALLMENT")}
-            className={`p-4 rounded-2xl border-2 text-right transition-all flex items-start gap-3 ${
-              purchaseType === "INSTALLMENT"
-                ? "border-emerald-700 bg-emerald-50 shadow-md ring-2 ring-emerald-600/20"
-                : "border-slate-200 hover:border-slate-300 bg-slate-50/30"
-            }`}
-          >
-            <div className={`p-2.5 rounded-xl ${purchaseType === "INSTALLMENT" ? "bg-emerald-700 text-white" : "bg-slate-200 text-slate-600"}`}>
-              <Layers className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="font-black text-slate-900 text-sm">
-                البيع بالأقساط الميسرة (سما الخضراء)
-              </div>
-              <div className="text-xs text-slate-500 mt-0.5">
-                تقسيط هواتف من 3 إلى 24 شهراً بأقساط شهرية مريحة مع كفالة كي كارد أو موظف.
-              </div>
-            </div>
-          </button>
-        </div>
-      </div>
 
       <form onSubmit={handleSubmitCheckout} className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Left Columns: Information and Payment Specifics */}
@@ -496,7 +439,7 @@ export default function CheckoutPage() {
             <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-sm space-y-4">
               <div className="flex items-center gap-2 pb-3 border-b border-slate-100 text-base font-bold text-slate-900">
                 <CreditCard className="w-5 h-5 text-emerald-600" />
-                <span>2. اختر طريقة الدفع المباشر</span>
+                <span>2. اختر طريقة الدفع</span>
               </div>
 
               <div className="space-y-3">
@@ -627,7 +570,7 @@ export default function CheckoutPage() {
                 </>
               ) : (
                 <>
-                  <span>إتمام الشراء والدفع الآن</span>
+                  <span>إتمام وتأكيد الطلب الآن</span>
                   <ArrowLeft className="w-4 h-4" />
                 </>
               )}
