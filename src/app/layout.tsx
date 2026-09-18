@@ -113,7 +113,7 @@ export default function RootLayout({
           <div className="flex-1 flex flex-col min-h-screen transition-all duration-300 w-full max-w-full">
             <Navbar />
             <CartDrawer />
-            <main className="flex-1 w-full max-w-full pb-[calc(env(safe-area-inset-bottom,0px)+5.5rem)] md:pb-16">{children}</main>
+            <main className="flex-1 w-full max-w-full pb-[calc(env(safe-area-inset-bottom,0px)+4.5rem)] md:pb-16">{children}</main>
           </div>
 
           {/* Mobile Native Bottom Navigation Bar (Active on mobile viewports) */}
