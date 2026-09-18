@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent">#10b981</color>
+    <color name="background">#f8fafc</color>
+    <color name="primary">#047857</color>
+    <color name="primary_dark">#064e3b</color>
+    <color name="progress_bar">#10b981</color>
+    <color name="surface">#ffffff</color>
+    <color name="text_primary">#0f172a</color>
+    <color name="text_secondary">#64748b</color>
+    <color name="white">#ffffff</color>
+    <string name="app_name">سما الخضراء</string>
+    <string name="btn_retry">إعادة المحاولة</string>
+    <string name="default_web_url">https://netscape-circulation-java-poll.trycloudflare.com</string>
+    <string name="error_no_internet_desc">تعذر الاتصال بخوادم متجر سما الخضراء. يرجى التأكد من اتصال الإنترنت ثم إعادة المحاولة.</string>
+    <string name="error_no_internet_title">لا يوجد اتصال بالشبكة</string>
+    <string name="file_provider_authority">com.samaalkhadraa.app.fileprovider</string>
+    <string name="package_name">com.samaalkhadraa.app</string>
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:statusBarColor">@color/primary_dark</item>
+        <item name="android:navigationBarColor">@color/primary_dark</item>
+    </style>
+    <style name="AppTheme.Splash" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:statusBarColor">@color/primary</item>
+        <item name="android:navigationBarColor">@color/primary</item>
+    </style>
+</resources>

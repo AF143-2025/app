@@ -14,7 +14,9 @@ import {
   Smartphone,
   Sparkles,
   ShoppingBag,
+  ChevronRight,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function PosPage() {
   const [products, setProducts] = useState<any[]>([]);
@@ -127,17 +129,27 @@ export default function PosPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
-            <Calculator className="w-5 h-5" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-black text-gray-900">
-              نقطة البيع السريع (POS كاشير سما الخضراء للهواتف)
-            </h1>
-            <p className="text-xs text-gray-500">
-              بيع مباشر فوري، خصم تلقائي من المخزن، ودعم الدفع كاش أو عبر زين كاش وكي كارد و FIB.
-            </p>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/"
+            className="p-2 sm:p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all active:scale-90 border border-slate-200/60 shadow-sm flex items-center justify-center"
+            aria-label="الرجوع للرئيسية"
+            title="الرجوع للرئيسية"
+          >
+            <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+          </Link>
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
+              <Calculator className="w-5 h-5" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-black text-gray-900">
+                نقطة البيع السريع (POS كاشير سما الخضراء للهواتف)
+              </h1>
+              <p className="text-xs text-gray-500">
+                بيع مباشر فوري، خصم تلقائي من المخزن، ودعم الدفع كاش أو عبر زين كاش وكي كارد و FIB.
+              </p>
+            </div>
           </div>
         </div>
       </div>

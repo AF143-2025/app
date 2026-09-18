@@ -67,65 +67,73 @@ export function MobileTabBar() {
   ];
 
   return (
-    <nav
-      className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-200/90 shadow-[0_-4px_24px_rgba(0,0,0,0.06)] px-2 pt-1 pb-[max(env(safe-area-inset-bottom,0px),8px)] no-print select-none touch-manipulation"
-      dir="rtl"
-    >
-      <div className="grid grid-cols-5 gap-1 items-center max-w-md mx-auto">
-        {tabs.map((tab, idx) => {
-          const Icon = tab.icon;
-          const content = (
-            <>
-              <div
-                className={`relative px-3 py-0.5 rounded-full transition-all duration-200 flex items-center justify-center ${
-                  tab.isActive
-                    ? "bg-emerald-100/80 text-emerald-800 scale-105"
-                    : "text-slate-500 group-hover:text-slate-800"
-                }`}
-              >
-                <Icon className="w-5 h-5 stroke-[2.2]" />
-                {tab.badge !== undefined && (
-                  <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[9px] font-black min-w-[16px] h-4 px-0.5 rounded-full flex items-center justify-center shadow-xs border-2 border-white animate-pulse">
-                    {tab.badge}
-                  </span>
-                )}
-              </div>
-              <span
-                className={`text-[10.5px] mt-0.5 tracking-tight block truncate ${
-                  tab.isActive
-                    ? "text-emerald-800 font-black"
-                    : "text-slate-500 font-semibold"
-                }`}
-              >
-                {tab.label}
-              </span>
-            </>
-          );
+    <div className="md:hidden fixed bottom-0 inset-x-0 z-40 px-4 pb-[calc(env(safe-area-inset-bottom,0px)+12px)] pointer-events-none flex justify-center">
+      <nav
+        className="bg-white/80 backdrop-blur-2xl border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.12)] rounded-[2rem] px-2 py-1.5 pointer-events-auto select-none touch-manipulation w-full max-w-sm"
+        dir="rtl"
+      >
+        <div className="grid grid-cols-5 gap-1 items-center">
+          {tabs.map((tab, idx) => {
+            const Icon = tab.icon;
+            const content = (
+              <>
+                <div
+                  className={`relative px-4 py-1.5 rounded-[1.25rem] transition-all duration-300 flex items-center justify-center ${
+                    tab.isActive
+                      ? "bg-emerald-500 text-white scale-105 shadow-md shadow-emerald-500/20"
+                      : "text-slate-400 group-hover:text-slate-700"
+                  }`}
+                >
+                  <Icon className={`w-5 h-5 ${tab.isActive ? "stroke-[2.5]" : "stroke-[2.2]"}`} />
+                  {tab.badge !== undefined && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-black min-w-[16px] h-4 px-0.5 rounded-full flex items-center justify-center shadow-xs border border-white">
+                      {tab.badge}
+                    </span>
+                  )}
+                </div>
+                <span
+                  className={`text-[9.5px] mt-1 tracking-tight block truncate transition-colors duration-300 ${
+                    tab.isActive
+                      ? "text-emerald-700 font-black"
+                      : "text-slate-400 font-bold"
+                  }`}
+                >
+                  {tab.label}
+                </span>
+              </>
+            );
 
-          if (tab.action) {
+            const commonClasses =
+              "group flex flex-col items-center justify-center w-full h-full py-0.5 tap-bounce active:scale-95";
+
+            if (tab.href) {
+              return (
+                <Link
+                  key={idx}
+                  href={tab.href}
+                  className={commonClasses}
+                  onClick={
+                    tab.href === "/account" && !isAuthenticated
+                      ? (e) => {
+                          e.preventDefault();
+                          openAuthModal();
+                        }
+                      : undefined
+                  }
+                >
+                  {content}
+                </Link>
+              );
+            }
+
             return (
-              <button
-                key={idx}
-                type="button"
-                onClick={tab.action}
-                className="min-h-[48px] flex flex-col items-center justify-center py-1 px-1 rounded-2xl transition-all active:scale-95 relative group"
-              >
+              <button key={idx} type="button" onClick={tab.action} className={commonClasses}>
                 {content}
               </button>
             );
-          }
-
-          return (
-            <Link
-              key={idx}
-              href={tab.href || "/"}
-              className="min-h-[48px] flex flex-col items-center justify-center py-1 px-1 rounded-2xl transition-all active:scale-95 relative group"
-            >
-              {content}
-            </Link>
-          );
-        })}
-      </div>
-    </nav>
+          })}
+        </div>
+      </nav>
+    </div>
   );
 }

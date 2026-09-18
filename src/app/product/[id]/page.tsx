@@ -178,47 +178,47 @@ export default function ProductDetailPage() {
         {/* ========================================================= */}
         {/* 1. صورة المنتج (Product Image Container)                  */}
         {/* ========================================================= */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-4 sm:p-6 shadow-xs relative overflow-hidden">
+        <div className="bg-white rounded-[2rem] border border-transparent shadow-[0_4px_24px_-8px_rgba(0,0,0,0.06)] p-4 sm:p-6 relative overflow-hidden">
           {/* Wishlist Button on Image */}
           <button
             type="button"
             onClick={() => toggleWishlist(product.id)}
-            className={`absolute top-3.5 left-3.5 z-10 w-9 h-9 rounded-full shadow-xs flex items-center justify-center transition-all ${
+            className={`absolute top-4 left-4 z-10 w-10 h-10 rounded-full shadow-sm flex items-center justify-center transition-all ${
               isInWishlist(product.id)
-                ? "bg-rose-50 text-rose-600 border border-rose-200 scale-105"
-                : "bg-white/90 backdrop-blur-xs text-slate-400 hover:text-rose-500 border border-slate-200/70"
+                ? "bg-rose-50 text-rose-600 scale-105"
+                : "bg-white/80 backdrop-blur-md text-slate-400 hover:text-rose-500 hover:bg-white hover:shadow-md"
             }`}
             title={isInWishlist(product.id) ? "إزالة من المفضلة" : "إضافة للمفضلة"}
             aria-label="المفضلة"
           >
             <Heart
-              className={`w-4 h-4 ${
+              className={`w-5 h-5 ${
                 isInWishlist(product.id) ? "fill-rose-600 text-rose-600" : ""
               }`}
             />
           </button>
 
           {/* Main Image View */}
-          <div className="aspect-square w-full flex items-center justify-center bg-slate-50/70 rounded-2xl p-4 overflow-hidden">
+          <div className="aspect-square w-full flex items-center justify-center bg-[#F8FAFC]/50 rounded-3xl p-6 overflow-hidden">
             <img
               src={productImages[selectedImageIndex] || product.imageUrl}
               alt={product.name}
-              className="w-full h-full object-contain transition-transform duration-300"
+              className="w-full h-full object-contain drop-shadow-sm transition-transform duration-300"
             />
           </div>
 
           {/* Dots Navigation (Only if more than 1 image) */}
           {productImages.length > 1 && (
-            <div className="flex items-center justify-center gap-1.5 pt-3">
+            <div className="flex items-center justify-center gap-1.5 pt-4">
               {productImages.map((_, idx) => (
                 <button
                   key={idx}
                   type="button"
                   onClick={() => setSelectedImageIndex(idx)}
-                  className={`h-1.5 rounded-full transition-all duration-200 ${
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
                     selectedImageIndex === idx
-                      ? "w-6 bg-emerald-600"
-                      : "w-2 bg-slate-300 hover:bg-slate-400"
+                      ? "w-8 bg-emerald-500"
+                      : "w-2 bg-slate-200 hover:bg-slate-300"
                   }`}
                   aria-label={`صورة ${idx + 1}`}
                 />
@@ -230,7 +230,7 @@ export default function ProductDetailPage() {
         {/* ========================================================= */}
         {/* 2. معلومات المنتج + 3. حالة المنتج + 4. أضف إلى السلة       */}
         {/* ========================================================= */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 p-5 sm:p-6 shadow-xs space-y-4">
+        <div className="bg-white rounded-[2rem] border border-transparent shadow-[0_4px_24px_-8px_rgba(0,0,0,0.06)] p-5 sm:p-7 space-y-4">
           {/* اسم المنتج */}
           <h1 className="text-base sm:text-xl font-black text-slate-900 leading-snug">
             {product.name}
@@ -238,12 +238,12 @@ export default function ProductDetailPage() {
 
           {/* السعر بالدينار العراقي */}
           <div className="flex items-baseline gap-2">
-            <div className="text-xl sm:text-2xl font-black text-slate-950 font-mono tracking-tight">
-              {Number(product.price).toLocaleString()} <span className="text-sm font-bold text-emerald-700">د.ع</span>
+            <div className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              {Number(product.price).toLocaleString()} <span className="text-sm font-bold text-emerald-600">د.ع</span>
             </div>
 
             {product.originalPrice && product.originalPrice > product.price && (
-              <span className="text-xs text-slate-400 line-through font-mono">
+              <span className="text-xs text-slate-400 line-through">
                 {Number(product.originalPrice).toLocaleString()} د.ع
               </span>
             )}

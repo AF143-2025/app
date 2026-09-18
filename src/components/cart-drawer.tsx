@@ -255,7 +255,7 @@ export function CartDrawer() {
               <Link
                 href="/checkout"
                 onClick={closeCart}
-                className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/25 transition-all hover:scale-[1.01]"
+                className="w-full py-4 px-4 rounded-[1.5rem] bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_8px_24px_-8px_rgba(16,185,129,0.4)] transition-all hover:scale-[1.01]"
               >
                 <span>
                   {purchaseType === "INSTALLMENT"

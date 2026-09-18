@@ -18,6 +18,7 @@ import {
   Building2,
   HelpCircle,
   ArrowRight,
+  ChevronRight,
 } from "lucide-react";
 import { STORE_CONFIG, getWhatsAppUrl, getPhoneCallUrl } from "@/lib/store-config";
 
@@ -123,6 +124,18 @@ export default function InstallmentsPage() {
         <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
         <div className="absolute -left-20 -top-20 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
         
+        {/* Back Button */}
+        <div className="absolute top-4 right-4 z-20">
+          <Link
+            href="/"
+            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all active:scale-90 border border-white/10 backdrop-blur-md flex items-center justify-center shadow-lg"
+            aria-label="الرجوع للرئيسية"
+            title="الرجوع للرئيسية"
+          >
+            <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+          </Link>
+        </div>
+
         <div className="max-w-4xl mx-auto text-center space-y-4 sm:space-y-6 relative z-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm font-black">
             <Sparkles className="w-4 h-4 text-emerald-400" />

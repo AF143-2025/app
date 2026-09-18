@@ -262,109 +262,80 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="space-y-8 sm:space-y-12 text-right pb-10 w-full max-w-full overflow-hidden" dir="rtl">
-      {/* 1. HERO BANNER CAROUSEL */}
-      <section className="relative overflow-hidden rounded-2xl sm:rounded-3xl mx-2.5 sm:mx-4 lg:mx-8 shadow-xl border border-slate-900/10 bg-slate-950">
-        <div className="relative h-[165px] sm:h-[220px] md:h-[280px] flex items-center transition-all duration-700 ease-in-out">
-          {heroBanners.map((banner, index) => {
-            const isActive = index === currentBanner;
-            return (
-              <Link
+    <div className="min-h-screen bg-slate-50 text-right selection:bg-emerald-100 selection:text-emerald-900 w-full max-w-full pb-20 sm:pb-0" dir="rtl">
+      
+      {/* 1. HERO BANNER - Edge-to-edge on mobile, rounded on desktop */}
+      <section className="relative w-full sm:max-w-7xl sm:mx-auto sm:px-6 lg:px-8 sm:pt-4">
+        <div className="relative h-[220px] sm:h-[360px] md:h-[460px] w-full sm:rounded-[2rem] overflow-hidden bg-slate-900 group shadow-lg">
+          
+          <div
+            className="absolute inset-0 flex transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
+            style={{ transform: `translateX(${currentBanner * 100}%)` }}
+          >
+            {heroBanners.map((banner) => (
+              <div
                 key={banner.id}
-                href={banner.targetHref}
-                className={`absolute inset-0 transition-opacity duration-700 ease-in-out flex flex-row items-center justify-between p-4 sm:p-8 md:p-12 gap-3 bg-gradient-to-r ${banner.gradient} text-white group cursor-pointer ${
-                  isActive ? "opacity-100 z-10 pointer-events-auto" : "opacity-0 z-0 pointer-events-none"
-                }`}
-                title={`إعلان: ${banner.title}`}
+                className={`w-full h-full flex-shrink-0 relative bg-gradient-to-tr ${banner.gradient}`}
               >
-                <div className="relative z-10 flex-1 min-w-0 space-y-2 sm:space-y-3 text-right">
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-[10px] sm:text-xs font-bold text-emerald-300">
-                    <Sparkles className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                    <span>{banner.tag}</span>
-                  </div>
-
-                  <h1 className="text-base sm:text-2xl md:text-4xl font-black tracking-tight leading-snug line-clamp-1 group-hover:text-emerald-300 transition-colors">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent pointer-events-none" />
+                
+                {/* Content */}
+                <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 z-10 w-full sm:w-2/3">
+                  <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-white text-[10px] sm:text-xs font-black mb-3 border border-white/20 self-start shadow-sm">
+                    {banner.tag}
+                  </span>
+                  
+                  <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-2 sm:mb-4 drop-shadow-md">
                     {banner.title}
-                  </h1>
-
-                  <div className="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 text-[10px] sm:text-xs md:text-sm font-black px-3 py-1.5 rounded-xl border border-emerald-500/30">
-                    <span>{banner.offerBadge}</span>
-                    <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:-translate-x-1 transition-transform" />
+                  </h2>
+                  
+                  <p className="text-emerald-300 font-bold text-xs sm:text-base drop-shadow-sm flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4" />
+                    {banner.offerBadge}
+                  </p>
+                  
+                  <div className="mt-5 sm:mt-8">
+                    <Link
+                      href={banner.targetHref}
+                      className="inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-8 sm:py-3.5 rounded-full bg-white text-slate-900 font-black text-[11px] sm:text-sm shadow-xl active:scale-95 transition-transform"
+                    >
+                      <span>تسوق الآن</span>
+                      <ChevronLeft className="w-4 h-4" />
+                    </Link>
                   </div>
                 </div>
 
-                <div className="relative z-10 shrink-0 w-28 h-28 sm:w-40 sm:h-40 md:w-56 md:h-56 flex items-center justify-center">
-                  <div className="relative w-full h-full rounded-2xl overflow-hidden border border-white/20 shadow-lg bg-white/5 p-1.5">
-                    <img
-                      src={banner.imageUrl}
-                      alt={banner.title}
-                      width={220}
-                      height={220}
-                      decoding="async"
-                      className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
+                {/* Optional Side Image for visual flair (hidden on very small screens) */}
+                <div className="absolute left-0 bottom-0 h-full w-1/3 hidden sm:block opacity-70">
+                   <img src={banner.imageUrl} alt={banner.title} className="w-full h-full object-cover mix-blend-overlay" />
                 </div>
-              </Link>
-            );
-          })}
-        </div>
+              </div>
+            ))}
+          </div>
 
-        {/* Carousel Navigation Arrows */}
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setCurrentBanner((prev) => (prev === 0 ? heroBanners.length - 1 : prev - 1));
-          }}
-          className="hidden sm:flex absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-md text-white items-center justify-center transition-all pointer-events-auto shadow-md"
-          aria-label="السابق"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setCurrentBanner((prev) => (prev + 1) % heroBanners.length);
-          }}
-          className="hidden sm:flex absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-md text-white items-center justify-center transition-all pointer-events-auto shadow-md"
-          aria-label="التالي"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-
-        {/* Dots Navigation */}
-        <div className="absolute bottom-2.5 inset-x-0 z-20 flex items-center justify-center gap-1.5 pointer-events-auto">
-          {heroBanners.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setCurrentBanner(idx);
-              }}
-              className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 ${
-                idx === currentBanner ? "w-7 bg-emerald-400" : "w-2 bg-white/40 hover:bg-white/70"
-              }`}
-              aria-label={`إعلان ${idx + 1}`}
-            />
-          ))}
+          {/* Dots Indicator */}
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
+            {heroBanners.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`شريحة ${i + 1}`}
+                onClick={() => setCurrentBanner(i)}
+                className={`transition-all duration-300 rounded-full h-1.5 sm:h-2 ${
+                  i === currentBanner ? "bg-white w-6 sm:w-8 shadow-sm" : "bg-white/40 hover:bg-white/70 w-1.5 sm:w-2"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 space-y-8 sm:space-y-12 w-full">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 space-y-8 sm:space-y-12 w-full mt-6 sm:mt-10">
 
         {/* 2. CATEGORIES 2-ROW GRID */}
-        <section id="categories-section" className="scroll-mt-20 space-y-3 w-full">
-          <div className="flex items-center">
-            <h2 className="text-sm sm:text-base font-black text-slate-900 flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse" />
-              <span>تسوق حسب الفئات</span>
-            </h2>
-          </div>
-
+        <section id="categories-section" className="scroll-mt-20 w-full relative">
           <div className="grid grid-cols-5 gap-1.5 sm:gap-3 w-full">
             {STORE_CATEGORIES.map((cat) => {
               const Icon = cat.icon;
@@ -373,15 +344,15 @@ export default function HomePage() {
                 <Link
                   key={cat.id}
                   href={href}
-                  className="group flex flex-col items-center justify-center py-2.5 sm:py-3 px-1 rounded-2xl transition-all duration-200 active:scale-95 border bg-white hover:bg-emerald-50/30 text-slate-700 border-slate-200/80 shadow-xs hover:border-emerald-400 hover:shadow-md select-none"
+                  className="group flex flex-col items-center justify-start py-3 px-1.5 rounded-[1.5rem] bg-white border border-transparent shadow-[0_2px_12px_-4px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.08)] transition-all duration-300 active:scale-95"
                   title={cat.label}
                 >
                   <div
-                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center transition-all duration-200 group-hover:scale-110 mb-1.5 border ${cat.accent} shadow-2xs overflow-hidden`}
+                    className={`w-10 h-10 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 mb-2 bg-[#F8FAFC] text-slate-700`}
                   >
-                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2]" />
                   </div>
-                  <span className="text-[10px] sm:text-xs font-bold tracking-tight leading-tight text-center text-slate-800 group-hover:text-emerald-800 truncate block w-full px-0.5">
+                  <span className="text-[9px] sm:text-[11px] font-black tracking-tight leading-tight text-center text-slate-700 group-hover:text-emerald-600 line-clamp-2 w-full px-0.5">
                     {cat.label}
                   </span>
                 </Link>
@@ -457,25 +428,25 @@ export default function HomePage() {
         </section>
 
         {/* 4. SERVICES SHOWCASE */}
-        <section className="bg-white p-4 sm:p-7 rounded-3xl border border-slate-200/80 shadow-sm space-y-5">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <section className="bg-white p-4 sm:p-7 rounded-[2rem] border border-transparent shadow-[0_4px_24px_-8px_rgba(0,0,0,0.06)] space-y-5">
+          <div className="flex items-center justify-between border-b border-slate-50 pb-3">
             <h2 className="text-base sm:text-xl font-black text-slate-900 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-emerald-600" />
               <span>خدمات متجر سما الخضراء</span>
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3 text-center">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-4 text-center">
             {quickServices.map((srv) => {
               const Icon = srv.icon;
               const content = (
                 <>
                   <div
-                    className={`w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-gradient-to-tr ${srv.gradient} text-white flex items-center justify-center shadow-md ${srv.shadow} group-hover:scale-105 transition-all duration-200`}
+                    className={`w-11 h-11 sm:w-13 sm:h-13 rounded-3xl bg-gradient-to-tr ${srv.gradient} text-white flex items-center justify-center shadow-md ${srv.shadow} group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 mx-auto`}
                   >
-                    <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
                   </div>
-                  <span className="text-xs font-black text-slate-800 mt-2.5 leading-tight group-hover:text-emerald-700 transition-colors line-clamp-1">
+                  <span className="text-[11px] sm:text-xs font-black text-slate-800 mt-3 leading-tight group-hover:text-emerald-700 transition-colors line-clamp-1 px-1">
                     {srv.label}
                   </span>
                 </>
@@ -486,7 +457,7 @@ export default function HomePage() {
                   <Link
                     key={srv.id}
                     href={srv.href}
-                    className="group relative flex flex-col items-center justify-center p-3.5 sm:p-4 rounded-2xl bg-slate-50/80 hover:bg-emerald-50/40 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 active:scale-95 shadow-2xs hover:shadow-md"
+                    className="group relative flex flex-col items-center justify-center p-4 rounded-[1.5rem] bg-slate-50/50 hover:bg-white border border-transparent shadow-sm hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.08)] transition-all duration-300 active:scale-95"
                   >
                     {content}
                   </Link>
@@ -498,7 +469,7 @@ export default function HomePage() {
                   key={srv.id}
                   type="button"
                   onClick={() => setSelectedService(srv)}
-                  className="group relative flex flex-col items-center justify-center p-3.5 sm:p-4 rounded-2xl bg-slate-50/80 hover:bg-emerald-50/40 border border-slate-200/80 hover:border-emerald-300 transition-all duration-200 active:scale-95 shadow-2xs hover:shadow-md text-center w-full"
+                  className="group relative flex flex-col items-center justify-center p-4 rounded-[1.5rem] bg-slate-50/50 hover:bg-white border border-transparent shadow-sm hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.08)] transition-all duration-300 active:scale-95 w-full"
                 >
                   {content}
                 </button>
@@ -519,7 +490,7 @@ export default function HomePage() {
             {STORE_CONFIG.guarantees.map((g: any, idx: number) => (
               <div
                 key={idx}
-                className="bg-white p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-xs hover:border-emerald-300 hover:shadow-md transition-all space-y-2"
+                className="bg-white p-4 sm:p-5 rounded-[1.5rem] border border-transparent shadow-[0_2px_12px_-4px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.08)] transition-all space-y-2"
               >
                 <div className="flex items-center justify-between">
                   <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-black text-xs">
@@ -545,11 +516,11 @@ export default function HomePage() {
       {/* Service Detail Modal */}
       {selectedService && (
         <div
-          className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in duration-200"
           onClick={() => setSelectedService(null)}
         >
           <div
-            className="bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-100 max-h-[85vh] overflow-y-auto space-y-4 animate-in slide-in-from-bottom duration-200 text-right"
+            className="bg-white w-full sm:max-w-md rounded-t-[2rem] sm:rounded-[2.5rem] p-5 sm:p-6 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.2)] border border-transparent max-h-[85vh] overflow-y-auto space-y-4 animate-in slide-in-from-bottom duration-300 text-right"
             onClick={(e) => e.stopPropagation()}
             dir="rtl"
           >

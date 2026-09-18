@@ -83,7 +83,7 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
   return (
     <article
       onClick={handleCardClick}
-      className="group bg-white rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-md hover:border-emerald-300 transition-all duration-200 flex flex-col overflow-hidden cursor-pointer relative select-none w-full tap-bounce"
+      className="group bg-white rounded-[1.5rem] border border-transparent shadow-[0_2px_12px_-4px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_24px_-8px_rgba(0,0,0,0.12)] hover:border-emerald-100/50 transition-all duration-300 flex flex-col overflow-hidden cursor-pointer relative select-none w-full tap-bounce"
     >
       {/* Badges Container */}
       <div className="absolute top-2.5 right-2.5 z-10 flex flex-col gap-1 pointer-events-none">
@@ -125,7 +125,7 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
       </button>
 
       {/* Image Container */}
-      <div className="relative aspect-square w-full overflow-hidden bg-slate-50/90 flex items-center justify-center p-3 sm:p-4">
+      <div className="relative aspect-square w-full overflow-hidden bg-[#F8FAFC]/50 flex items-center justify-center p-4 sm:p-5">
         <img
           src={optimizedImageUrl}
           alt={product.name}
@@ -133,11 +133,11 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
           height={280}
           decoding="async"
           loading="lazy"
-          className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-contain object-center group-hover:scale-110 transition-transform duration-500 ease-out drop-shadow-sm"
         />
         {isOutOfStock && (
-          <div className="absolute inset-0 bg-slate-900/65 backdrop-blur-[2px] flex items-center justify-center">
-            <span className="bg-white text-slate-900 text-[10px] sm:text-xs font-black px-2.5 py-1 rounded-xl shadow-md">
+          <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex items-center justify-center">
+            <span className="bg-slate-900 text-white text-[10px] sm:text-xs font-black px-3 py-1.5 rounded-full shadow-lg">
               غير متوفر حالياً
             </span>
           </div>
@@ -197,12 +197,12 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
           </div>
 
           {/* Dual Action Buttons: "عرض التفاصيل" + "واتساب فوري" */}
-          <div className="grid grid-cols-2 gap-1.5 pt-0.5">
+          <div className="grid grid-cols-2 gap-2 pt-1">
             {/* 1. View Details Button */}
             <Link
               href={`/product/${product.id}`}
               onClick={(e) => e.stopPropagation()}
-              className="h-8.5 rounded-xl text-[10.5px] sm:text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all flex items-center justify-center gap-1 active:scale-95 border border-slate-200/90"
+              className="h-9 sm:h-10 rounded-2xl text-[10.5px] sm:text-xs font-bold bg-black/5 hover:bg-black/10 text-slate-800 transition-all flex items-center justify-center gap-1.5 active:scale-95"
             >
               <Eye className="w-3.5 h-3.5 text-slate-600" />
               <span>التفاصيل</span>
@@ -214,7 +214,7 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
               target="_blank"
               rel="noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="h-8.5 rounded-xl text-[10.5px] sm:text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition-all flex items-center justify-center gap-1 shadow-xs active:scale-95"
+              className="h-9 sm:h-10 rounded-2xl text-[10.5px] sm:text-xs font-bold bg-emerald-500 hover:bg-emerald-600 text-white transition-all flex items-center justify-center gap-1.5 shadow-[0_4px_12px_-4px_rgba(16,185,129,0.4)] active:scale-95"
               title="تواصل مباشر عبر واتساب"
             >
               <MessageCircle className="w-3.5 h-3.5 fill-white" />

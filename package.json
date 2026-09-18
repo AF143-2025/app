@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "db:push": "prisma db push",
-    "db:seed": "node prisma/seed.js"
+    "db:seed": "node prisma/seed.js",
+    "mobile:tunnel": "powershell -ExecutionPolicy Bypass -File scripts/start-mobile-tunnel.ps1",
+    "mobile:icons": "node scripts/generate-android-icons.js",
+    "mobile:build": "cd android && .\\gradlew.bat assembleDebug"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",

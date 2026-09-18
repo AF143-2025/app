@@ -21,7 +21,8 @@ import {
   FileText,
   Clock,
   ExternalLink,
-  ChevronLeft
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 
 interface PaymentMethod {
@@ -294,6 +295,18 @@ export default function AvailablePaymentMethodsPage() {
       {/* 1. HERO HEADER */}
       <div className="bg-gradient-to-l from-slate-950 via-slate-900 to-emerald-950 text-white py-10 sm:py-14 px-4 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]" />
+        
+        {/* Back Button */}
+        <div className="absolute top-4 right-4 z-20">
+          <Link
+            href="/"
+            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all active:scale-90 border border-white/10 backdrop-blur-md flex items-center justify-center shadow-lg"
+            aria-label="الرجوع للرئيسية"
+            title="الرجوع للرئيسية"
+          >
+            <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+          </Link>
+        </div>
 
         <div className="max-w-5xl mx-auto text-center space-y-4 relative z-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-bold">

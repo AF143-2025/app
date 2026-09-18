@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">سما الخضراء</string>
+    <string name="package_name">com.samaalkhadraa.app</string>
+    <!-- Default URL to connect to. Change this to your live domain or Cloudflare tunnel URL -->
+    <string name="default_web_url">https://netscape-circulation-java-poll.trycloudflare.com</string>
+    <string name="error_no_internet_title">لا يوجد اتصال بالشبكة</string>
+    <string name="error_no_internet_desc">تعذر الاتصال بخوادم متجر سما الخضراء. يرجى التأكد من اتصال الإنترنت ثم إعادة المحاولة.</string>
+    <string name="btn_retry">إعادة المحاولة</string>
+    <string name="file_provider_authority">com.samaalkhadraa.app.fileprovider</string>
+</resources>

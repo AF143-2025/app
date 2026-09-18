@@ -222,15 +222,14 @@ export default function CategoryPage() {
           <div className="flex items-center justify-between gap-2.5">
             {/* Right Side: Back Button + Title */}
             <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-              <button
-                type="button"
-                onClick={() => router.back()}
+              <Link
+                href="/#categories-section"
                 className="p-2 sm:p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all active:scale-90 border border-slate-200/60 shadow-2xs flex items-center justify-center shrink-0"
-                aria-label="رجوع"
-                title="رجوع"
+                aria-label="كل الأقسام"
+                title="كل الأقسام"
               >
                 <ChevronRight className="w-5 h-5 stroke-[2.5]" />
-              </button>
+              </Link>
 
               <div className="flex items-center gap-2.5 min-w-0">
                 <div
@@ -295,74 +294,8 @@ export default function CategoryPage() {
             )}
           </div>
 
-          {/* 3. MULTI-FILTERS BAR (Brand, Condition, Price) */}
-          <div className="mt-3 flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100">
-            {/* Brand Filter */}
-            <div className="flex items-center gap-1 text-xs">
-              <span className="text-slate-400 font-bold text-[11px]">الشركة:</span>
-              {["all", "Apple", "Samsung", "Xiaomi", "Anker"].map((b) => (
-                <button
-                  key={b}
-                  type="button"
-                  onClick={() => setSelectedBrand(b)}
-                  className={`px-2.5 py-1 rounded-lg text-[10.5px] sm:text-xs font-bold transition-all ${
-                    selectedBrand === b
-                      ? "bg-slate-900 text-white shadow-2xs"
-                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
-                >
-                  {b === "all" ? "الكل" : b}
-                </button>
-              ))}
-            </div>
 
-            {/* Condition Filter */}
-            <div className="flex items-center gap-1 text-xs sm:mr-4">
-              <span className="text-slate-400 font-bold text-[11px]">الحالة:</span>
-              {[
-                { id: "all", label: "الكل" },
-                { id: "new", label: "جديد كارتونة" },
-                { id: "used", label: "مستعمل مفحوص" },
-              ].map((c) => (
-                <button
-                  key={c.id}
-                  type="button"
-                  onClick={() => setSelectedCondition(c.id)}
-                  className={`px-2.5 py-1 rounded-lg text-[10.5px] sm:text-xs font-bold transition-all ${
-                    selectedCondition === c.id
-                      ? "bg-emerald-700 text-white shadow-2xs"
-                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
-                >
-                  {c.label}
-                </button>
-              ))}
-            </div>
 
-            {/* Price Filter */}
-            <div className="flex items-center gap-1 text-xs sm:mr-4">
-              <span className="text-slate-400 font-bold text-[11px]">السعر:</span>
-              {[
-                { id: "all", label: "الكل" },
-                { id: "under200", label: "< 200 ألف" },
-                { id: "200to600", label: "200 - 600 ألف" },
-                { id: "above600", label: "> 600 ألف" },
-              ].map((p) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => setSelectedPriceRange(p.id)}
-                  className={`px-2.5 py-1 rounded-lg text-[10.5px] sm:text-xs font-bold transition-all ${
-                    selectedPriceRange === p.id
-                      ? "bg-slate-900 text-white shadow-2xs"
-                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
-                >
-                  {p.label}
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
 

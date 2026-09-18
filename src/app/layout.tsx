@@ -14,6 +14,7 @@ import { Sidebar } from "@/components/sidebar";
 import { CartDrawer } from "@/components/cart-drawer";
 import { MobileTabBar } from "@/components/mobile-tab-bar";
 import { FloatingWhatsApp } from "@/components/floating-whatsapp";
+import { SplashScreen } from "@/components/splash-screen";
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
 
@@ -22,8 +23,8 @@ export const metadata: Metadata = {
   description: "تطبيق متجر سما الخضراء: أحدث هواتف iPhone و Samsung، بيع كاش وبالأقساط الميسرة، صيانة فورية للأجهزة، واستبدال بضمان رسمي معتمد.",
   manifest: "/manifest.json",
   icons: {
-    icon: "/images/sama-logo-badge.png",
-    apple: "/apple-touch-icon.png",
+    icon: "/images/app-icon-modern.jpg",
+    apple: "/apple-touch-icon.jpg",
   },
   appleWebApp: {
     capable: true,
@@ -105,6 +106,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${cairo.className} min-h-screen flex antialiased bg-slate-50 text-slate-900 selection:bg-emerald-100 selection:text-emerald-900 font-sans`}>
+        <SplashScreen />
         <CartProvider>
           {/* Slide-out Navigation Drawer */}
           <Sidebar />

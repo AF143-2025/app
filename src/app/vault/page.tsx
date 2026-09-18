@@ -15,6 +15,7 @@ import {
   Calculator,
   ArrowDownLeft,
   ArrowUpRight,
+  ChevronRight,
 } from "lucide-react";
 
 export default function VaultPage() {
@@ -123,15 +124,16 @@ export default function VaultPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* Top Back to Categories Bar */}
-      <div className="flex items-center justify-between pb-2 border-b border-gray-100">
-        <span className="text-xs text-gray-500 font-bold">إدارة العملات والصيرفة</span>
+      <div className="flex items-center gap-3 pb-2 border-b border-gray-100">
         <Link
-          href="/#categories-section"
-          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white border border-gray-200 hover:border-emerald-400 text-gray-700 hover:text-emerald-700 text-xs font-bold shadow-sm transition-all active:scale-95 group"
+          href="/"
+          className="p-2 sm:p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all active:scale-90 border border-slate-200/60 shadow-sm flex items-center justify-center shrink-0"
+          aria-label="الرجوع للرئيسية"
+          title="الرجوع للرئيسية"
         >
-          <ArrowRight className="w-4 h-4 text-emerald-600 transition-transform group-hover:-translate-x-1" />
-          <span>رجوع للأقسام</span>
+          <ChevronRight className="w-5 h-5 stroke-[2.5]" />
         </Link>
+        <span className="text-xs text-gray-500 font-bold">إدارة العملات والصيرفة</span>
       </div>
 
       {/* Header */}

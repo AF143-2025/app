@@ -17,6 +17,7 @@ import {
   Check,
   HelpCircle,
   ChevronLeft,
+  ChevronRight,
   ChevronDown,
   ArrowRight,
   Layers,
@@ -290,23 +291,19 @@ export default function SalariesShowcasePage() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100 text-slate-800 pb-20 pt-6 selection:bg-emerald-100 selection:text-emerald-900" dir="rtl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
-        {/* Top Header with Breadcrumb & Back to Categories Button */}
-        <div className="flex items-center justify-between gap-3">
+        {/* Top Header with Breadcrumb & Back Button */}
+        <div className="flex items-center gap-3">
+          <Link
+            href="/"
+            className="p-2 sm:p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all active:scale-90 border border-slate-200/60 shadow-sm flex items-center justify-center shrink-0"
+            aria-label="الرجوع للرئيسية"
+            title="الرجوع للرئيسية"
+          >
+            <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+          </Link>
           <nav className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-            <Link href="/" className="hover:text-emerald-700 transition-colors">
-              الرئيسية
-            </Link>
-            <span>/</span>
             <span className="text-slate-900 font-bold">الصيرفة وصرف جميع الرواتب</span>
           </nav>
-
-          <Link
-            href="/#categories-section"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:border-emerald-400 text-slate-800 hover:text-emerald-700 text-xs font-bold shadow-sm transition-all active:scale-95 group"
-          >
-            <ArrowRight className="w-4 h-4 text-emerald-600 transition-transform group-hover:-translate-x-1" />
-            <span>رجوع للأقسام</span>
-          </Link>
         </div>
 
         {/* Hero Banner Section (Fintech App Style) */}
