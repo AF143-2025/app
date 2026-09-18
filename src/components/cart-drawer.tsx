@@ -165,91 +165,21 @@ export function CartDrawer() {
           {/* Footer & Purchase Mode Switcher */}
           {items.length > 0 && (
             <div className="p-4 sm:p-5 border-t border-slate-200 bg-slate-50 space-y-3.5 pb-[calc(env(safe-area-inset-bottom,0px)+1.2rem)]">
-              {/* Mode Selection: Direct vs Installment */}
-              <div>
-                <div className="text-[11px] font-bold text-slate-500 mb-1.5 flex items-center justify-between">
-                  <span>طريقة الشراء والدفع المطلوبة:</span>
-                  <span className="text-emerald-700 font-extrabold text-[10px]">
-                    {purchaseType === "DIRECT" ? "دفع فوري نقدي" : "تقسيط مريح وميسر"}
+              {/* Summary */}
+              <div className="space-y-2 text-xs text-slate-600 bg-white p-3.5 rounded-2xl border border-slate-100 shadow-2xs">
+                <div className="flex justify-between items-center">
+                  <span className="font-bold text-slate-700">المجموع الإجمالي:</span>
+                  <span className="text-base font-black text-slate-950 font-mono">
+                    {totalAmount.toLocaleString("en-US")} <span className="text-xs text-emerald-700 font-bold">دينار</span>
                   </span>
                 </div>
-                <div className="grid grid-cols-2 gap-2 bg-slate-200/60 p-1 rounded-2xl">
-                  <button
-                    type="button"
-                    onClick={() => setPurchaseType("DIRECT")}
-                    className={`py-2 px-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all ${
-                      purchaseType === "DIRECT"
-                        ? "bg-white text-emerald-800 shadow-sm"
-                        : "text-slate-600 hover:text-slate-900"
-                    }`}
-                  >
-                    <CreditCard className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>بيع مباشر (كاش)</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setPurchaseType("INSTALLMENT")}
-                    className={`py-2 px-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all ${
-                      purchaseType === "INSTALLMENT"
-                        ? "bg-emerald-700 text-white shadow-sm"
-                        : "text-slate-600 hover:text-slate-900"
-                    }`}
-                  >
-                    <Layers className="w-3.5 h-3.5" />
-                    <span>شراء بالأقساط</span>
-                  </button>
+                <div className="flex justify-between items-center text-[11px] text-slate-500 pt-1.5 border-t border-slate-100">
+                  <span>التوصيل:</span>
+                  <span className="font-bold text-emerald-600">
+                    {shippingFee === 0 ? "مجاني لكافة المحافظات" : `${shippingFee.toLocaleString("en-US")} دينار`}
+                  </span>
                 </div>
               </div>
-
-              {/* Installment Options Drawer View */}
-              {purchaseType === "INSTALLMENT" ? (
-                <div className="bg-emerald-50 border border-emerald-200/80 rounded-2xl p-3 space-y-2.5 text-xs">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-emerald-950 flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5 text-emerald-700" /> مدة التقسيط:
-                    </span>
-                    <div className="flex gap-1">
-                      {[6, 10, 12, 24].map((m) => (
-                        <button
-                          key={m}
-                          type="button"
-                          onClick={() => setInstallmentMonths(m)}
-                          className={`px-2 py-1 rounded-lg text-[10px] font-black transition-all ${
-                            installmentMonths === m
-                              ? "bg-emerald-700 text-white shadow-sm"
-                              : "bg-white text-emerald-900 border border-emerald-200"
-                          }`}
-                        >
-                          {m} شهر
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-1 border-t border-emerald-200/60">
-                    <span className="text-slate-600 text-[11px]">القسط الشهري المقدر:</span>
-                    <span className="font-black text-emerald-800 text-sm">
-                      {monthlyAmount.toLocaleString("en-US")} دينار / شهر
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                /* Direct Summary */
-                <div className="space-y-1 text-xs text-slate-600 bg-white p-3 rounded-2xl border border-slate-100">
-                  <div className="flex justify-between">
-                    <span>المجموع الإجمالي:</span>
-                    <span className="font-extrabold text-slate-900">
-                      {totalAmount.toLocaleString("en-US")} دينار
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-[11px] text-slate-500">
-                    <span>التوصيل:</span>
-                    <span className="font-bold text-emerald-600">
-                      {shippingFee === 0 ? "مجاني لكافة المحافظات" : `${shippingFee.toLocaleString("en-US")} دينار`}
-                    </span>
-                  </div>
-                </div>
-              )}
 
               {/* Checkout Link */}
               <Link
@@ -257,11 +187,7 @@ export function CartDrawer() {
                 onClick={closeCart}
                 className="w-full py-4 px-4 rounded-[1.5rem] bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_8px_24px_-8px_rgba(16,185,129,0.4)] transition-all hover:scale-[1.01]"
               >
-                <span>
-                  {purchaseType === "INSTALLMENT"
-                    ? "متابعة تقديم طلب التقسيط"
-                    : "متابعة إتمام الطلب"}
-                </span>
+                <span>متابعة إتمام الطلب</span>
                 <ArrowLeft className="w-4 h-4" />
               </Link>
 
