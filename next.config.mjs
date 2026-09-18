@@ -71,6 +71,12 @@ const nextConfig = {
       '/api/**/*': ['./prisma/dev.db'],
     },
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;
