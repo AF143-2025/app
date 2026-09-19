@@ -24,11 +24,19 @@ export async function GET(request: NextRequest) {
     const targetCategory = categoryId || category;
 
     if (targetCategory && targetCategory !== "all") {
-      // Check if it matches categoryId or legacy category string
-      where.OR = [
-        { categoryId: targetCategory },
-        { category: targetCategory },
-      ];
+      if (targetCategory === "used") {
+        where.OR = [
+          { categoryId: "used" },
+          { category: "used" },
+          { name: { contains: "مستعمل" } },
+        ];
+      } else {
+        // Check if it matches categoryId or legacy category string
+        where.OR = [
+          { categoryId: targetCategory },
+          { category: targetCategory },
+        ];
+      }
     }
 
     if (sellerId) {

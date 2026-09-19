@@ -7,7 +7,6 @@ import {
   BatteryCharging,
   Watch,
   Sparkles,
-  Wrench,
   LayoutGrid,
   LucideIcon,
 } from "lucide-react";
@@ -110,14 +109,13 @@ export const STORE_CATEGORIES: CategoryItem[] = [
     subcategories: ["الكل", "ستاندات وقواعد ماج سيف", "مسكات وخواتم", "محولات متعددة 8 في 1", "منظمات"],
   },
   {
-    id: "maintenance",
-    label: "طلب صيانة",
-    icon: Wrench,
-    accent: "text-cyan-700 bg-cyan-500/15 border-cyan-500/30",
-    bgGradient: "from-cyan-600 to-blue-700",
-    description: "تقديم طلب صيانة فوري: سجّل بياناتك وموديل جهازك وتفاصيل العطل وسيقوم المدير العام بالرد المباشر عليك",
-    subcategories: ["الكل", "تبديل شاشات أصلية", "تبديل بطاريات بضمان", "صيانة آي سي وباور", "معالجة سوائل"],
-    customHref: "/maintenance",
+    id: "used",
+    label: "هواتف مستعملة",
+    icon: Smartphone,
+    accent: "text-blue-700 bg-blue-500/15 border-blue-500/30",
+    bgGradient: "from-blue-600 to-indigo-700",
+    description: "أحدث هواتف آيفون وسامسونج المستعملة بحالة الوكالة ومفحوصة بدقة مع ضمان رسمي وتجربة",
+    subcategories: ["الكل", "آيفون مستعمل", "سامسونج مستعمل", "مستعمل مفحوص A+"],
   },
 ];
 

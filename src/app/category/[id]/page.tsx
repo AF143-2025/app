@@ -144,10 +144,6 @@ export default function CategoryPage() {
 
   // Category switch handler without full page reload
   const handleCategorySelect = (id: string) => {
-    if (id === "maintenance") {
-      router.push("/maintenance");
-      return;
-    }
     setActiveCategoryId(id);
     setSelectedSubcategory("الكل");
     if (typeof window !== "undefined") {
