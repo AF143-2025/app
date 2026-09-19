@@ -1,38 +1,39 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 import {
   ChevronRight,
-  ArrowRight,
   Search,
-  Sparkles,
   ArrowUpDown,
-  Filter,
-  Layers,
-  Heart,
-  ShoppingCart,
   LayoutGrid,
-  ShieldCheck,
-  Check,
 } from "lucide-react";
 import { getCategoryById, STORE_CATEGORIES } from "@/lib/categories";
 import { ProductCard } from "@/components/product-card";
 import { ProductDetailModal } from "@/components/product-detail-modal";
-import { useCart } from "@/components/cart-context";
 import { parseProductAttributes } from "@/lib/product-helper";
 
 export default function CategoryPage() {
   const router = useRouter();
   const params = useParams();
-  const categoryId = (params?.id as string) || "";
+  const routeCategoryId = (params?.id as string) || "all";
 
+  // Active category state for fast, smooth client-side switching
+  const [activeCategoryId, setActiveCategoryId] = useState<string>(routeCategoryId);
   const [dbCategory, setDbCategory] = useState<any | null>(null);
 
+  // Synchronize with URL params if changed externally
   useEffect(() => {
-    if (!categoryId || categoryId === "all") return;
-    fetch(`/api/categories/${encodeURIComponent(categoryId)}`)
+    if (routeCategoryId) {
+      setActiveCategoryId(routeCategoryId);
+    }
+  }, [routeCategoryId]);
+
+  // Fetch DB category info if applicable
+  useEffect(() => {
+    if (!activeCategoryId || activeCategoryId === "all") return;
+    fetch(`/api/categories/${encodeURIComponent(activeCategoryId)}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.category) {
@@ -40,13 +41,13 @@ export default function CategoryPage() {
         }
       })
       .catch((err) => console.error("Failed to fetch db category:", err));
-  }, [categoryId]);
+  }, [activeCategoryId]);
 
-  const category = useMemo(() => {
-    if (categoryId === "all") {
+  const currentCategory = useMemo(() => {
+    if (activeCategoryId === "all") {
       return {
         id: "all",
-        label: "جميع المنتجات والأجهزة",
+        label: "جميع المنتجات",
         icon: LayoutGrid,
         accent: "text-emerald-700 bg-emerald-50 border-emerald-200",
         bgGradient: "from-emerald-700 to-teal-800",
@@ -54,7 +55,7 @@ export default function CategoryPage() {
         subcategories: ["الكل", "هواتف ذكية", "شواحن", "كوابل", "سماعات", "ساعات", "باوربانك"],
       };
     }
-    const staticCat = getCategoryById(categoryId);
+    const staticCat = getCategoryById(activeCategoryId);
     if (staticCat) return staticCat;
     if (dbCategory) {
       return {
@@ -68,7 +69,7 @@ export default function CategoryPage() {
       };
     }
     return {
-      id: categoryId,
+      id: activeCategoryId,
       label: "قسم المنتجات",
       icon: LayoutGrid,
       accent: "text-emerald-700 bg-emerald-50 border-emerald-200",
@@ -76,7 +77,7 @@ export default function CategoryPage() {
       description: "تصفح جميع المنتجات الأصلية المتاحة في هذا القسم",
       subcategories: ["الكل"],
     };
-  }, [categoryId, dbCategory]);
+  }, [activeCategoryId, dbCategory]);
 
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -88,18 +89,36 @@ export default function CategoryPage() {
   const [sortOption, setSortOption] = useState("popular");
   const [activeModalProduct, setActiveModalProduct] = useState<any | null>(null);
 
-  // Fetch products
+  const categoriesBarRef = useRef<HTMLDivElement>(null);
+
+  // Auto scroll active category into view in the horizontal bar
   useEffect(() => {
-    if (!categoryId) return;
+    if (categoriesBarRef.current && activeCategoryId) {
+      const activeEl = categoriesBarRef.current.querySelector(
+        `[data-cat-id="${activeCategoryId}"]`
+      ) as HTMLElement;
+      if (activeEl) {
+        activeEl.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
+      }
+    }
+  }, [activeCategoryId]);
+
+  // Fetch products whenever active category or sort changes
+  useEffect(() => {
+    if (!activeCategoryId) return;
 
     let isMounted = true;
     const fetchCategoryProducts = async () => {
       try {
         setLoading(true);
         let url =
-          categoryId === "all"
+          activeCategoryId === "all"
             ? `/api/products?all=true&limit=200`
-            : `/api/products?categoryId=${encodeURIComponent(categoryId)}&limit=200`;
+            : `/api/products?categoryId=${encodeURIComponent(activeCategoryId)}&limit=200`;
         if (sortOption === "price-asc") url += `&sort=price-asc`;
         else if (sortOption === "price-desc") url += `&sort=price-desc`;
         else if (sortOption === "rating") url += `&sort=rating`;
@@ -121,7 +140,20 @@ export default function CategoryPage() {
     return () => {
       isMounted = false;
     };
-  }, [categoryId, sortOption]);
+  }, [activeCategoryId, sortOption]);
+
+  // Category switch handler without full page reload
+  const handleCategorySelect = (id: string) => {
+    if (id === "maintenance") {
+      router.push("/maintenance");
+      return;
+    }
+    setActiveCategoryId(id);
+    setSelectedSubcategory("الكل");
+    if (typeof window !== "undefined") {
+      window.history.replaceState(null, "", `/category/${id}`);
+    }
+  };
 
   // Client-side filtering
   const filteredProducts = useMemo(() => {
@@ -192,126 +224,131 @@ export default function CategoryPage() {
     return list;
   }, [products, selectedSubcategory, selectedBrand, selectedCondition, selectedPriceRange, searchQuery]);
 
-  const Icon = category?.icon || LayoutGrid;
-
-  if (!category && !loading) {
-    return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center p-4 text-center space-y-4" dir="rtl">
-        <div className="w-16 h-16 rounded-3xl bg-red-50 text-red-500 flex items-center justify-center text-3xl">
-          ⚠️
-        </div>
-        <h1 className="text-xl font-black text-slate-800">القسم غير موجود</h1>
-        <p className="text-xs text-slate-500 max-w-sm">
-          لم نتمكن من العثور على القسم المطلوب. يمكنك العودة إلى الواجهة الرئيسية وتصفح جميع الأقسام.
-        </p>
-        <button
-          onClick={() => router.push("/")}
-          className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-md active:scale-95"
-        >
-          العودة للرئيسية
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen pb-16 space-y-4 sm:space-y-6 text-right w-full max-w-full overflow-hidden" dir="rtl">
-      {/* 1. TOP HEADER */}
-      <div className="relative bg-white border-b border-slate-200/80 shadow-2xs w-full">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-4">
-          <div className="flex items-center justify-between gap-2.5">
-            {/* Right Side: Back Button + Title */}
-            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-              <Link
-                href="/#categories-section"
-                className="p-2 sm:p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all active:scale-90 border border-slate-200/60 shadow-2xs flex items-center justify-center shrink-0"
-                aria-label="كل الأقسام"
-                title="كل الأقسام"
-              >
-                <ChevronRight className="w-5 h-5 stroke-[2.5]" />
-              </Link>
+    <div className="min-h-screen pb-20 sm:pb-12 space-y-4 text-right w-full max-w-full overflow-hidden bg-slate-50/50" dir="rtl">
+      {/* 1. TOP STICKY BAR: Search on top, followed immediately by horizontal scrollable categories bar */}
+      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-2xs w-full">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 space-y-2.5">
+          
+          {/* Row 1: Search Bar (في أعلى صفحة المنتجات ضع شريط البحث) + Back + Sort */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Back Button to Home */}
+            <Link
+              href="/"
+              className="p-2 sm:p-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all active:scale-90 shrink-0 border border-slate-200/60 shadow-2xs flex items-center justify-center"
+              title="العودة للرئيسية"
+              aria-label="العودة للرئيسية"
+            >
+              <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+            </Link>
 
-              <div className="flex items-center gap-2.5 min-w-0">
-                <div
-                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-2xs border ${
-                    category?.accent || "text-emerald-700 bg-emerald-50 border-emerald-200"
-                  }`}
+            {/* Search Input */}
+            <div className="relative flex-1">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="ابحث في المنتجات والأجهزة..."
+                className="w-full pr-10 pl-8 py-2.5 text-xs sm:text-sm rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all placeholder:text-slate-400 font-medium"
+              />
+              <Search className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[11px] text-slate-400 hover:text-slate-600 bg-slate-200 hover:bg-slate-300 rounded-full w-5 h-5 flex items-center justify-center transition-colors"
+                  aria-label="مسح البحث"
                 >
-                  <Icon className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
-                </div>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] sm:text-xs font-bold text-slate-400">قسم</span>
-                    <span className="text-[10px] sm:text-xs font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/50">
-                      {filteredProducts.length} جهاز متوفر
-                    </span>
-                  </div>
-                  <h1 className="text-base sm:text-xl font-black text-slate-900 truncate leading-tight">
-                    {category?.label}
-                  </h1>
-                </div>
-              </div>
+                  ✕
+                </button>
+              )}
             </div>
 
-            {/* Left Side: Sort Dropdown */}
-            <div className="flex items-center gap-1 shrink-0">
-              <div className="relative">
-                <select
-                  value={sortOption}
-                  onChange={(e) => setSortOption(e.target.value)}
-                  className="pr-2.5 pl-6 py-2 rounded-xl text-[11px] sm:text-xs font-black border border-slate-200 bg-slate-50 text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 appearance-none cursor-pointer"
-                >
-                  <option value="popular">الأكثر طلباً</option>
-                  <option value="newest">الأحدث وصولاً</option>
-                  <option value="price-asc">السعر: من الأقل</option>
-                  <option value="price-desc">السعر: من الأعلى</option>
-                  <option value="rating">التقييم الأعلى</option>
-                </select>
-                <ArrowUpDown className="w-3.5 h-3.5 text-slate-400 absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none" />
-              </div>
+            {/* Sort Selector */}
+            <div className="relative shrink-0">
+              <select
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value)}
+                className="pr-2 pl-6 py-2.5 rounded-2xl text-[11px] sm:text-xs font-black border border-slate-200 bg-slate-50 text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 appearance-none cursor-pointer"
+                aria-label="ترتيب المنتجات"
+              >
+                <option value="popular">الأكثر طلباً</option>
+                <option value="newest">الأحدث وصولاً</option>
+                <option value="price-asc">الأقل سعراً</option>
+                <option value="price-desc">الأعلى سعراً</option>
+                <option value="rating">التقييم الأعلى</option>
+              </select>
+              <ArrowUpDown className="w-3.5 h-3.5 text-slate-400 absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
           </div>
 
-          {/* 2. SEARCH BAR */}
-          <div className="mt-3 relative w-full">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={`ابحث في ${category?.label || "المنتجات"}...`}
-              className="w-full pr-9 pl-8 py-2.5 text-xs sm:text-sm rounded-xl sm:rounded-2xl border border-slate-200 bg-slate-50/70 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all placeholder:text-slate-400"
-            />
-            <Search className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2" />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery("")}
-                className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 bg-slate-200 rounded-full w-5 h-5 flex items-center justify-center transition-colors"
-                aria-label="مسح البحث"
-              >
-                ✕
-              </button>
-            )}
+          {/* Row 2: Horizontal Scrollable Categories Bar (أسفل البحث مباشرة ضع شريط أفقي قابل للسحب يحتوي جميع أقسام المتجر) */}
+          <div className="relative w-full">
+            <div
+              ref={categoriesBarRef}
+              className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-none touch-pan-x -mx-3 px-3 sm:mx-0 sm:px-0"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              {STORE_CATEGORIES.map((cat) => {
+                const CatIcon = cat.icon;
+                const isActive = activeCategoryId === cat.id;
+
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    data-cat-id={cat.id}
+                    onClick={() => handleCategorySelect(cat.id)}
+                    className={`flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-xs whitespace-nowrap transition-all duration-200 shrink-0 select-none active:scale-95 ${
+                      isActive
+                        ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/25 font-black scale-[1.02] border border-emerald-600"
+                        : "bg-white text-slate-700 border border-slate-200/90 hover:bg-slate-50 hover:border-slate-300 font-bold"
+                    }`}
+                  >
+                    <CatIcon className={`w-4 h-4 shrink-0 ${isActive ? "text-white" : "text-slate-500"}`} />
+                    <span>{cat.label}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
+        </div>
+      </header>
 
+      {/* 2. CATEGORY STATUS & INFO STRIP */}
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between gap-2 py-1 text-xs">
+          <div className="flex items-center gap-2">
+            <h1 className="text-sm sm:text-base font-black text-slate-900">
+              {currentCategory.label}
+            </h1>
+            <span className="text-[10px] sm:text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/60">
+              {filteredProducts.length} منتج
+            </span>
+          </div>
 
+          {searchQuery && (
+            <span className="text-[11px] text-slate-500 font-medium">
+              نتائج البحث عن: <strong className="text-slate-800 font-black">"{searchQuery}"</strong>
+            </span>
+          )}
         </div>
       </div>
 
-      {/* 4. PRODUCTS DISPLAY: 2-COLUMN GRID (Mobile-First) */}
+      {/* 3. PRODUCTS DISPLAY: Exactly 2 cards per row on mobile (اعرض المنتجات ببطاقتين في كل صف على الموبايل) */}
       <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 space-y-4 w-full">
         {loading ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 w-full">
             {[...Array(8)].map((_, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl sm:rounded-3xl p-3 border border-slate-100 shadow-sm animate-pulse space-y-3"
+                className="bg-white rounded-3xl p-3 border border-slate-100 shadow-sm animate-pulse space-y-3"
               >
                 <div className="aspect-square bg-slate-200 rounded-2xl" />
                 <div className="h-3 bg-slate-200 rounded w-3/4" />
                 <div className="h-3 bg-slate-200 rounded w-1/2" />
-                <div className="h-7 bg-slate-200 rounded-xl" />
+                <div className="h-8 bg-slate-200 rounded-xl" />
               </div>
             ))}
           </div>
@@ -321,9 +358,11 @@ export default function CategoryPage() {
               🔍
             </div>
             <div className="space-y-1">
-              <h3 className="text-sm sm:text-base font-black text-slate-800">لا توجد منتجات مطابقة للبحث والفلاتر</h3>
+              <h3 className="text-sm sm:text-base font-black text-slate-800">
+                لا توجد منتجات مطابقة في هذا القسم
+              </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                جرّب مسح كلمات البحث أو تغيير فلاتر السعر والحالة.
+                جرّب البحث باسم آخر أو اختيار قسم آخر من شريط الأقسام أعلاه.
               </p>
             </div>
             <button
@@ -334,10 +373,11 @@ export default function CategoryPage() {
                 setSelectedCondition("all");
                 setSelectedPriceRange("all");
                 setSelectedSubcategory("الكل");
+                handleCategorySelect("all");
               }}
               className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold active:scale-95 transition-all shadow-sm"
             >
-              إعادة ضبط الفلاتر وعرض الكل
+              عرض جميع المنتجات
             </button>
           </div>
         ) : (
@@ -353,7 +393,7 @@ export default function CategoryPage() {
         )}
       </main>
 
-      {/* Quick Modal fallback if needed */}
+      {/* Quick Modal fallback if quick view is triggered */}
       {activeModalProduct && (
         <ProductDetailModal
           product={activeModalProduct}
