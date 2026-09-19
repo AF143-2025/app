@@ -84,6 +84,7 @@ const heroBanners = [
 
 export default function HomePage() {
   const router = useRouter();
+  const [bannersList, setBannersList] = useState<any[]>(heroBanners);
   const [currentBanner, setCurrentBanner] = useState(0);
   const [selectedService, setSelectedService] = useState<any | null>(null);
   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
@@ -93,6 +94,31 @@ export default function HomePage() {
 
   const whatsappGeneralUrl = getWhatsAppUrl();
   const phoneCallUrl = getPhoneCallUrl();
+
+  // Load dynamic banners from DB
+  useEffect(() => {
+    fetch("/api/banners")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.banners && data.banners.length > 0) {
+          setBannersList(
+            data.banners.map((b: any, idx: number) => ({
+              id: b.id,
+              tag: b.tag || "عرض خاص",
+              title: b.title || "سما الخضراء",
+              offerBadge: b.offerBadge || "ضمان رسمي معتمد",
+              targetHref: b.targetHref || "/category/all",
+              gradient:
+                idx % 2 === 0
+                  ? "from-slate-950 via-emerald-950 to-teal-950"
+                  : "from-slate-950 via-slate-900 to-indigo-950",
+              imageUrl: b.imageUrl,
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Fast initial fetch: limit=8
   useEffect(() => {
@@ -255,11 +281,12 @@ export default function HomePage() {
 
   // Carousel Auto-Play
   useEffect(() => {
+    if (bannersList.length <= 1) return;
     const timer = setInterval(() => {
-      setCurrentBanner((prev) => (prev + 1) % heroBanners.length);
+      setCurrentBanner((prev) => (prev + 1) % bannersList.length);
     }, 5500);
     return () => clearInterval(timer);
-  }, []);
+  }, [bannersList.length]);
 
   return (
     <div className="min-h-screen bg-slate-50 text-right selection:bg-emerald-100 selection:text-emerald-900 w-full max-w-full pb-20 sm:pb-0" dir="rtl">
@@ -272,7 +299,7 @@ export default function HomePage() {
             className="absolute inset-0 flex transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
             style={{ transform: `translateX(${currentBanner * 100}%)` }}
           >
-            {heroBanners.map((banner) => (
+            {bannersList.map((banner) => (
               <div
                 key={banner.id}
                 className={`w-full h-full flex-shrink-0 relative bg-gradient-to-tr ${banner.gradient}`}
@@ -316,7 +343,7 @@ export default function HomePage() {
 
           {/* Dots Indicator */}
           <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
-            {heroBanners.map((_, i) => (
+            {bannersList.map((_, i) => (
               <button
                 key={i}
                 type="button"
