@@ -26,10 +26,14 @@ interface ProductDetailModalProps {
 
 export function ProductDetailModal({ product, onClose }: ProductDetailModalProps) {
   const router = useRouter();
-  const { addToCart, isInWishlist, toggleWishlist } = useCart();
+  const { items, addToCart, isInWishlist, toggleWishlist } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+
+  const isInCart = items.some(
+    (item) => item.productId === product?.id || item.product?.id === product?.id
+  );
   const [selectedStorage, setSelectedStorage] = useState("256GB");
   const [selectedColor, setSelectedColor] = useState("تيتانيوم طبيعي");
 
@@ -221,22 +225,22 @@ export function ProductDetailModal({ product, onClose }: ProductDetailModalProps
                     onClick={handleAdd}
                     disabled={isAdding || isOutOfStock}
                     className={`flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 shadow-lg transition-all min-h-[44px] ${
-                      justAdded
-                        ? "bg-emerald-700 text-white"
+                      justAdded || isInCart
+                        ? "bg-emerald-700 text-white shadow-emerald-700/25"
                         : isOutOfStock
                         ? "bg-slate-200 text-slate-400 cursor-not-allowed"
                         : "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20 active:scale-[0.98]"
                     }`}
                   >
-                    {justAdded ? (
+                    {justAdded || isInCart ? (
                       <>
                         <Check className="w-4 h-4" />
-                        <span>تمت الإضافة للسلة بنجاح!</span>
+                        <span>موجود في السلة</span>
                       </>
                     ) : (
                       <>
                         <ShoppingBag className="w-4 h-4" />
-                        <span>إضافة إلى سلة المشتريات</span>
+                        <span>أضف إلى السلة 🛒</span>
                       </>
                     )}
                   </button>

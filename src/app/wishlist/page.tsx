@@ -5,6 +5,7 @@ import Link from "next/link";
 import {
   Heart,
   ShoppingBag,
+  Check,
   ArrowRight,
   Trash2,
   Sparkles,
@@ -15,7 +16,7 @@ import {
 import { useCart } from "@/components/cart-context";
 
 export default function WishlistPage() {
-  const { wishlist, toggleWishlist, addToCart } = useCart();
+  const { items, wishlist, toggleWishlist, addToCart } = useCart();
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [addingId, setAddingId] = useState<string | null>(null);
@@ -104,6 +105,7 @@ export default function WishlistPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {favoriteProducts.map((product) => {
               const isAdding = addingId === product.id;
+              const isInCart = items.some((item) => item.productId === product.id || item.product?.id === product.id);
 
               return (
                 <div
@@ -166,10 +168,23 @@ export default function WishlistPage() {
                         <button
                           onClick={() => handleAddToCart(product)}
                           disabled={isAdding}
-                          className="w-full h-9 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition-all active:scale-95 disabled:opacity-50"
+                          className={`w-full h-9 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs transition-all active:scale-95 disabled:opacity-50 ${
+                            isInCart
+                              ? "bg-emerald-700 shadow-emerald-700/20"
+                              : "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/20"
+                          }`}
                         >
-                          <ShoppingBag className="w-3.5 h-3.5" />
-                          <span>{isAdding ? "جاري الإضافة..." : "إضافة للسلة"}</span>
+                          {isInCart ? (
+                            <>
+                              <Check className="w-3.5 h-3.5" />
+                              <span>موجود في السلة</span>
+                            </>
+                          ) : (
+                            <>
+                              <ShoppingBag className="w-3.5 h-3.5" />
+                              <span>{isAdding ? "جاري الإضافة..." : "أضف إلى السلة 🛒"}</span>
+                            </>
+                          )}
                         </button>
                       </div>
                     </div>

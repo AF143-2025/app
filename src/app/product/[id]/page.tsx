@@ -18,7 +18,7 @@ export default function ProductDetailPage() {
   const router = useRouter();
   const productId = (params?.id as string) || "";
 
-  const { addToCart, isInWishlist, toggleWishlist } = useCart();
+  const { items, addToCart, isInWishlist, toggleWishlist } = useCart();
   const [product, setProduct] = useState<any | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -26,6 +26,10 @@ export default function ProductDetailPage() {
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
+
+  const isInCart = items.some(
+    (item) => item.productId === product?.id || item.product?.id === product?.id
+  );
 
   // 1. Fetch Product and Related Products
   useEffect(() => {
@@ -293,25 +297,25 @@ export default function ProductDetailPage() {
                 onClick={handleAddToCart}
                 disabled={isAdding}
                 className={`w-full py-3.5 px-6 rounded-2xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-md ${
-                  justAdded
-                    ? "bg-emerald-800 text-white shadow-emerald-800/20"
+                  justAdded || isInCart
+                    ? "bg-emerald-700 text-white shadow-emerald-700/20"
                     : "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20"
                 } disabled:opacity-60 cursor-pointer`}
               >
-                {justAdded ? (
-                  <>
-                    <Check className="w-4 h-4 stroke-[2.5]" />
-                    <span>تمت الإضافة إلى السلة</span>
-                  </>
-                ) : isAdding ? (
+                {isAdding ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                     <span>جاري الإضافة...</span>
                   </>
+                ) : justAdded || isInCart ? (
+                  <>
+                    <Check className="w-4 h-4 stroke-[2.5]" />
+                    <span>موجود في السلة</span>
+                  </>
                 ) : (
                   <>
                     <ShoppingBag className="w-4 h-4" />
-                    <span>أضف إلى السلة</span>
+                    <span>أضف إلى السلة 🛒</span>
                   </>
                 )}
               </button>

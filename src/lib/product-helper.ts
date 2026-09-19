@@ -113,7 +113,7 @@ export function parseProductAttributes(product: {
     { label: "الضمان المعتمد", value: warranty },
     { label: "حالة التوفر", value: availabilityStatus },
     { label: "الاستلام والتوصيل", value: "متوفر بالفرع في الكرادة + شحن سريع 24h لكافة المحافظات" },
-    { label: "خيارات الدفع", value: "نقد كاش / دفع عند الاستلام / تقسيط ميسر داخل الفرع" },
+    { label: "خيارات الدفع", value: "دفع إلكتروني آمن / دفع عند الاستلام" },
   ];
 
   // 8. Gallery Images (Primary + Variations)

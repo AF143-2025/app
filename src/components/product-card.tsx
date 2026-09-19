@@ -42,9 +42,13 @@ export interface ProductCardProps {
 
 export function ProductCard({ product, onQuickView }: ProductCardProps) {
   const router = useRouter();
-  const { addToCart, isInWishlist, toggleWishlist } = useCart();
+  const { items, addToCart, isInWishlist, toggleWishlist } = useCart();
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+
+  const isInCart = items.some(
+    (item) => item.productId === product.id || item.product?.id === product.id
+  );
 
   const discountPercent =
     product.originalPrice && product.originalPrice > product.price
@@ -197,28 +201,28 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
             )}
           </div>
 
-          {/* Action Button: "إضافة للسلة" */}
+          {/* Action Button: "أضف إلى السلة 🛒" / "موجود في السلة" */}
           <div className="pt-1">
             <button
               onClick={handleAdd}
               disabled={isOutOfStock || isAdding}
               className={`flex items-center justify-center gap-1.5 w-full py-2.5 px-3 rounded-[1rem] text-[10px] sm:text-xs font-black transition-all active:scale-95 ${
-                justAdded
-                  ? "bg-teal-500 text-white shadow-md"
+                justAdded || isInCart
+                  ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-600/20"
                   : isOutOfStock
                   ? "bg-slate-100 text-slate-400 cursor-not-allowed"
                   : "bg-slate-900 hover:bg-black text-white shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
               }`}
             >
-              {justAdded ? (
+              {justAdded || isInCart ? (
                 <>
                   <Check className="w-3.5 h-3.5" />
-                  <span>تمت الإضافة</span>
+                  <span>موجود في السلة</span>
                 </>
               ) : (
                 <>
                   <ShoppingCart className="w-3.5 h-3.5" />
-                  <span>إضافة للسلة</span>
+                  <span>أضف إلى السلة 🛒</span>
                 </>
               )}
             </button>
