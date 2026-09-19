@@ -4,7 +4,25 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Protect all /admin routes except /admin/login
+  // 1. Handle CORS for /api routes
+  if (pathname.startsWith("/api/")) {
+    if (request.method === "OPTIONS") {
+      const response = new NextResponse(null, { status: 200 });
+      response.headers.set("Access-Control-Allow-Origin", "*");
+      response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+      response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization, x-admin-token");
+      response.headers.set("Access-Control-Max-Age", "86400");
+      return response;
+    }
+
+    const response = NextResponse.next();
+    response.headers.set("Access-Control-Allow-Origin", "*");
+    response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization, x-admin-token");
+    return response;
+  }
+
+  // 2. Protect all /admin routes except /admin/login
   if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
     const token = request.cookies.get("admin_session_token")?.value;
 
@@ -48,5 +66,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/api/:path*"],
 };
