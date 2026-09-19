@@ -3,9 +3,36 @@
  * Manages communication with Sama Al-Khadraa Store Backend
  */
 
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  (typeof window !== "undefined" ? window.location.origin : "http://localhost:3000");
+export function getApiBaseUrl(): string {
+  if (typeof window !== "undefined") {
+    const stored = localStorage.getItem("sama_api_url");
+    if (stored && stored.trim()) {
+      return stored.trim().replace(/\/$/, "");
+    }
+  }
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (envUrl && envUrl.trim()) {
+    return envUrl.trim().replace(/\/$/, "");
+  }
+  // Default to live deployed backend store
+  return "https://app55.vercel.app";
+}
+
+export function setCustomApiUrl(url: string) {
+  if (typeof window !== "undefined") {
+    if (!url || !url.trim()) {
+      localStorage.removeItem("sama_api_url");
+    } else {
+      let clean = url.trim().replace(/\/$/, "");
+      if (!clean.startsWith("http://") && !clean.startsWith("https://")) {
+        clean = `https://${clean}`;
+      }
+      localStorage.setItem("sama_api_url", clean);
+    }
+  }
+}
+
+export const API_BASE_URL = "https://app55.vercel.app";
 
 const TOKEN_KEY = "sama_admin_token";
 
@@ -29,10 +56,11 @@ export function removeAdminToken() {
 
 export async function adminApiFetch(endpoint: string, options: RequestInit = {}) {
   const token = getAdminToken();
+  const baseUrl = getApiBaseUrl();
 
   const url = endpoint.startsWith("http")
     ? endpoint
-    : `${API_BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
+    : `${baseUrl}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
 
   const headers: Record<string, string> = {
     ...(options.headers as Record<string, string>),

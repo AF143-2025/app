@@ -4,6 +4,17 @@ import { prisma } from "@/lib/prisma";
 import { signAdminToken, ADMIN_COOKIE_NAME } from "@/lib/admin-auth";
 import { logAuditEvent } from "@/lib/payment/audit-logger";
 
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, PATCH",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization, x-admin-token",
+    },
+  });
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
